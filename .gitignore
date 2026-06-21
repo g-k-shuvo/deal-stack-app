@@ -1,0 +1,32 @@
+# dependencies
+node_modules/
+.pnpm-store/
+
+# next
+/.next/
+/out/
+next-env.d.ts
+
+# production
+/build
+/dist
+
+# test / coverage
+/coverage/
+/playwright-report/
+/test-results/
+
+# env
+.env
+.env.local
+.env*.local
+!.env.example
+
+# supabase local
+/supabase/.temp/
+/supabase/.branches/
+
+# misc
+.DS_Store
+*.log
+*.tsbuildinfo

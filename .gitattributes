@@ -1,0 +1,8 @@
+# Normalize line endings to LF (important for Docker/Linux + shell/SQL).
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.docx binary
+*.xlsx binary
+*.pptx binary
+*.pdf binary

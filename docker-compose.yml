@@ -1,0 +1,40 @@
+# Dev/prod-parity compose. PRD §18 DOCKER-02.
+# Full Supabase local stack (Auth/Storage/Studio) is provided by the Supabase CLI:
+#   npx supabase start
+# This compose runs the app image + a Postgres for a minimal containerized run.
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: dcc
+    ports:
+      - "54322:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      - ./supabase/migrations:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d dcc"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  app:
+    build:
+      context: .
+      target: runner
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      APP_ENCRYPTION_KEY: ${APP_ENCRYPTION_KEY:-ZGV2LW9ubHktMzItYnl0ZS1rZXktZG8tbm90LXVzZSE=}
+      DEFAULT_CLAUDE_MODEL: ${DEFAULT_CLAUDE_MODEL:-claude-opus-4-8}
+      NEXT_PUBLIC_SUPABASE_URL: ${NEXT_PUBLIC_SUPABASE_URL:-http://localhost:54321}
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: ${NEXT_PUBLIC_SUPABASE_ANON_KEY:-}
+      SUPABASE_SERVICE_ROLE_KEY: ${SUPABASE_SERVICE_ROLE_KEY:-}
+    ports:
+      - "3000:3000"
+
+volumes:
+  db-data:
