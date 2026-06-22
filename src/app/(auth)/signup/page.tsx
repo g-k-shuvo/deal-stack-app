@@ -1,47 +1,50 @@
 "use client";
 
-import React, { Suspense, useState, useTransition } from "react";
+import React, { useState, useTransition } from "react";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 
-function LoginForm() {
+export default function SignupPage() {
   const router = useRouter();
-  const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
 
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [rememberMe, setRememberMe] = useState(true);
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
-
-  const callbackURL = searchParams.get("callbackURL") || "/dashboard";
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMsg(null);
     setSuccessMsg(null);
 
+    if (password !== confirmPassword) {
+      setErrorMsg("Passwords do not match.");
+      return;
+    }
+
     startTransition(async () => {
       try {
-        await authClient.signIn.email(
+        await authClient.signUp.email(
           {
             email,
             password,
-            rememberMe,
-            callbackURL,
+            name,
+            callbackURL: "/dashboard",
           },
           {
             onSuccess: () => {
-              setSuccessMsg("Successfully signed in! Redirecting...");
+              setSuccessMsg("Account created successfully! Redirecting...");
               setTimeout(() => {
-                router.push(callbackURL);
+                router.push("/dashboard");
                 router.refresh();
               }, 800);
             },
             onError: (context) => {
-              setErrorMsg(context.error.message || "Failed to sign in. Please try again.");
+              setErrorMsg(context.error.message || "Failed to create account.");
             },
           },
         );
@@ -57,14 +60,29 @@ function LoginForm() {
         <div className="auth-logo">
           Deal <span>Command</span> Center
         </div>
-        <h1 className="auth-title">Welcome back</h1>
-        <p className="auth-subtitle">Sign in to manage your deal desk pipeline</p>
+        <h1 className="auth-title">Create account</h1>
+        <p className="auth-subtitle">Get started with your M&amp;A AI deal command center</p>
       </div>
 
       {errorMsg && <div className="auth-message error">{errorMsg}</div>}
       {successMsg && <div className="auth-message success">{successMsg}</div>}
 
       <form className="auth-form" onSubmit={handleSubmit}>
+        <div className="auth-field">
+          <label className="auth-label">Full Name</label>
+          <div className="auth-input-wrapper">
+            <input
+              type="text"
+              className="auth-input"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="John Doe"
+              required
+              disabled={isPending}
+            />
+          </div>
+        </div>
+
         <div className="auth-field">
           <label className="auth-label">Email Address</label>
           <div className="auth-input-wrapper">
@@ -95,52 +113,32 @@ function LoginForm() {
           </div>
         </div>
 
-        <div className="auth-row">
-          <label className="auth-checkbox-label">
+        <div className="auth-field">
+          <label className="auth-label">Confirm Password</label>
+          <div className="auth-input-wrapper">
             <input
-              type="checkbox"
-              className="auth-checkbox"
-              checked={rememberMe}
-              onChange={(e) => setRememberMe(e.target.checked)}
+              type="password"
+              className="auth-input"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              placeholder="••••••••"
+              required
               disabled={isPending}
             />
-            Remember me
-          </label>
+          </div>
         </div>
 
         <button type="submit" className="auth-button" disabled={isPending}>
-          {isPending ? "Signing in..." : "Sign in"}
+          {isPending ? "Creating account..." : "Create account"}
         </button>
       </form>
 
       <div className="auth-footer">
-        Don&apos;t have an account?{" "}
-        <Link href="/signup" className="auth-link">
-          Create an account
+        Already have an account?{" "}
+        <Link href="/login" className="auth-link">
+          Sign in
         </Link>
       </div>
     </div>
-  );
-}
-
-export default function LoginPage() {
-  return (
-    <Suspense
-      fallback={
-        <div
-          className="auth-card"
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            minHeight: "300px",
-          }}
-        >
-          Loading...
-        </div>
-      }
-    >
-      <LoginForm />
-    </Suspense>
   );
 }

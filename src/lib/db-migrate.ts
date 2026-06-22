@@ -11,7 +11,8 @@ async function runMigrations() {
 
   console.log("Applying migrations via HTTPS (port 443)...");
   try {
-    const sql = neon(connectionString);
+    const httpConnectionString = connectionString.replace("-pooler", "");
+    const sql = neon(httpConnectionString);
     const db = drizzle({ client: sql });
     await migrate(db, { migrationsFolder: "./drizzle/migrations" });
     console.log("Migrations applied successfully!");

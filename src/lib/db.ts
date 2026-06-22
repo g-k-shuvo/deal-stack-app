@@ -1,27 +1,56 @@
-import { drizzle } from "drizzle-orm/node-postgres";
+import { drizzle as nodePostgresDrizzle } from "drizzle-orm/node-postgres";
+import { drizzle as neonHttpDrizzle } from "drizzle-orm/neon-http";
 import { Pool } from "pg";
+import { neon } from "@neondatabase/serverless";
 import { attachDatabasePool } from "@vercel/functions";
 import * as schema from "@/db/schema";
 
-// Create the connection pool
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-});
+const connectionString = process.env.DATABASE_URL;
 
-// Attach to Vercel's serverless function pool (for Vercel deployments)
-attachDatabasePool(pool);
+if (!connectionString) {
+  if (process.env.NODE_ENV === "production") {
+    throw new Error("DATABASE_URL is not set in the .env file");
+  }
+}
 
-// Create Drizzle instance with the pool and schema
-// Combine all schema files here
-export const db = drizzle(pool, { schema });
+// Check if we should use local HTTP fallback to bypass port 5432 block/timeout on local firewalls
+const isLocalDev = process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test";
+
+let activeDb: any;
+
+if (isLocalDev && connectionString) {
+  // Use Neon HTTP connection over HTTPS (port 443) - firewall friendly
+  // Strip -pooler from the host for Neon HTTP compatibility
+  const httpConnectionString = connectionString.replace("-pooler", "");
+  const sql = neon(httpConnectionString);
+  activeDb = neonHttpDrizzle({ client: sql, schema });
+} else {
+  // Use official Vercel/Neon pg Pool spec for production deployments
+  const pool = new Pool({
+    connectionString,
+  });
+
+  attachDatabasePool(pool);
+  activeDb = nodePostgresDrizzle(pool, { schema });
+}
+
+export const db = activeDb;
 
 // Database connection check function
 export async function checkDbConnection(): Promise<string> {
-  if (!process.env.DATABASE_URL) {
+  if (!connectionString) {
     return "No DATABASE_URL environment variable";
   }
   try {
-    await pool.query("SELECT version()");
+    if (isLocalDev) {
+      const httpConnectionString = connectionString.replace("-pooler", "");
+      const sql = neon(httpConnectionString);
+      await sql`SELECT 1`;
+    } else {
+      const pool = new Pool({ connectionString });
+      await pool.query("SELECT 1");
+      await pool.end();
+    }
     return "Database connected";
   } catch (error) {
     console.error("Error connecting to the database:", error);

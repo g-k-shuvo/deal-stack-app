@@ -1,41 +1,43 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { createServerClient } from "@supabase/ssr";
 
 // Auth gate (PRD NFR-03). Active only when USE_SUPABASE_AUTH=1, so dev/E2E stay open.
 export async function middleware(req: NextRequest) {
   if (process.env.USE_SUPABASE_AUTH !== "1") return NextResponse.next();
 
-  const res = NextResponse.next();
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "";
-  const supabase = createServerClient(url, key, {
-    cookies: {
-      getAll() {
-        return req.cookies.getAll();
-      },
-      setAll(list: { name: string; value: string; options?: Record<string, unknown> }[]) {
-        for (const { name, value, options } of list) {
-          res.cookies.set(name, value, options as Parameters<typeof res.cookies.set>[2]);
-        }
-      },
-    },
-  });
+  // Better Auth sessions are stored in session cookies
+  const sessionToken =
+    req.cookies.get("better-auth.session_token") ||
+    req.cookies.get("__secure-better-auth.session_token");
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  const isLogin = req.nextUrl.pathname.startsWith("/login");
-  if (!user && !isLogin) {
+  const pathname = req.nextUrl.pathname;
+
+  // List of paths that require authentication (PRD §8.2)
+  const isProtected =
+    pathname.startsWith("/dashboard") ||
+    pathname.startsWith("/projects") ||
+    pathname.startsWith("/library") ||
+    pathname.startsWith("/settings") ||
+    pathname.startsWith("/skills") ||
+    pathname.startsWith("/how-to") ||
+    pathname.startsWith("/search");
+
+  const isLoginOrSignup = pathname.startsWith("/login") || pathname.startsWith("/signup");
+
+  if (!sessionToken && isProtected) {
     const to = req.nextUrl.clone();
     to.pathname = "/login";
+    // Preserve current path so user gets redirected back after signing in
+    to.searchParams.set("callbackURL", pathname + req.nextUrl.search);
     return NextResponse.redirect(to);
   }
-  if (user && isLogin) {
+
+  if (sessionToken && isLoginOrSignup) {
     const to = req.nextUrl.clone();
-    to.pathname = "/";
+    to.pathname = "/dashboard";
     return NextResponse.redirect(to);
   }
-  return res;
+
+  return NextResponse.next();
 }
 
 export const config = {
