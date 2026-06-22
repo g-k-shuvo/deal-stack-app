@@ -8,6 +8,11 @@ export const metadata: Metadata = {
   description: "AI-assisted deal execution workspace for Jackim Woods & Co.",
 };
 
+// Internal, DB-backed app: every screen renders per-request from the live Repo
+// (Supabase or in-memory). Force dynamic so the build never statically prerenders
+// pages — which would execute Supabase calls at build time and require the live DB.
+export const dynamic = "force-dynamic";
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
