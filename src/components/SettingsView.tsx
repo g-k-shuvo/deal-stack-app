@@ -12,6 +12,7 @@ import {
   resetWorkspaceAction,
 } from "@/app/actions";
 import { skillsByTrack } from "@/lib/skills/registry";
+import { authClient } from "@/lib/auth-client";
 
 interface FirmProps {
   name: string;
@@ -88,6 +89,45 @@ export function SettingsView(props: Props) {
   const exampleSet = new Set(props.styleExampleKeys);
   const allSkills = [...skillsByTrack("sell"), ...skillsByTrack("buy")];
 
+  const { data: session } = authClient.useSession();
+
+  // Split name for first/last name representation
+  const [sessionFirstName, ...sessionLastNameParts] = (session?.user?.name || "").split(/\s+/);
+  const sessionLastName = sessionLastNameParts.join(" ");
+
+  const defaultFirstName = session?.user?.name ? sessionFirstName : props.user.firstName;
+  const defaultLastName = session?.user?.name ? sessionLastName : props.user.lastName;
+  const defaultEmail = session?.user?.email ? session.user.email : props.user.email;
+
+  async function handleSubmitProfile(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const firstName = (formData.get("firstName") as string) || "";
+    const lastName = (formData.get("lastName") as string) || "";
+    const email = (formData.get("email") as string) || "";
+    const name = `${firstName} ${lastName}`.trim();
+
+    // 1. Update Better Auth profile if name changed
+    if (session && session.user.name !== name) {
+      try {
+        await authClient.updateUser({
+          name,
+        });
+      } catch (err) {
+        console.error("Failed to update Better Auth user:", err);
+      }
+    }
+
+    // 2. Submit to the server action to update local repo
+    try {
+      await updateProfileAction(formData);
+      alert("Profile updated successfully!");
+    } catch (err: any) {
+      console.error("Failed to update profile:", err);
+      alert(err.message || "Failed to save profile changes.");
+    }
+  }
+
   async function toggle(key: string) {
     const next = notifs.map((n) => (n.key === key ? { ...n, enabled: !n.enabled } : n));
     setNotifs(next);
@@ -120,29 +160,21 @@ export function SettingsView(props: Props) {
         </div>
         <div>
           {section === "profile" && (
-            <form action={updateProfileAction} className="settings-section">
+            <form onSubmit={handleSubmitProfile} className="settings-section">
               <h3>Profile</h3>
               <div className="field-row-two">
                 <div>
                   <label className="field-label">First name</label>
-                  <input
-                    name="firstName"
-                    className="field-input"
-                    defaultValue={props.user.firstName}
-                  />
+                  <input name="firstName" className="field-input" defaultValue={defaultFirstName} />
                 </div>
                 <div>
                   <label className="field-label">Last name</label>
-                  <input
-                    name="lastName"
-                    className="field-input"
-                    defaultValue={props.user.lastName}
-                  />
+                  <input name="lastName" className="field-input" defaultValue={defaultLastName} />
                 </div>
               </div>
               <div className="field-row">
                 <label className="field-label">Email</label>
-                <input name="email" className="field-input" defaultValue={props.user.email} />
+                <input name="email" className="field-input" defaultValue={defaultEmail} />
               </div>
               <div className="field-row-two">
                 <div>

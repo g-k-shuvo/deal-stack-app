@@ -2,9 +2,11 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { authClient } from "@/lib/auth-client";
 
 export default function Navbar() {
   const pathname = usePathname();
+  const { data: session } = authClient.useSession();
 
   return (
     <nav className="public-nav">
@@ -30,9 +32,15 @@ export default function Navbar() {
           <Link href="/contact">Contact</Link>
         </li>
       </ul>
-      <Link href="/contact" className="nav-cta-btn">
-        Get Early Access
-      </Link>
+      {session ? (
+        <Link href="/dashboard" className="nav-cta-btn">
+          Go to Dashboard
+        </Link>
+      ) : (
+        <Link href="/contact" className="nav-cta-btn">
+          Get Early Access
+        </Link>
+      )}
     </nav>
   );
 }
