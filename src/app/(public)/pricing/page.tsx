@@ -2,6 +2,9 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { authClient } from "@/lib/auth-client";
+
 
 const plans = [
   {
@@ -129,6 +132,33 @@ const faqs = [
 
 export default function PricingPage() {
   const [billing, setBilling] = useState<"monthly" | "annual">("monthly");
+  const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
+  const router = useRouter();
+  const { data: session } = authClient.useSession();
+
+  const handlePlanSelect = async (planName: string) => {
+    const planKey = planName.toLowerCase();
+    if (!session) {
+      router.push(`/signup?plan=${planKey}&billing=${billing}`);
+      return;
+    }
+    setLoadingPlan(planKey);
+    try {
+      const res = await authClient.subscription.upgrade({
+        plan: planKey,
+        annual: billing === "annual",
+        successUrl: window.location.origin + "/dashboard",
+        cancelUrl: window.location.origin + "/pricing",
+      });
+      if (res?.error) {
+        alert(res.error.message || "Failed to start checkout session.");
+      }
+    } catch (err: any) {
+      alert(err.message || "An unexpected error occurred.");
+    } finally {
+      setLoadingPlan(null);
+    }
+  };
 
   return (
     <>
@@ -173,9 +203,18 @@ export default function PricingPage() {
                 <div className="plan-price-period">/mo</div>
               </div>
               <p className="plan-desc">{plan.desc}</p>
-              <Link href="/contact" className={`plan-cta ${plan.ctaVariant}`}>
-                Get Early Access
-              </Link>
+              <button
+                onClick={() => handlePlanSelect(plan.name)}
+                disabled={loadingPlan !== null}
+                className={`plan-cta ${plan.ctaVariant}`}
+                style={{ width: "100%", border: "none", cursor: "pointer" }}
+              >
+                {loadingPlan === plan.name.toLowerCase()
+                  ? "Redirecting..."
+                  : session
+                  ? `Subscribe to ${plan.name}`
+                  : "Get Started"}
+              </button>
               <hr className="plan-divider" />
               <div className="plan-features">
                 {plan.included.map((f) => (
@@ -295,8 +334,8 @@ export default function PricingPage() {
             No credit card required. 14-day free trial on all plans. Early access pricing locked in
             for life.
           </p>
-          <Link href="/contact" className="ds-btn-primary ds-btn-lg">
-            Get Early Access →
+          <Link href={session ? "/pricing" : "/signup"} className="ds-btn-primary ds-btn-lg">
+            {session ? "Choose a plan above" : "Get Started →"}
           </Link>
         </div>
       </section>

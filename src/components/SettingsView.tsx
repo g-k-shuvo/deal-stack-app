@@ -1,5 +1,6 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import Link from "next/link";
 import {
   updateFirmAction,
   updateAiInstructionsAction,
@@ -84,6 +85,48 @@ function gb(bytes: number): string {
 export function SettingsView(props: Props) {
   const [section, setSection] = useState("profile");
   const [aiLen, setAiLen] = useState(props.firm.aiInstructions.length);
+  const [activeSub, setActiveSub] = useState<any>(null);
+  const [loadingSub, setLoadingSub] = useState(true);
+  const [portalLoading, setPortalLoading] = useState(false);
+
+  useEffect(() => {
+    if (section === "membership") {
+      setLoadingSub(true);
+      authClient.subscription
+        .list()
+        .then((res) => {
+          if (res?.data) {
+            const active = res.data.find(
+              (sub: any) => sub.status === "active" || sub.status === "trialing"
+            );
+            setActiveSub(active || null);
+          }
+        })
+        .catch((err) => {
+          console.error("Error fetching subscription:", err);
+        })
+        .finally(() => {
+          setLoadingSub(false);
+        });
+    }
+  }, [section]);
+
+  const handleManageBilling = async () => {
+    setPortalLoading(true);
+    try {
+      const res = await authClient.subscription.billingPortal({
+        returnUrl: window.location.origin + "/settings",
+      });
+      if (res?.error) {
+        alert(res.error.message || "Failed to launch billing portal.");
+      }
+    } catch (err: any) {
+      alert(err.message || "An unexpected error occurred.");
+    } finally {
+      setPortalLoading(false);
+    }
+  };
+
   const [notifs, setNotifs] = useState(props.notifications);
   const usedPct = Math.round((props.storageUsed / props.storageLimit) * 100);
   const exampleSet = new Set(props.styleExampleKeys);
@@ -307,17 +350,68 @@ export function SettingsView(props: Props) {
 
           {section === "membership" && (
             <div className="settings-section">
-              <h3>Membership</h3>
-              <div style={{ background: "var(--bg-secondary)", borderRadius: 8, padding: 16 }}>
-                <div style={{ fontSize: 15, fontWeight: 600 }}>Solo Advisor</div>
-                <div style={{ fontSize: 13, color: "var(--text-secondary)", marginTop: 4 }}>
-                  $297/month · 1 user · Unlimited projects · 10 GB storage · GoHighLevel CRM
-                  included
+              <h3>Membership &amp; Billing</h3>
+              {loadingSub ? (
+                <div style={{ color: "var(--text-secondary)", fontSize: 14 }}>
+                  Loading subscription details...
                 </div>
-              </div>
-              <p style={{ fontSize: 12, color: "var(--text-tertiary)", marginTop: 12 }}>
-                Billing is managed externally in GoHighLevel.
-              </p>
+              ) : activeSub ? (
+                <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                  <div style={{ background: "var(--bg-secondary)", borderRadius: 8, padding: 16, border: "1px solid var(--border)" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                      <span style={{ fontSize: 16, fontWeight: 600, textTransform: "capitalize" }}>
+                        {activeSub.plan} Plan
+                      </span>
+                      <span className="verified-pill" style={{ textTransform: "capitalize" }}>
+                        {activeSub.status}
+                      </span>
+                    </div>
+                    <div style={{ fontSize: 13, color: "var(--text-secondary)", marginTop: 8 }}>
+                      Billing interval: <span style={{ textTransform: "capitalize", fontWeight: 500 }}>{activeSub.billingInterval || "monthly"}</span>
+                    </div>
+                    {activeSub.periodEnd && (
+                      <div style={{ fontSize: 13, color: "var(--text-secondary)", marginTop: 4 }}>
+                        Next invoice date: <span style={{ fontWeight: 500 }}>{new Date(activeSub.periodEnd).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+                      </div>
+                    )}
+                  </div>
+                  <button
+                    type="button"
+                    onClick={handleManageBilling}
+                    disabled={portalLoading}
+                    className="btn-navy"
+                    style={{ alignSelf: "flex-start", cursor: "pointer" }}
+                  >
+                    {portalLoading ? "Opening portal..." : "Manage subscription in Stripe"}
+                  </button>
+                </div>
+              ) : (
+                <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                  <div style={{ background: "var(--bg-secondary)", borderRadius: 8, padding: 16, border: "1px solid var(--border)" }}>
+                    <div style={{ fontSize: 15, fontWeight: 600 }}>No active subscription</div>
+                    <div style={{ fontSize: 13, color: "var(--text-secondary)", marginTop: 4 }}>
+                      Please subscribe to a plan to unlock full access to the AI deal desk.
+                    </div>
+                  </div>
+                  <Link
+                    href="/pricing"
+                    className="btn-navy"
+                    style={{
+                      alignSelf: "flex-start",
+                      display: "inline-flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      textDecoration: "none",
+                      padding: "8px 16px",
+                      borderRadius: 8,
+                      fontSize: 14,
+                      fontWeight: 600,
+                    }}
+                  >
+                    Choose a plan
+                  </Link>
+                </div>
+              )}
             </div>
           )}
 
