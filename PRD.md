@@ -2,14 +2,14 @@
 
 | Field | Value |
 |---|---|
-| Product | Deal Command Center (DCC) |
+| Product | DealStack / Deal Command Center (DCC) |
 | Operator | Jackim Woods & Co. (single-firm, internal tool) |
 | Primary user | Rich Jackim, Managing Director (solo advisor) |
-| Document version | 1.0 (MVP) |
-| Date | 2026-06-21 |
-| Status | Draft for review |
-| Source of truth for UI | `Deal Command Center Prototype_v1.html` |
-| Locked decisions | Internal single-firm tool · all 15 skills (9 sell-side + 6 buy-side) · Next.js + Supabase + Anthropic · Dockerized · fully tested |
+| Document version | 1.1 (MVP — updated to reflect current implementation) |
+| Date | 2026-06-22 |
+| Status | In progress |
+| Source of truth for UI | `Deal Command Center Prototype_v1.html` + `refence-html/` (marketing site) |
+| Locked decisions | Internal single-firm tool · all 15 skills (9 sell-side + 6 buy-side) · Next.js (App Router) + Supabase + Anthropic · Dockerized · fully tested · public marketing site live |
 
 ---
 
@@ -35,8 +35,10 @@ DCC replaces a manual, multi-tool process (templates in Word, models in Excel, a
 | **Chaining** | A skill consuming the outputs of prior skills as context (e.g. CIM uses Valuation + Client profile). |
 | **BYO key** | The firm supplies its own Anthropic API key; AI usage is billed to the firm's Anthropic account, not to DCC. |
 
-### 1.4 Relationship to the marketing prototype
-The marketing site (`index.html`, `features.html`, `pricing.html`, brand "DealStack") is **out of scope** for this PRD. It describes features not present in the app (Due Diligence AI, Secure Data Room, Kanban pipeline, multi-tier SaaS pricing). This PRD specifies **only** the application shown in `Deal Command Center Prototype_v1.html`.
+### 1.4 Relationship to the marketing site
+The marketing site (`index.html`, `features.html`, `pricing.html`, brand **"DealStack"**) has been **converted into live Next.js pages** and is now part of this repository — no longer out of scope. It lives under `src/app/(public)/` and is served at `/`, `/features`, and `/pricing`.
+
+> **Important:** The marketing copy describes aspirational features (Due Diligence AI, Secure Data Room, Kanban pipeline, multi-tier SaaS pricing) that are **not** present in the internal Deal Command Center application. The marketing pages are public-facing and do not require authentication. The internal app (Deal Command Center) remains the primary functional scope of this PRD and is protected behind auth at `/dashboard` and sub-routes.
 
 ---
 
@@ -82,13 +84,14 @@ Future personas (out of MVP scope): junior associate / analyst seat; multi-advis
 - Full Docker-based local dev, test, and deployment.
 - Full automated test suite (unit, integration, E2E) with coverage gates.
 
-### 4.2 Out of scope (MVP)
-- Marketing site / "DealStack" branding.
+### 4.2 Out of scope for the internal app (MVP)
 - Multi-tenant SaaS, organizations, team seats, role-based access.
 - In-app billing / subscription management (the prototype's **Membership** screen is informational only; billing is handled externally in GoHighLevel).
 - "Sync to Claude.ai Custom Instructions" (the prototype's amber banner) — claude.ai is a separate product from the API; not built in MVP.
 - How-to video production/hosting — the **How-to videos** screen renders a catalog with external GoHighLevel links (configurable); DCC does not host video.
 - Marketing-only features absent from the app: Due Diligence AI / chat-with-documents, Secure Virtual Data Room UI, Kanban board, buyer-outreach automation, e-signature, real third-party buyer-matching data.
+
+> Note: The **public marketing site** (`/`, `/features`, `/pricing`) is now in scope and live — see §1.4.
 
 ### 4.3 Deferred (post-MVP, design now / build later)
 - Multi-user/firm support (data model includes a `firm_id` to allow this later without refactor).
@@ -110,28 +113,67 @@ Future personas (out of MVP scope): junior associate / analyst seat; multi-advis
 
 ## 6. System overview & architecture
 
+### 6.1 Route group structure (current implementation)
+
 ```
-┌──────────────────────────────────────────────────────────────┐
-│ CLIENT (browser)  — Next.js App Router + React                 │
-│ 8 screens + modal (ported from prototype). Streams draft.      │
-└───────────────┬──────────────────────────────────────────────┘
-                │ HTTPS (server actions / API routes). Key never sent to client.
-┌───────────────▼──────────────────────────────────────────────┐
-│ SERVER (Next.js, Node runtime)                                 │
-│  Skill engine: context assembly + chaining + prompt build      │
-│  Anthropic client: tool-use (structured) + streaming + PDF     │
-│  Renderers: docx (docxtemplater) · xlsx (exceljs) · pptx       │
-│  Auth, settings, encryption (key decrypt at call time)         │
-└───────┬───────────────────────────────────┬──────────────────┘
-        │                                     │
-┌───────▼─────────────┐             ┌─────────▼───────────────┐
-│ Supabase Postgres   │             │ Supabase Storage        │
-│ projects, runs,     │             │ generated docs +        │
-│ documents, settings │             │ uploaded source files   │
-│ + Auth + Vault(key) │             │ (private buckets)       │
-└─────────────────────┘             └─────────────────────────┘
-        │
-   Anthropic Claude API (external; firm-billed)
+src/app/
+├── layout.tsx                  ← Root layout (html/body, globals.css)
+├── globals.css                 ← Shared CSS (app shell + public site tokens)
+│
+├── (public)/                   ← PUBLIC — no auth required
+│   ├── layout.tsx              ← Wraps with <Navbar> + <Footer>
+│   ├── page.tsx                ← Home page  →  GET /
+│   ├── features/page.tsx       ← Features   →  GET /features
+│   └── pricing/page.tsx        ← Pricing    →  GET /pricing
+│
+├── (auth)/                     ← Authentication screens
+│   └── login/                  ← Login      →  GET /login
+│
+└── (protected)/                ← APP — auth-gated (middleware)
+    ├── layout.tsx              ← Wraps with <Topbar> + <Sidebar> + app-shell
+    ├── dashboard/page.tsx      ← Dashboard  →  GET /dashboard
+    ├── projects/               ← Directory + project detail
+    ├── library/                ← Document library
+    ├── skills/                 ← Skill library
+    ├── how-to/                 ← How-to videos
+    ├── search/                 ← Global search
+    └── settings/               ← Settings
+```
+
+**Public shared components:** `src/components/public/Navbar.tsx`, `src/components/public/Footer.tsx`
+
+**App shell components:** `src/components/Topbar.tsx`, `src/components/Sidebar.tsx`
+
+### 6.2 Full system architecture
+
+```
+┌──────────────────────────────────────────────────────────────────────┐
+│ CLIENT (browser) — Next.js App Router + React                         │
+│                                                                        │
+│  (public) route group: /, /features, /pricing                         │
+│  No auth required. Navbar + Footer. Marketing content.                │
+│                                                                        │
+│  (protected) route group: /dashboard, /projects, /library, etc.       │
+│  Auth-gated. App-shell (Topbar + Sidebar). Streams AI drafts.         │
+└────────────────────────┬─────────────────────────────────────────────┘
+                         │ HTTPS (server actions / API routes). Key never sent to client.
+┌────────────────────────▼─────────────────────────────────────────────┐
+│ SERVER (Next.js, Node runtime)                                         │
+│  Middleware: auth gate for all routes except /login + public pages     │
+│  Skill engine: context assembly + chaining + prompt build              │
+│  Anthropic client: tool-use (structured) + streaming + PDF             │
+│  Renderers: docx (docxtemplater) · xlsx (exceljs) · pptx              │
+│  Auth, settings, encryption (key decrypt at call time)                 │
+└──────────┬───────────────────────────────────────┬────────────────────┘
+           │                                         │
+┌──────────▼──────────┐                   ┌─────────▼───────────────┐
+│ Supabase Postgres   │                   │ Supabase Storage        │
+│ projects, runs,     │                   │ generated docs +        │
+│ documents, settings │                   │ uploaded source files   │
+│ + Auth + Vault(key) │                   │ (private buckets)       │
+└─────────────────────┘                   └─────────────────────────┘
+           │
+      Anthropic Claude API (external; firm-billed)
 ```
 
 All of the above runs in Docker (see §18).
@@ -163,31 +205,41 @@ All of the above runs in Docker (see §18).
 
 ## 8. Information architecture
 
-### 8.1 Screen map (8 screens + modal)
-| ID | Screen | Sidebar group | Entry points |
-|---|---|---|---|
-| S1 | Dashboard | Work | default landing |
-| S2 | Project directory | Work | sidebar; topbar "New project"; dashboard "View all" |
-| S3 | Project dashboard | (contextual) | dashboard card; directory row/Open; modal/exec back |
-| S4 | Skill execution | (contextual) | project step "Run skill"; skill library "Run skill"; modal "Open skill" |
-| S5 | Document library | Work | sidebar |
-| S6 | Skill library | Reference | sidebar |
-| S7 | How-to videos | Reference | sidebar |
-| S8 | Settings | Account | sidebar; topbar avatar |
-| M1 | Project-selection modal | overlay | buy-side skill "Run skill" |
+### 8.1 Public pages (no auth)
+| Route | Component | Description |
+|---|---|---|
+| `/` | `(public)/page.tsx` | Marketing home page (DealStack brand) |
+| `/features` | `(public)/features/page.tsx` | Feature overview page |
+| `/pricing` | `(public)/pricing/page.tsx` | Pricing plans + comparison (interactive billing toggle) |
+| `/contact` | (future) | Early access / waitlist form |
 
-### 8.2 Navigation graph
+### 8.2 App screens (auth-gated)
+| ID | Screen | Route | Sidebar group | Entry points |
+|---|---|---|---|---|
+| S1 | Dashboard | `/dashboard` | Work | default app landing; topbar logo |
+| S2 | Project directory | `/projects` | Work | sidebar; topbar "New project"; dashboard "View all" |
+| S3 | Project dashboard | `/projects/[id]` | (contextual) | dashboard card; directory row/Open; modal/exec back |
+| S4 | Skill execution | `/projects/[id]/skills/[skillKey]` | (contextual) | project step "Run skill"; skill library "Run skill"; modal "Open skill" |
+| S5 | Document library | `/library` | Work | sidebar |
+| S6 | Skill library | `/skills` | Reference | sidebar |
+| S7 | How-to videos | `/how-to` | Reference | sidebar |
+| S8 | Settings | `/settings` | Account | sidebar; topbar avatar |
+| M1 | Project-selection modal | overlay | — | buy-side skill "Run skill" |
+
+### 8.3 Navigation graph (app)
 ```
-Dashboard ──card / Continue──► Project dashboard ──Run skill──► Skill execution
-   │                                  ▲   │                          │
-   └─ View all ─► Directory ─ Open ───┘   └────── Next step ─────────┘
-Skill library ─ sell-side Run ─────────────► Skill execution
-              └ buy-side Run ─► Modal ─ Open skill ─► Skill execution
-Topbar: New project ─► Directory   ·   Avatar ─► Settings
-Sidebar: Dashboard · Directory · Document library · Skill library · How-to videos · Settings
+/dashboard ──card / Continue──► /projects/[id] ──Run skill──► /projects/[id]/skills/[key]
+   │                                  ▲   │                              │
+   └─ View all ─► /projects ─ Open ───┘   └────── Next step ─────────────┘
+/skills ─ sell-side Run ─────────────────────────► /projects/[id]/skills/[key]
+         └ buy-side Run ─► Modal ─ Open skill ─────► /projects/[id]/skills/[key]
+Topbar logo ─► /dashboard
+Topbar: New project ─► /projects   ·   Avatar ─► /settings
+Sidebar: Dashboard (/dashboard) · Directory (/projects) · Document library (/library)
+         · Skill library (/skills) · How-to videos (/how-to) · Settings (/settings)
 ```
-Routes are real URLs (deep-linkable), unlike the prototype's single-page `navigate()`:
-`/`, `/projects`, `/projects/[id]`, `/projects/[id]/skills/[skillKey]` (run), `/runs/[runId]`, `/library`, `/skills`, `/how-to`, `/settings`.
+
+> **Route change from original PRD:** The dashboard is now at `/dashboard` (not `/`). The root `/` serves the public marketing home page. The Topbar logo link and Sidebar dashboard link have both been updated accordingly.
 
 ---
 
@@ -195,20 +247,21 @@ Routes are real URLs (deep-linkable), unlike the prototype's single-page `naviga
 
 | ID | Requirement | Acceptance criterion |
 |---|---|---|
-| GLB-01 | Top bar shows brand "Deal **Command** Center" (Command in gold), global search, "New project" button, user avatar. | All present on every authenticated screen. |
+| GLB-01 | Top bar shows brand "Deal **Command** Center" (Command in gold), global search, "New project" button, user avatar. Topbar logo links to `/dashboard`. | All present on every authenticated screen; logo click navigates to `/dashboard`. |
 | GLB-02 | **Global search** filters projects and documents by name (live). | Typing a query returns matching projects + documents; selecting navigates to the item. *(Prototype: non-functional → now functional.)* |
-| GLB-03 | "New project" opens project creation (directory + create form/modal). | Click routes to project creation. |
+| GLB-03 | "New project" opens project creation (directory + create form/modal). | Click routes to `/projects` (project creation). |
 | GLB-04 | Avatar opens Settings (Profile). | Click routes to `/settings`. |
-| GLB-05 | Sidebar groups: Work (Dashboard, Project directory, Document library), Reference (Skill library, How-to videos), Account (Settings). Active item highlighted (gold left border). | Active state matches current route; contextual screens (S3/S4) highlight "Project directory". |
+| GLB-05 | Sidebar groups: Work (Dashboard `/dashboard`, Project directory `/projects`, Document library `/library`), Reference (Skill library `/skills`, How-to videos `/how-to`), Account (Settings `/settings`). Active item highlighted (gold left border). | Active state matches current route; contextual screens (S3/S4) highlight "Project directory". |
 | GLB-06 | Color system: navy `#0D2340`, gold `#B8992C`, paper `#F7F7F5`; Tabler icon set. | Visual matches prototype tokens. |
 | GLB-07 | Responsive: usable down to tablet width; sidebar collapses below a breakpoint. | No horizontal scroll/overlap at 768px. |
 | GLB-08 | All async actions show loading, success, and error states. | Every mutating action has visible feedback. |
+| GLB-09 | Public pages (`/`, `/features`, `/pricing`) show a separate `<Navbar>` and `<Footer>` (not the app shell). No authentication required. | Unauthenticated users can browse public pages freely. Authenticated users are not shown the app shell on public pages. |
 
 ---
 
 ## 10. Functional requirements by screen
 
-### 10.1 S1 — Dashboard
+### 10.1 S1 — Dashboard (`/dashboard`)
 | ID | Requirement |
 |---|---|
 | DASH-01 | Header greets user by first name and summarizes pending steps ("You have N steps pending across active projects"); N computed from live data. |
@@ -219,7 +272,7 @@ Routes are real URLs (deep-linkable), unlike the prototype's single-page `naviga
 | DASH-06 | "Recent activity" feed lists the latest N activity events (colored dot by type, text, relative time), newest first, derived from real events (skill completed, file uploaded, status change, step completed, NDA executed, etc.). |
 | DASH-07 | KPIs and lists reflect the true current state (no hard-coded values; resolves prototype inconsistencies such as activity vs. step state). |
 
-### 10.2 S2 — Project directory
+### 10.2 S2 — Project directory (`/projects`)
 | ID | Requirement |
 |---|---|
 | DIR-01 | Header shows total project count and active count ("N projects · M active"), computed live. |
@@ -233,7 +286,7 @@ Routes are real URLs (deep-linkable), unlike the prototype's single-page `naviga
 | DIR-09 | "New project" (here and from topbar) creates a project: required fields — company name, contact name + title, type (sell/buy), industry, status, est. value/target size; optional — website, location, deal fields. Track auto-set from type. |
 | DIR-10 | Progress and "next step" are derived from the project's step completion state. |
 
-### 10.3 S3 — Project dashboard
+### 10.3 S3 — Project dashboard (`/projects/[id]`)
 | ID | Requirement |
 |---|---|
 | PRJ-01 | Back link returns to directory. |
@@ -245,7 +298,7 @@ Routes are real URLs (deep-linkable), unlike the prototype's single-page `naviga
 | PRJ-07 | Context panel shows live: Company (name, website, industry, location), Deal (est. value, EBITDA, multiple, structure), Contact (name, title, phone), Activity (document count, last updated, engagement start). |
 | PRJ-08 | Project supports a notes/activity history (events recorded for the dashboard feed). |
 
-### 10.4 S4 — Skill execution
+### 10.4 S4 — Skill execution (`/projects/[id]/skills/[skillKey]`)
 | ID | Requirement |
 |---|---|
 | EXEC-01 | Back link returns to the project; breadcrumb shows Directory → Project → Skill (step N). |
@@ -261,7 +314,7 @@ Routes are real URLs (deep-linkable), unlike the prototype's single-page `naviga
 | EXEC-11 | "Download" produces the rendered Office file (not the markdown preview). |
 | EXEC-12 | Generation/revision failures (API error, invalid key, schema validation failure, timeout) surface a clear, actionable error and do not corrupt prior versions. |
 
-### 10.5 S5 — Document library
+### 10.5 S5 — Document library (`/library`)
 | ID | Requirement |
 |---|---|
 | LIB-01 | Header shows total file count across projects, computed live. |
@@ -274,7 +327,7 @@ Routes are real URLs (deep-linkable), unlike the prototype's single-page `naviga
 | LIB-08 | Deleting a deliverable that is linked to a completed step warns the user and unlinks it. |
 | LIB-09 | Empty/zero-result state when filters match nothing. |
 
-### 10.6 S6 — Skill library
+### 10.6 S6 — Skill library (`/skills`)
 | ID | Requirement |
 |---|---|
 | SKL-01 | Header shows skill totals ("15 skills · 9 sell-side · 6 buy-side"). |
@@ -287,7 +340,7 @@ Routes are real URLs (deep-linkable), unlike the prototype's single-page `naviga
 
 > Note: the prototype wires sell-side "Run skill" directly to execution (implicitly the current project) and buy-side to the modal. Because the skill library is not inside a project context, MVP routes **both** through project selection (SKL-05/06) for correctness.
 
-### 10.7 S7 — How-to videos
+### 10.7 S7 — How-to videos (`/how-to`)
 | ID | Requirement |
 |---|---|
 | HOW-01 | Left category nav: Getting started, Sell-side skills, Buy-side skills, Walkthroughs, Tips & best practices; selecting a category shows its video table. |
@@ -295,7 +348,7 @@ Routes are real URLs (deep-linkable), unlike the prototype's single-page `naviga
 | HOW-03 | Links are external (GoHighLevel) and configurable; a link renders as an external link when set, else "Link pending". |
 | HOW-04 | Catalog content is configuration (no video hosting in DCC). |
 
-### 10.8 S8 — Settings
+### 10.8 S8 — Settings (`/settings`)
 See §16 for full field-level detail. Summary requirements:
 | ID | Requirement |
 |---|---|
