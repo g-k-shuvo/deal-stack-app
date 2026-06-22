@@ -25,11 +25,17 @@ export const docxNarrativeRenderer: Renderer = {
       new Paragraph({ text: content.title, heading: HeadingLevel.TITLE }),
     ];
     if (content.subtitle) {
-      children.push(new Paragraph({ children: [new TextRun({ text: content.subtitle, bold: true, size: 28 })] }));
+      children.push(
+        new Paragraph({
+          children: [new TextRun({ text: content.subtitle, bold: true, size: 28 })],
+        }),
+      );
     }
     const meta = [content.preparedBy, content.date].filter(Boolean).join(" · ");
     if (meta) {
-      children.push(new Paragraph({ children: [new TextRun({ text: meta, italics: true, color: "666666" })] }));
+      children.push(
+        new Paragraph({ children: [new TextRun({ text: meta, italics: true, color: "666666" })] }),
+      );
     }
 
     for (const section of content.sections) {

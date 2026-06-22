@@ -12,6 +12,7 @@ import {
   resetWorkspaceAction,
 } from "@/app/actions";
 import { skillsByTrack } from "@/lib/skills/registry";
+import { authClient } from "@/lib/auth-client";
 
 interface FirmProps {
   name: string;
@@ -44,9 +45,30 @@ interface Props {
 }
 
 const NAV: { group: string; items: [string, string][] }[] = [
-  { group: "Account", items: [["profile", "Profile"], ["firm", "Firm profile"], ["apikey", "Claude API key"], ["membership", "Membership"]] },
-  { group: "Preferences", items: [["ai", "AI instructions"], ["defaults", "Defaults"], ["notifications", "Notifications"]] },
-  { group: "Data", items: [["storage", "Storage"], ["security", "Security"]] },
+  {
+    group: "Account",
+    items: [
+      ["profile", "Profile"],
+      ["firm", "Firm profile"],
+      ["apikey", "Claude API key"],
+      ["membership", "Membership"],
+    ],
+  },
+  {
+    group: "Preferences",
+    items: [
+      ["ai", "AI instructions"],
+      ["defaults", "Defaults"],
+      ["notifications", "Notifications"],
+    ],
+  },
+  {
+    group: "Data",
+    items: [
+      ["storage", "Storage"],
+      ["security", "Security"],
+    ],
+  },
 ];
 const NOTIF_LABEL: Record<string, string> = {
   skill_run_completion: "Skill run completion",
@@ -67,6 +89,45 @@ export function SettingsView(props: Props) {
   const exampleSet = new Set(props.styleExampleKeys);
   const allSkills = [...skillsByTrack("sell"), ...skillsByTrack("buy")];
 
+  const { data: session } = authClient.useSession();
+
+  // Split name for first/last name representation
+  const [sessionFirstName, ...sessionLastNameParts] = (session?.user?.name || "").split(/\s+/);
+  const sessionLastName = sessionLastNameParts.join(" ");
+
+  const defaultFirstName = session?.user?.name ? sessionFirstName : props.user.firstName;
+  const defaultLastName = session?.user?.name ? sessionLastName : props.user.lastName;
+  const defaultEmail = session?.user?.email ? session.user.email : props.user.email;
+
+  async function handleSubmitProfile(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const firstName = (formData.get("firstName") as string) || "";
+    const lastName = (formData.get("lastName") as string) || "";
+    const email = (formData.get("email") as string) || "";
+    const name = `${firstName} ${lastName}`.trim();
+
+    // 1. Update Better Auth profile if name changed
+    if (session && session.user.name !== name) {
+      try {
+        await authClient.updateUser({
+          name,
+        });
+      } catch (err) {
+        console.error("Failed to update Better Auth user:", err);
+      }
+    }
+
+    // 2. Submit to the server action to update local repo
+    try {
+      await updateProfileAction(formData);
+      alert("Profile updated successfully!");
+    } catch (err: any) {
+      console.error("Failed to update profile:", err);
+      alert(err.message || "Failed to save profile changes.");
+    }
+  }
+
   async function toggle(key: string) {
     const next = notifs.map((n) => (n.key === key ? { ...n, enabled: !n.enabled } : n));
     setNotifs(next);
@@ -86,7 +147,11 @@ export function SettingsView(props: Props) {
                 {g.group}
               </div>
               {g.items.map(([key, label]) => (
-                <div key={key} className={`sn-item${section === key ? " active" : ""}`} onClick={() => setSection(key)}>
+                <div
+                  key={key}
+                  className={`sn-item${section === key ? " active" : ""}`}
+                  onClick={() => setSection(key)}
+                >
                   {label}
                 </div>
               ))}
@@ -95,21 +160,21 @@ export function SettingsView(props: Props) {
         </div>
         <div>
           {section === "profile" && (
-            <form action={updateProfileAction} className="settings-section">
+            <form onSubmit={handleSubmitProfile} className="settings-section">
               <h3>Profile</h3>
               <div className="field-row-two">
                 <div>
                   <label className="field-label">First name</label>
-                  <input name="firstName" className="field-input" defaultValue={props.user.firstName} />
+                  <input name="firstName" className="field-input" defaultValue={defaultFirstName} />
                 </div>
                 <div>
                   <label className="field-label">Last name</label>
-                  <input name="lastName" className="field-input" defaultValue={props.user.lastName} />
+                  <input name="lastName" className="field-input" defaultValue={defaultLastName} />
                 </div>
               </div>
               <div className="field-row">
                 <label className="field-label">Email</label>
-                <input name="email" className="field-input" defaultValue={props.user.email} />
+                <input name="email" className="field-input" defaultValue={defaultEmail} />
               </div>
               <div className="field-row-two">
                 <div>
@@ -123,7 +188,11 @@ export function SettingsView(props: Props) {
               </div>
               <div className="field-row">
                 <label className="field-label">Years of experience</label>
-                <input name="yearsExperience" className="field-input" defaultValue={props.user.yearsExperience} />
+                <input
+                  name="yearsExperience"
+                  className="field-input"
+                  defaultValue={props.user.yearsExperience}
+                />
               </div>
               <button className="btn-navy" type="submit">
                 Save changes
@@ -150,19 +219,35 @@ export function SettingsView(props: Props) {
               </div>
               <div className="field-row">
                 <label className="field-label">Market focus</label>
-                <input name="marketFocus" className="field-input" defaultValue={props.firm.marketFocus} />
+                <input
+                  name="marketFocus"
+                  className="field-input"
+                  defaultValue={props.firm.marketFocus}
+                />
               </div>
               <div className="field-row">
                 <label className="field-label">Industry specializations</label>
-                <input name="industrySpecializations" className="field-input" defaultValue={props.firm.industrySpecializations} />
+                <input
+                  name="industrySpecializations"
+                  className="field-input"
+                  defaultValue={props.firm.industrySpecializations}
+                />
               </div>
               <div className="field-row">
                 <label className="field-label">Firm description (third person)</label>
-                <textarea name="description" className="field-textarea" defaultValue={props.firm.description} />
+                <textarea
+                  name="description"
+                  className="field-textarea"
+                  defaultValue={props.firm.description}
+                />
               </div>
               <div className="field-row">
                 <label className="field-label">Advisor bio (third person)</label>
-                <textarea name="advisorBio" className="field-textarea" defaultValue={props.firm.advisorBio} />
+                <textarea
+                  name="advisorBio"
+                  className="field-textarea"
+                  defaultValue={props.firm.advisorBio}
+                />
               </div>
               <button className="btn-navy" type="submit">
                 Save changes
@@ -173,13 +258,27 @@ export function SettingsView(props: Props) {
           {section === "apikey" && (
             <div className="settings-section">
               <h3>Claude API key</h3>
-              <p style={{ fontSize: 13, color: "var(--text-secondary)", marginBottom: 18, lineHeight: 1.6 }}>
-                Your key is stored encrypted and used to authenticate Claude requests. Usage costs accrue to your
-                Anthropic account — not your DCC subscription.
+              <p
+                style={{
+                  fontSize: 13,
+                  color: "var(--text-secondary)",
+                  marginBottom: 18,
+                  lineHeight: 1.6,
+                }}
+              >
+                Your key is stored encrypted and used to authenticate Claude requests. Usage costs
+                accrue to your Anthropic account — not your DCC subscription.
               </p>
               {props.hasKey && (
-                <div className="field-row" style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                  <input className="field-input" value="sk-ant-api03-•••••••••••••••••••" readOnly />
+                <div
+                  className="field-row"
+                  style={{ display: "flex", alignItems: "center", gap: 10 }}
+                >
+                  <input
+                    className="field-input"
+                    value="sk-ant-api03-•••••••••••••••••••"
+                    readOnly
+                  />
                   {props.verified ? (
                     <span className="verified-pill">✓ Verified</span>
                   ) : (
@@ -212,7 +311,8 @@ export function SettingsView(props: Props) {
               <div style={{ background: "var(--bg-secondary)", borderRadius: 8, padding: 16 }}>
                 <div style={{ fontSize: 15, fontWeight: 600 }}>Solo Advisor</div>
                 <div style={{ fontSize: 13, color: "var(--text-secondary)", marginTop: 4 }}>
-                  $297/month · 1 user · Unlimited projects · 10 GB storage · GoHighLevel CRM included
+                  $297/month · 1 user · Unlimited projects · 10 GB storage · GoHighLevel CRM
+                  included
                 </div>
               </div>
               <p style={{ fontSize: 12, color: "var(--text-tertiary)", marginTop: 12 }}>
@@ -243,20 +343,29 @@ export function SettingsView(props: Props) {
               <div className="settings-section">
                 <h3>Document style examples</h3>
                 <p style={{ fontSize: 12, color: "var(--text-secondary)", marginBottom: 14 }}>
-                  Upload a redacted sample per skill. The AI studies its structure and tone for future outputs.
+                  Upload a redacted sample per skill. The AI studies its structure and tone for
+                  future outputs.
                 </p>
                 {allSkills.map((s) => (
                   <form
                     key={s.key}
                     action={addStyleExampleAction}
-                    style={{ display: "flex", alignItems: "center", gap: 10, padding: "8px 0", borderBottom: "1px solid var(--border)" }}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 10,
+                      padding: "8px 0",
+                      borderBottom: "1px solid var(--border)",
+                    }}
                   >
                     <input type="hidden" name="skillKey" value={s.key} />
                     <span style={{ flex: 1, fontSize: 13 }}>{s.name}</span>
                     {exampleSet.has(s.key) ? (
                       <span className="verified-pill">✓ Example attached</span>
                     ) : (
-                      <span style={{ fontSize: 12, color: "var(--text-tertiary)" }}>No example</span>
+                      <span style={{ fontSize: 12, color: "var(--text-tertiary)" }}>
+                        No example
+                      </span>
                     )}
                     <input type="file" name="file" required style={{ fontSize: 11, width: 150 }} />
                     <button className="btn-outline" type="submit">
@@ -274,14 +383,22 @@ export function SettingsView(props: Props) {
               <div className="field-row-two">
                 <div>
                   <label className="field-label">Default engagement type</label>
-                  <select name="default_type" className="field-select" defaultValue={props.defaults.default_type ?? "sell"}>
+                  <select
+                    name="default_type"
+                    className="field-select"
+                    defaultValue={props.defaults.default_type ?? "sell"}
+                  >
                     <option value="sell">Sell-side</option>
                     <option value="buy">Buy-side</option>
                   </select>
                 </div>
                 <div>
                   <label className="field-label">Default project status</label>
-                  <select name="default_status" className="field-select" defaultValue={props.defaults.default_status ?? "prospect"}>
+                  <select
+                    name="default_status"
+                    className="field-select"
+                    defaultValue={props.defaults.default_status ?? "prospect"}
+                  >
                     <option value="prospect">Prospect</option>
                     <option value="active">Active</option>
                   </select>
@@ -290,21 +407,37 @@ export function SettingsView(props: Props) {
               <div className="field-row-two">
                 <div>
                   <label className="field-label">Success fee (%)</label>
-                  <input name="success_fee" className="field-input" defaultValue={props.defaults.success_fee ?? ""} />
+                  <input
+                    name="success_fee"
+                    className="field-input"
+                    defaultValue={props.defaults.success_fee ?? ""}
+                  />
                 </div>
                 <div>
                   <label className="field-label">Retainer (monthly)</label>
-                  <input name="retainer" className="field-input" defaultValue={props.defaults.retainer ?? ""} />
+                  <input
+                    name="retainer"
+                    className="field-input"
+                    defaultValue={props.defaults.retainer ?? ""}
+                  />
                 </div>
               </div>
               <div className="field-row-two">
                 <div>
                   <label className="field-label">Exclusivity period</label>
-                  <input name="exclusivity" className="field-input" defaultValue={props.defaults.exclusivity ?? ""} />
+                  <input
+                    name="exclusivity"
+                    className="field-input"
+                    defaultValue={props.defaults.exclusivity ?? ""}
+                  />
                 </div>
                 <div>
                   <label className="field-label">Deal size range</label>
-                  <input name="deal_size_range" className="field-input" defaultValue={props.defaults.deal_size_range ?? ""} />
+                  <input
+                    name="deal_size_range"
+                    className="field-input"
+                    defaultValue={props.defaults.deal_size_range ?? ""}
+                  />
                 </div>
               </div>
               <button className="btn-navy" type="submit">
@@ -317,7 +450,11 @@ export function SettingsView(props: Props) {
             <div className="settings-section">
               <h3>Notifications</h3>
               {notifs.map((n) => (
-                <div key={n.key} className="ctx-row" style={{ padding: "10px 0", alignItems: "center" }}>
+                <div
+                  key={n.key}
+                  className="ctx-row"
+                  style={{ padding: "10px 0", alignItems: "center" }}
+                >
                   <span>{NOTIF_LABEL[n.key] ?? n.key}</span>
                   <button
                     className={n.enabled ? "verified-pill" : "badge badge-notstarted"}
@@ -334,7 +471,14 @@ export function SettingsView(props: Props) {
           {section === "storage" && (
             <div className="settings-section">
               <h3>Storage</h3>
-              <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13, marginBottom: 10 }}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  fontSize: 13,
+                  marginBottom: 10,
+                }}
+              >
                 <span style={{ color: "var(--text-secondary)" }}>Total used</span>
                 <span style={{ fontWeight: 600 }}>
                   {gb(props.storageUsed)} / {gb(props.storageLimit)}
@@ -350,19 +494,32 @@ export function SettingsView(props: Props) {
             <div className="settings-section">
               <h3>Security</h3>
               <p style={{ fontSize: 13, color: "var(--text-secondary)", marginBottom: 18 }}>
-                Password management is handled by your authentication provider (enabled with the Supabase auth
-                integration).
+                Password management is handled by your authentication provider (enabled with the
+                Supabase auth integration).
               </p>
               <div style={{ borderTop: "1px solid var(--border)", paddingTop: 18 }}>
-                <div style={{ fontSize: 13, fontWeight: 600, color: "#b83232", marginBottom: 6 }}>Danger zone</div>
-                <div style={{ fontSize: 12, color: "var(--text-secondary)", marginBottom: 14, lineHeight: 1.5 }}>
-                  Reset the workspace — permanently removes all projects, documents, and AI outputs. Your GoHighLevel
-                  subscription must be cancelled separately.
+                <div style={{ fontSize: 13, fontWeight: 600, color: "#b83232", marginBottom: 6 }}>
+                  Danger zone
+                </div>
+                <div
+                  style={{
+                    fontSize: 12,
+                    color: "var(--text-secondary)",
+                    marginBottom: 14,
+                    lineHeight: 1.5,
+                  }}
+                >
+                  Reset the workspace — permanently removes all projects, documents, and AI outputs.
+                  Your GoHighLevel subscription must be cancelled separately.
                 </div>
                 <form
                   action={resetWorkspaceAction}
                   onSubmit={(e) => {
-                    if (!window.confirm("Delete ALL projects, documents, and outputs? This cannot be undone.")) {
+                    if (
+                      !window.confirm(
+                        "Delete ALL projects, documents, and outputs? This cannot be undone.",
+                      )
+                    ) {
                       e.preventDefault();
                     }
                   }}

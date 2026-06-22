@@ -165,7 +165,12 @@ export class InMemoryRepo implements Repo {
     };
     this.projects.unshift(project);
     for (const s of skillsByTrack(input.type)) {
-      this.steps.push({ projectId: project.id, skillKey: s.key, ordinal: s.step, status: "notstarted" });
+      this.steps.push({
+        projectId: project.id,
+        skillKey: s.key,
+        ordinal: s.step,
+        status: "notstarted",
+      });
     }
     await this.addActivity("status", `${project.companyName} created`, project.id);
     return project;
@@ -178,7 +183,9 @@ export class InMemoryRepo implements Repo {
   }
 
   async listSteps(projectId: string) {
-    return this.steps.filter((s) => s.projectId === projectId).sort((a, b) => a.ordinal - b.ordinal);
+    return this.steps
+      .filter((s) => s.projectId === projectId)
+      .sort((a, b) => a.ordinal - b.ordinal);
   }
   async stepsByProject() {
     const map = new Map<string, ProjectStep[]>();
@@ -203,7 +210,11 @@ export class InMemoryRepo implements Repo {
     return this.documents.find((d) => d.id === id);
   }
   async addDocument(doc: Omit<DocRecord, "id" | "createdAt">) {
-    const record: DocRecord = { ...doc, id: `d-${randomUUID().slice(0, 8)}`, createdAt: new Date().toISOString() };
+    const record: DocRecord = {
+      ...doc,
+      id: `d-${randomUUID().slice(0, 8)}`,
+      createdAt: new Date().toISOString(),
+    };
     this.documents.unshift(record);
     return record;
   }
@@ -217,7 +228,9 @@ export class InMemoryRepo implements Repo {
   }
 
   async listActivities(limit = 20) {
-    return [...this.activities].sort((a, b) => b.createdAt.localeCompare(a.createdAt)).slice(0, limit);
+    return [...this.activities]
+      .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
+      .slice(0, limit);
   }
   async addActivity(type: string, text: string, projectId?: string) {
     const ev: ActivityEvent = {
@@ -260,7 +273,10 @@ export class InMemoryRepo implements Repo {
     }
     return undefined;
   }
-  async addRunVersion(runId: string, v: Omit<RunVersion, "id" | "runId" | "versionNo" | "createdAt">) {
+  async addRunVersion(
+    runId: string,
+    v: Omit<RunVersion, "id" | "runId" | "versionNo" | "createdAt">,
+  ) {
     const run = this.runs.find((r) => r.id === runId);
     if (!run) throw new Error(`Unknown run: ${runId}`);
     const version: RunVersion = {

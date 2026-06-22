@@ -13,16 +13,28 @@ const ICON: Record<string, { bg: string; color: string }> = {
 };
 
 function fmtDate(iso: string): string {
-  return new Date(iso).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+  return new Date(iso).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
 }
 
-export function LibraryView({ docs, projects }: { docs: DocRecord[]; projects: Record<string, string> }) {
+export function LibraryView({
+  docs,
+  projects,
+}: {
+  docs: DocRecord[];
+  projects: Record<string, string>;
+}) {
   const router = useRouter();
   const [projectFilter, setProjectFilter] = useState("all");
   const [typeFilter, setTypeFilter] = useState("all");
   const [busy, setBusy] = useState(false);
 
-  const projectIds = Array.from(new Set(docs.map((d) => d.projectId).filter((x): x is string => !!x)));
+  const projectIds = Array.from(
+    new Set(docs.map((d) => d.projectId).filter((x): x is string => !!x)),
+  );
 
   const filtered = docs.filter(
     (d) =>
@@ -62,7 +74,8 @@ export function LibraryView({ docs, projects }: { docs: DocRecord[]; projects: R
               <div className="doc-info">
                 <div className="doc-name">{d.filename}</div>
                 <div className="doc-meta">
-                  {(d.projectId && projects[d.projectId]) || "—"} · {skillName ?? "Uploaded"} · {fmtDate(d.createdAt)}
+                  {(d.projectId && projects[d.projectId]) || "—"} · {skillName ?? "Uploaded"} ·{" "}
+                  {fmtDate(d.createdAt)}
                 </div>
               </div>
               <div className="doc-actions">
@@ -79,10 +92,20 @@ export function LibraryView({ docs, projects }: { docs: DocRecord[]; projects: R
                     ↓
                   </a>
                 )}
-                <button className="icon-btn" title="Rename" disabled={busy} onClick={() => rename(d)}>
+                <button
+                  className="icon-btn"
+                  title="Rename"
+                  disabled={busy}
+                  onClick={() => rename(d)}
+                >
                   ✎
                 </button>
-                <button className="icon-btn" title="Delete" disabled={busy} onClick={() => remove(d)}>
+                <button
+                  className="icon-btn"
+                  title="Delete"
+                  disabled={busy}
+                  onClick={() => remove(d)}
+                >
                   🗑
                 </button>
               </div>
@@ -101,8 +124,14 @@ export function LibraryView({ docs, projects }: { docs: DocRecord[]; projects: R
           {docs.length} files across {projectIds.length} projects
         </div>
       </div>
-      <form action={uploadDocAction} className="card" style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 14 }}>
-        <span style={{ fontSize: 12, color: "var(--text-secondary)" }}>Upload client document:</span>
+      <form
+        action={uploadDocAction}
+        className="card"
+        style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 14 }}
+      >
+        <span style={{ fontSize: 12, color: "var(--text-secondary)" }}>
+          Upload client document:
+        </span>
         <select name="projectId" className="sort-select" required defaultValue="">
           <option value="" disabled>
             Select project…
@@ -119,7 +148,10 @@ export function LibraryView({ docs, projects }: { docs: DocRecord[]; projects: R
         </button>
       </form>
       <div className="toolbar">
-        <button className={`filter-pill${projectFilter === "all" ? " active" : ""}`} onClick={() => setProjectFilter("all")}>
+        <button
+          className={`filter-pill${projectFilter === "all" ? " active" : ""}`}
+          onClick={() => setProjectFilter("all")}
+        >
           All projects
         </button>
         {projectIds.map((id) => (
@@ -133,7 +165,11 @@ export function LibraryView({ docs, projects }: { docs: DocRecord[]; projects: R
         ))}
         <span className="toolbar-sep" />
         {["all", "docx", "xlsx", "pptx", "pdf"].map((t) => (
-          <button key={t} className={`filter-pill${typeFilter === t ? " active" : ""}`} onClick={() => setTypeFilter(t)}>
+          <button
+            key={t}
+            className={`filter-pill${typeFilter === t ? " active" : ""}`}
+            onClick={() => setTypeFilter(t)}
+          >
             {t === "all" ? "All types" : t.toUpperCase()}
           </button>
         ))}
@@ -145,7 +181,9 @@ export function LibraryView({ docs, projects }: { docs: DocRecord[]; projects: R
         <div className="card">
           {ai.length > 0 && <div className="doc-section-title">AI deliverables</div>}
           <Rows items={ai} />
-          {uploaded.length > 0 && <div className="doc-section-title">Client-provided documents</div>}
+          {uploaded.length > 0 && (
+            <div className="doc-section-title">Client-provided documents</div>
+          )}
           <Rows items={uploaded} />
         </div>
       )}

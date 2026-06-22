@@ -32,12 +32,21 @@ describe("generate", () => {
 
   it("honors an explicit model override", async () => {
     const create = vi.fn().mockResolvedValue(toolUse(valid));
-    const res = await generate({ skill, prompt, apiKey: "k", model: "claude-sonnet-4-6", client: mockClient(create) });
+    const res = await generate({
+      skill,
+      prompt,
+      apiKey: "k",
+      model: "claude-sonnet-4-6",
+      client: mockClient(create),
+    });
     expect(res.model).toBe("claude-sonnet-4-6");
   });
 
   it("auto-retries once on schema failure, then succeeds", async () => {
-    const create = vi.fn().mockResolvedValueOnce(toolUse(invalid)).mockResolvedValueOnce(toolUse(valid));
+    const create = vi
+      .fn()
+      .mockResolvedValueOnce(toolUse(invalid))
+      .mockResolvedValueOnce(toolUse(valid));
     const res = await generate({ skill, prompt, apiKey: "k", client: mockClient(create) });
     expect(res.content).toEqual(valid);
     expect(create).toHaveBeenCalledTimes(2);
@@ -45,15 +54,17 @@ describe("generate", () => {
 
   it("throws SchemaValidationError when both attempts fail", async () => {
     const create = vi.fn().mockResolvedValue(toolUse(invalid));
-    await expect(generate({ skill, prompt, apiKey: "k", client: mockClient(create) })).rejects.toBeInstanceOf(
-      SchemaValidationError,
-    );
+    await expect(
+      generate({ skill, prompt, apiKey: "k", client: mockClient(create) }),
+    ).rejects.toBeInstanceOf(SchemaValidationError);
     expect(create).toHaveBeenCalledTimes(2);
   });
 
   it("throws when no tool_use block is returned", async () => {
     const create = vi.fn().mockResolvedValue({ content: [{ type: "text" }] });
-    await expect(generate({ skill, prompt, apiKey: "k", client: mockClient(create) })).rejects.toThrow("tool_use");
+    await expect(
+      generate({ skill, prompt, apiKey: "k", client: mockClient(create) }),
+    ).rejects.toThrow("tool_use");
   });
 
   it("attaches PDF source docs and text docs as content blocks", async () => {
@@ -68,7 +79,9 @@ describe("generate", () => {
         { filename: "notes.txt", format: "txt", text: "hello" },
       ],
     });
-    const params = create.mock.calls[0]?.[0] as { messages: Array<{ content: Array<Record<string, unknown>> }> };
+    const params = create.mock.calls[0]?.[0] as {
+      messages: Array<{ content: Array<Record<string, unknown>> }>;
+    };
     const blocks = params.messages[0]?.content ?? [];
     expect(blocks.some((b) => b.type === "document")).toBe(true);
     expect(blocks.some((b) => b.type === "text" && String(b.text).includes("hello"))).toBe(true);

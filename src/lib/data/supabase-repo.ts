@@ -132,7 +132,9 @@ export class SupabaseRepo implements Repo {
 
   async getFirm(): Promise<Firm> {
     const { data } = await this.db.from("firm").select("*").limit(1).single();
-    return firmFromRow((data as Row) ?? { id: FIRM_ID, name: "Firm", defaults: {}, storage_limit_bytes: 0 });
+    return firmFromRow(
+      (data as Row) ?? { id: FIRM_ID, name: "Firm", defaults: {}, storage_limit_bytes: 0 },
+    );
   }
   async updateFirm(patch: Partial<Firm>): Promise<Firm> {
     const map: Row = {};
@@ -140,14 +142,18 @@ export class SupabaseRepo implements Repo {
     if (patch.website !== undefined) map.website = patch.website;
     if (patch.address !== undefined) map.address = patch.address;
     if (patch.marketFocus !== undefined) map.market_focus = patch.marketFocus;
-    if (patch.industrySpecializations !== undefined) map.industry_specializations = patch.industrySpecializations;
+    if (patch.industrySpecializations !== undefined)
+      map.industry_specializations = patch.industrySpecializations;
     if (patch.description !== undefined) map.description = patch.description;
     if (patch.advisorBio !== undefined) map.advisor_bio = patch.advisorBio;
     if (patch.aiInstructions !== undefined) map.ai_instructions = patch.aiInstructions;
     if (patch.apiKeyEncrypted !== undefined) map.api_key_encrypted = patch.apiKeyEncrypted;
     if (patch.apiKeyVerified !== undefined) map.api_key_verified = patch.apiKeyVerified;
     if (patch.defaults !== undefined) map.defaults = patch.defaults;
-    await this.db.from("firm").update(map).eq("id", (await this.getFirm()).id);
+    await this.db
+      .from("firm")
+      .update(map)
+      .eq("id", (await this.getFirm()).id);
     return this.getFirm();
   }
   async updateDefaults(patch: Record<string, string>): Promise<Record<string, string>> {
@@ -158,7 +164,9 @@ export class SupabaseRepo implements Repo {
   }
   async getUser(): Promise<User> {
     const { data } = await this.db.from("app_user").select("*").limit(1).single();
-    return userFromRow((data as Row) ?? { id: "u", firm_id: FIRM_ID, first_name: "", last_name: "", email: "" });
+    return userFromRow(
+      (data as Row) ?? { id: "u", firm_id: FIRM_ID, first_name: "", last_name: "", email: "" },
+    );
   }
   async updateUser(patch: Partial<User>): Promise<User> {
     const map: Row = {};
@@ -168,7 +176,10 @@ export class SupabaseRepo implements Repo {
     if (patch.phone !== undefined) map.phone = patch.phone;
     if (patch.title !== undefined) map.title = patch.title;
     if (patch.yearsExperience !== undefined) map.years_experience = patch.yearsExperience;
-    await this.db.from("app_user").update(map).eq("id", (await this.getUser()).id);
+    await this.db
+      .from("app_user")
+      .update(map)
+      .eq("id", (await this.getUser()).id);
     return this.getUser();
   }
   async getNotifications(): Promise<{ key: string; enabled: boolean }[]> {
@@ -180,13 +191,19 @@ export class SupabaseRepo implements Repo {
   }
   async listStyleExamples(): Promise<{ skillKey: string; documentId: string }[]> {
     const { data } = await this.db.from("style_example").select("*");
-    return rows(data).map((r) => ({ skillKey: req(r, "skill_key"), documentId: req(r, "document_id") }));
+    return rows(data).map((r) => ({
+      skillKey: req(r, "skill_key"),
+      documentId: req(r, "document_id"),
+    }));
   }
   async addStyleExample(skillKey: string, documentId: string): Promise<void> {
     const firm = await this.getFirm();
     await this.db
       .from("style_example")
-      .upsert({ firm_id: firm.id, skill_key: skillKey, document_id: documentId }, { onConflict: "firm_id,skill_key" });
+      .upsert(
+        { firm_id: firm.id, skill_key: skillKey, document_id: documentId },
+        { onConflict: "firm_id,skill_key" },
+      );
   }
   async putBlob(id: string, bytes: Buffer): Promise<void> {
     await this.db.storage.from(BLOB_BUCKET).upload(id, bytes, { upsert: true });
@@ -204,7 +221,10 @@ export class SupabaseRepo implements Repo {
   }
 
   async listProjects(): Promise<Project[]> {
-    const { data } = await this.db.from("project").select("*").order("updated_at", { ascending: false });
+    const { data } = await this.db
+      .from("project")
+      .select("*")
+      .order("updated_at", { ascending: false });
     return rows(data).map(projectFromRow);
   }
   async getProject(id: string): Promise<Project | undefined> {
@@ -266,7 +286,11 @@ export class SupabaseRepo implements Repo {
   }
 
   async listSteps(projectId: string): Promise<ProjectStep[]> {
-    const { data } = await this.db.from("project_step").select("*").eq("project_id", projectId).order("ordinal");
+    const { data } = await this.db
+      .from("project_step")
+      .select("*")
+      .eq("project_id", projectId)
+      .order("ordinal");
     return rows(data).map(stepFromRow);
   }
   async stepsByProject(): Promise<Map<string, ProjectStep[]>> {
@@ -285,12 +309,22 @@ export class SupabaseRepo implements Repo {
     if (patch.status !== undefined) map.status = patch.status;
     if (patch.linkedDocumentId !== undefined) map.linked_document_id = patch.linkedDocumentId;
     if (patch.completedAt !== undefined) map.completed_at = patch.completedAt;
-    await this.db.from("project_step").update(map).eq("project_id", projectId).eq("skill_key", skillKey);
-    await this.db.from("project").update({ updated_at: new Date().toISOString() }).eq("id", projectId);
+    await this.db
+      .from("project_step")
+      .update(map)
+      .eq("project_id", projectId)
+      .eq("skill_key", skillKey);
+    await this.db
+      .from("project")
+      .update({ updated_at: new Date().toISOString() })
+      .eq("id", projectId);
   }
 
   async listDocuments(): Promise<DocRecord[]> {
-    const { data } = await this.db.from("document").select("*").order("created_at", { ascending: false });
+    const { data } = await this.db
+      .from("document")
+      .select("*")
+      .order("created_at", { ascending: false });
     return rows(data).map(docFromRow);
   }
   async getDocument(id: string): Promise<DocRecord | undefined> {
@@ -341,7 +375,11 @@ export class SupabaseRepo implements Repo {
   }
 
   private async loadVersions(runId: string): Promise<RunVersion[]> {
-    const { data } = await this.db.from("run_version").select("*").eq("run_id", runId).order("version_no");
+    const { data } = await this.db
+      .from("run_version")
+      .select("*")
+      .eq("run_id", runId)
+      .order("version_no");
     return rows(data).map(versionFromRow);
   }
   private async runFromRow(r: Row): Promise<Run> {
@@ -354,7 +392,11 @@ export class SupabaseRepo implements Repo {
       createdAt: req(r, "created_at"),
     };
   }
-  async createRun(projectId: string, skillKey: string, inputs: Record<string, string>): Promise<Run> {
+  async createRun(
+    projectId: string,
+    skillKey: string,
+    inputs: Record<string, string>,
+  ): Promise<Run> {
     const { data } = await this.db
       .from("run")
       .insert({ project_id: projectId, skill_key: skillKey, inputs })
@@ -367,7 +409,11 @@ export class SupabaseRepo implements Repo {
     return data ? this.runFromRow(data as Row) : undefined;
   }
   async runsFor(projectId: string, skillKey: string): Promise<Run[]> {
-    const { data } = await this.db.from("run").select("*").eq("project_id", projectId).eq("skill_key", skillKey);
+    const { data } = await this.db
+      .from("run")
+      .select("*")
+      .eq("project_id", projectId)
+      .eq("skill_key", skillKey);
     return Promise.all(rows(data).map((r) => this.runFromRow(r)));
   }
   async runVersionCount(): Promise<number> {
@@ -375,7 +421,11 @@ export class SupabaseRepo implements Repo {
     return count ?? 0;
   }
   async findVersion(versionId: string): Promise<{ run: Run; version: RunVersion } | undefined> {
-    const { data } = await this.db.from("run_version").select("*").eq("id", versionId).maybeSingle();
+    const { data } = await this.db
+      .from("run_version")
+      .select("*")
+      .eq("id", versionId)
+      .maybeSingle();
     if (!data) return undefined;
     const version = versionFromRow(data as Row);
     const run = await this.getRun(version.runId);

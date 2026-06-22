@@ -21,15 +21,32 @@ export const pptxRenderer: Renderer = {
 
     const deck = new PptxGenJS();
     const title = deck.addSlide();
-    title.addText(content.title, { x: 0.5, y: 1.0, w: 9, fontSize: 28, bold: true, color: "0D2340" });
+    title.addText(content.title, {
+      x: 0.5,
+      y: 1.0,
+      w: 9,
+      fontSize: 28,
+      bold: true,
+      color: "0D2340",
+    });
     if (content.subtitle) {
       title.addText(content.subtitle, { x: 0.5, y: 2.0, w: 9, fontSize: 18, color: "6B6B67" });
     }
 
     for (const section of content.sections) {
       const slide = deck.addSlide();
-      slide.addText(section.heading, { x: 0.5, y: 0.4, w: 9, fontSize: 22, bold: true, color: "0D2340" });
-      const body = [...(section.paragraphs ?? []), ...(section.bullets ?? []).map((b) => `• ${b}`)].join("\n");
+      slide.addText(section.heading, {
+        x: 0.5,
+        y: 0.4,
+        w: 9,
+        fontSize: 22,
+        bold: true,
+        color: "0D2340",
+      });
+      const body = [
+        ...(section.paragraphs ?? []),
+        ...(section.bullets ?? []).map((b) => `• ${b}`),
+      ].join("\n");
       if (body) slide.addText(body, { x: 0.5, y: 1.2, w: 9, fontSize: 14, color: "1A1A18" });
     }
 

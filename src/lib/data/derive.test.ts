@@ -46,7 +46,11 @@ describe("derive", () => {
     expect(relativeTime(new Date(now.getTime() - 30 * 60_000).toISOString(), now)).toBe("30m ago");
     expect(relativeTime(new Date(now.getTime() - 3 * 3_600_000).toISOString(), now)).toBe("3h ago");
     expect(relativeTime(new Date(now.getTime() - 86_400_000).toISOString(), now)).toBe("yesterday");
-    expect(relativeTime(new Date(now.getTime() - 3 * 86_400_000).toISOString(), now)).toBe("3 days ago");
-    expect(relativeTime(new Date(now.getTime() - 14 * 86_400_000).toISOString(), now)).toBe("2 wks ago");
+    expect(relativeTime(new Date(now.getTime() - 3 * 86_400_000).toISOString(), now)).toBe(
+      "3 days ago",
+    );
+    expect(relativeTime(new Date(now.getTime() - 14 * 86_400_000).toISOString(), now)).toBe(
+      "2 wks ago",
+    );
   });
 });

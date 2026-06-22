@@ -23,7 +23,11 @@ describe("toPreviewMarkdown", () => {
   });
 
   it("renders tabular data as a markdown table", () => {
-    const md = toPreviewMarkdown({ title: "Buyers", columns: ["Buyer", "Type"], rows: [["A", "Strategic"]] });
+    const md = toPreviewMarkdown({
+      title: "Buyers",
+      columns: ["Buyer", "Type"],
+      rows: [["A", "Strategic"]],
+    });
     expect(md).toContain("| Buyer | Type |");
     expect(md).toContain("| A | Strategic |");
   });

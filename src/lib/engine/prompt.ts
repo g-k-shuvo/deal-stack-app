@@ -43,15 +43,11 @@ export function buildPrompt(ctx: AssembledContext, styleExample?: string): Built
 
   const inputEntries = Object.entries(ctx.inputs).filter(([, v]) => v !== undefined && v !== "");
   if (inputEntries.length > 0) {
-    userParts.push(
-      `## Inputs\n${inputEntries.map(([k, v]) => `${k}: ${v}`).join("\n")}`,
-    );
+    userParts.push(`## Inputs\n${inputEntries.map(([k, v]) => `${k}: ${v}`).join("\n")}`);
   }
 
   if (ctx.chainedOutputs.length > 0) {
-    const prior = ctx.chainedOutputs
-      .map((c) => `### ${c.skillName}\n${c.preview}`)
-      .join("\n\n");
+    const prior = ctx.chainedOutputs.map((c) => `### ${c.skillName}\n${c.preview}`).join("\n\n");
     userParts.push(`## Prior deliverables (use as authoritative context)\n${prior}`);
   }
 

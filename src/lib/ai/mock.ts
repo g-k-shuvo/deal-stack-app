@@ -10,11 +10,15 @@ function num(v: string | undefined, fallback: number): number {
   return Number.isFinite(n) && n > 0 ? n : fallback;
 }
 
-export function mockContent(ctx: AssembledContext): NarrativeContent | DataContent | ValuationContent {
+export function mockContent(
+  ctx: AssembledContext,
+): NarrativeContent | DataContent | ValuationContent {
   const { skill, project, firm, inputs, chainedOutputs } = ctx;
   const company = project.companyName;
   const priorNote =
-    chainedOutputs.length > 0 ? ` Informed by prior ${chainedOutputs.map((c) => c.skillName).join(", ")}.` : "";
+    chainedOutputs.length > 0
+      ? ` Informed by prior ${chainedOutputs.map((c) => c.skillName).join(", ")}.`
+      : "";
 
   if (skill.archetype === "data") {
     return {

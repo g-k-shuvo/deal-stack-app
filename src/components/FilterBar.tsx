@@ -30,13 +30,21 @@ export function FilterBar() {
   return (
     <div className="toolbar">
       {STATUS.map((s) => (
-        <button key={s} className={`filter-pill${status === s ? " active" : ""}`} onClick={() => set("status", s)}>
+        <button
+          key={s}
+          className={`filter-pill${status === s ? " active" : ""}`}
+          onClick={() => set("status", s)}
+        >
           {s === "all" ? "All" : LABEL[s]}
         </button>
       ))}
       <span className="toolbar-sep" />
       {TYPES.map((t) => (
-        <button key={t} className={`filter-pill${type === t ? " active" : ""}`} onClick={() => set("type", t)}>
+        <button
+          key={t}
+          className={`filter-pill${type === t ? " active" : ""}`}
+          onClick={() => set("type", t)}
+        >
           {t === "all" ? "All types" : LABEL[t]}
         </button>
       ))}

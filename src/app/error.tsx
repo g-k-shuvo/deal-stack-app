@@ -1,6 +1,12 @@
 "use client";
 
-export default function Error({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
+export default function Error({
+  error,
+  reset,
+}: {
+  error: Error & { digest?: string };
+  reset: () => void;
+}) {
   return (
     <div className="empty-state" style={{ margin: 40 }}>
       <h3 style={{ marginBottom: 8 }}>Something went wrong</h3>
