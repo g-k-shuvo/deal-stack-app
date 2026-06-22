@@ -29,7 +29,7 @@ export default function Navbar() {
           <Link href="/#how-it-works">How It Works</Link>
         </li>
         <li>
-          <Link href="/contact">Contact</Link>
+          <Link href="/login">Contact</Link>
         </li>
       </ul>
       {session ? (
@@ -37,7 +37,7 @@ export default function Navbar() {
           Go to Dashboard
         </Link>
       ) : (
-        <Link href="/contact" className="nav-cta-btn">
+        <Link href="/login" className="nav-cta-btn">
           Get Early Access
         </Link>
       )}

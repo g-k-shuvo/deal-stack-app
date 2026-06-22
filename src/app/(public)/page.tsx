@@ -26,7 +26,7 @@ export default function HomePage() {
           purpose-built AI that understands the language of M&amp;A.
         </p>
         <div className="hero-btns">
-          <Link href="/contact" className="ds-btn-primary">
+          <Link href="/login" className="ds-btn-primary">
             Get Early Access →
           </Link>
           <Link href="/features" className="ds-btn-secondary">
@@ -649,7 +649,7 @@ export default function HomePage() {
             Join hundreds of business brokers and advisors already on the DealStack waitlist. Early
             access is limited.
           </p>
-          <Link href="/contact" className="ds-btn-primary ds-btn-lg">
+          <Link href="/login" className="ds-btn-primary ds-btn-lg">
             Get Early Access →
           </Link>
         </div>
