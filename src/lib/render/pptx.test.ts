@@ -10,14 +10,23 @@ const full: NarrativeContent = {
   title: "Market Assessment",
   subtitle: "Midwest HVAC Services",
   sections: [
-    { heading: "Market Overview", paragraphs: ["The HVAC market is growing."], bullets: ["Tailwind 1", "Tailwind 2"] },
+    {
+      heading: "Market Overview",
+      paragraphs: ["The HVAC market is growing."],
+      bullets: ["Tailwind 1", "Tailwind 2"],
+    },
     { heading: "Valuation Range" },
   ],
 };
 
 describe("pptxRenderer", () => {
   it("renders a valid .pptx deck", async () => {
-    const res = await pptxRenderer.render({ content: full, skill, company: "Midwest HVAC", version: 1 });
+    const res = await pptxRenderer.render({
+      content: full,
+      skill,
+      company: "Midwest HVAC",
+      version: 1,
+    });
     expect(res.buffer[0]).toBe(0x50); // PK
     expect(res.buffer.length).toBeGreaterThan(1000);
     expect(res.filename).toBe("Market_assessment_v1_Midwest_HVAC.pptx");
@@ -35,8 +44,8 @@ describe("pptxRenderer", () => {
   });
 
   it("throws on non-narrative content", async () => {
-    await expect(pptxRenderer.render({ content: null, skill, company: "X", version: 1 })).rejects.toThrow(
-      "narrative content",
-    );
+    await expect(
+      pptxRenderer.render({ content: null, skill, company: "X", version: 1 }),
+    ).rejects.toThrow("narrative content");
   });
 });

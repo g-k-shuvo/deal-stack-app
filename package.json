@@ -13,13 +13,18 @@
     "test:coverage": "vitest run --coverage",
     "e2e": "playwright test",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "bun src/lib/db-migrate.ts",
+    "db:push": "drizzle-kit push",
+    "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.39.0",
     "@neondatabase/serverless": "^1.1.0",
     "@supabase/ssr": "^0.5.2",
     "@supabase/supabase-js": "^2.48.1",
+    "@vercel/functions": "^3.7.2",
     "ajv": "^8.17.1",
     "ajv-formats": "^3.0.1",
     "better-auth": "^1.6.20",
@@ -40,6 +45,7 @@
     "@types/react": "^19.0.7",
     "@types/react-dom": "^19.0.3",
     "@vitest/coverage-v8": "^2.1.8",
+    "dotenv": "^17.4.2",
     "drizzle-kit": "^0.31.10",
     "eslint": "^8.57.1",
     "eslint-config-next": "15.1.6",
@@ -52,6 +58,9 @@
     "node": ">=22"
   },
   "pnpm": {
-    "onlyBuiltDependencies": ["esbuild", "unrs-resolver"]
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "unrs-resolver"
+    ]
   }
 }

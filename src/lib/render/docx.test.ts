@@ -24,7 +24,12 @@ const minimal: NarrativeContent = {
 
 describe("docxNarrativeRenderer", () => {
   it("produces a valid .docx (zip) with the right filename + mime", async () => {
-    const res = await docxNarrativeRenderer.render({ content: full, skill, company: "Midwest HVAC", version: 2 });
+    const res = await docxNarrativeRenderer.render({
+      content: full,
+      skill,
+      company: "Midwest HVAC",
+      version: 2,
+    });
     // .docx is a ZIP — magic bytes PK\x03\x04
     expect(res.buffer[0]).toBe(0x50);
     expect(res.buffer[1]).toBe(0x4b);
@@ -34,7 +39,12 @@ describe("docxNarrativeRenderer", () => {
   });
 
   it("renders minimal content (no subtitle/meta/paragraphs/bullets)", async () => {
-    const res = await docxNarrativeRenderer.render({ content: minimal, skill, company: "X", version: 1 });
+    const res = await docxNarrativeRenderer.render({
+      content: minimal,
+      skill,
+      company: "X",
+      version: 1,
+    });
     expect(res.buffer[0]).toBe(0x50);
     expect(res.filename).toBe("CIM_generator_v1_X.docx");
   });

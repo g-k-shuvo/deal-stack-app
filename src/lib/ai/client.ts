@@ -60,8 +60,7 @@ function buildUserContent(
 }
 
 export async function generate(args: GenerateArgs): Promise<GenerateResult> {
-  const model =
-    args.model ?? args.skill.model ?? process.env.DEFAULT_CLAUDE_MODEL ?? DEFAULT_MODEL;
+  const model = args.model ?? args.skill.model ?? process.env.DEFAULT_CLAUDE_MODEL ?? DEFAULT_MODEL;
   const client: AnthropicLike =
     args.client ?? (new Anthropic({ apiKey: args.apiKey }) as unknown as AnthropicLike);
   const sourceDocs = args.sourceDocs ?? [];
@@ -103,11 +102,19 @@ export async function generate(args: GenerateArgs): Promise<GenerateResult> {
 }
 
 /** Minimal live call to confirm a key authenticates (PRD AI-09). */
-export async function verifyKey(apiKey: string, client?: AnthropicLike, model?: string): Promise<boolean> {
+export async function verifyKey(
+  apiKey: string,
+  client?: AnthropicLike,
+  model?: string,
+): Promise<boolean> {
   const c: AnthropicLike = client ?? (new Anthropic({ apiKey }) as unknown as AnthropicLike);
   const m = model ?? process.env.DEFAULT_CLAUDE_MODEL ?? DEFAULT_MODEL;
   try {
-    await c.messages.create({ model: m, max_tokens: 8, messages: [{ role: "user", content: "ping" }] });
+    await c.messages.create({
+      model: m,
+      max_tokens: 8,
+      messages: [{ role: "user", content: "ping" }],
+    });
     return true;
   } catch {
     return false;

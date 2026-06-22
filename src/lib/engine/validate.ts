@@ -16,8 +16,8 @@ export function validateContent(schema: JsonSchema, data: unknown): ValidationRe
   const validate = ajv.compile(schema);
   const ok = validate(data) as boolean;
   if (ok) return { ok: true, errors: [] };
-  const errors = (validate.errors ?? []).map(
-    (e) => `${e.instancePath || "(root)"} ${e.message ?? "is invalid"}`.trim(),
+  const errors = (validate.errors ?? []).map((e) =>
+    `${e.instancePath || "(root)"} ${e.message ?? "is invalid"}`.trim(),
   );
   return { ok: false, errors };
 }

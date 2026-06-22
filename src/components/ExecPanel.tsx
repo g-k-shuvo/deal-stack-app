@@ -54,7 +54,12 @@ export function ExecPanel(props: Props) {
     setSaved(null);
     try {
       const r = await runSkillAction(props.projectId, props.skillKey, inputs);
-      setOut({ runId: r.runId, versionNo: r.versionNo, previewMd: r.previewMd, versions: [...(out?.versions ?? []), r.versionNo] });
+      setOut({
+        runId: r.runId,
+        versionNo: r.versionNo,
+        previewMd: r.previewMd,
+        versions: [...(out?.versions ?? []), r.versionNo],
+      });
     } catch (e) {
       setErr(errMsg(e));
     } finally {
@@ -68,7 +73,12 @@ export function ExecPanel(props: Props) {
     setErr(null);
     try {
       const r = await reviseAction(out.runId, rev);
-      setOut({ ...out, versionNo: r.versionNo, previewMd: r.previewMd, versions: [...out.versions, r.versionNo] });
+      setOut({
+        ...out,
+        versionNo: r.versionNo,
+        previewMd: r.previewMd,
+        versions: [...out.versions, r.versionNo],
+      });
       setRev("");
     } catch (e) {
       setErr(errMsg(e));
@@ -124,7 +134,11 @@ export function ExecPanel(props: Props) {
         {props.inputs.map((f) => (
           <div className="form-group" key={f.name}>
             <label className="form-label">{f.label}</label>
-            <Field field={f} value={inputs[f.name] ?? ""} onChange={(v) => setInputs({ ...inputs, [f.name]: v })} />
+            <Field
+              field={f}
+              value={inputs[f.name] ?? ""}
+              onChange={(v) => setInputs({ ...inputs, [f.name]: v })}
+            />
           </div>
         ))}
         <button className="btn-navy btn-full" disabled={busy} onClick={generate}>
@@ -136,7 +150,8 @@ export function ExecPanel(props: Props) {
       <div className="exec-mid">
         {props.missing.length > 0 && (
           <div className="flash" style={{ background: "#faeeda", color: "#633806" }}>
-            Missing prior deliverables: {props.missing.join(", ")}. Generated using available context.
+            Missing prior deliverables: {props.missing.join(", ")}. Generated using available
+            context.
           </div>
         )}
         <div style={{ fontSize: 12, color: "var(--text-secondary)", marginBottom: 14 }}>
@@ -181,7 +196,9 @@ export function ExecPanel(props: Props) {
         </div>
         <div className="save-section">
           <div className="save-label">Versions</div>
-          <div style={{ fontSize: 12, color: "var(--text-secondary)" }}>{out ? out.versions.join(", ") : "—"}</div>
+          <div style={{ fontSize: 12, color: "var(--text-secondary)" }}>
+            {out ? out.versions.join(", ") : "—"}
+          </div>
         </div>
         {props.nextHref && (
           <div className="save-section" style={{ borderBottom: "none" }}>
@@ -196,9 +213,23 @@ export function ExecPanel(props: Props) {
   );
 }
 
-function Field({ field, value, onChange }: { field: InputField; value: string; onChange: (v: string) => void }) {
+function Field({
+  field,
+  value,
+  onChange,
+}: {
+  field: InputField;
+  value: string;
+  onChange: (v: string) => void;
+}) {
   if (field.type === "textarea") {
-    return <textarea className="form-textarea" value={value} onChange={(e) => onChange(e.target.value)} />;
+    return (
+      <textarea
+        className="form-textarea"
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+      />
+    );
   }
   if (field.type === "select") {
     return (

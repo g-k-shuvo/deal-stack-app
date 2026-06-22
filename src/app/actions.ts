@@ -15,7 +15,13 @@ import type { Track, FirmContext, ProjectContext, PriorOutput, SourceDoc } from 
 import type { Skill } from "@/lib/skills/types";
 
 function toFirmContext(f: Firm): FirmContext {
-  return { name: f.name, description: f.description, advisorBio: f.advisorBio, aiInstructions: f.aiInstructions, defaults: f.defaults };
+  return {
+    name: f.name,
+    description: f.description,
+    advisorBio: f.advisorBio,
+    aiInstructions: f.aiInstructions,
+    defaults: f.defaults,
+  };
 }
 function toProjectContext(p: Project): ProjectContext {
   return {
@@ -53,7 +59,9 @@ async function priorOutputsFor(projectId: string, skill: Skill): Promise<PriorOu
 }
 async function gatherSourceDocs(projectId: string): Promise<SourceDoc[]> {
   const repo = getRepo();
-  const docs = (await repo.listDocuments()).filter((d) => d.projectId === projectId && d.source === "uploaded");
+  const docs = (await repo.listDocuments()).filter(
+    (d) => d.projectId === projectId && d.source === "uploaded",
+  );
   const out: SourceDoc[] = [];
   for (const d of docs) {
     const blob = await repo.getBlob(d.id);
@@ -97,11 +105,18 @@ export async function runSkillAction(
   });
   const { content, model } = await generateForSkill(ctx, firm);
   const preview = toPreviewMarkdown(content);
-  const run = (await repo.runsFor(projectId, skillKey))[0] ?? (await repo.createRun(projectId, skillKey, inputs));
-  const version = await repo.addRunVersion(run.id, { contentJson: content, previewMd: preview, modelUsed: model });
+  const run =
+    (await repo.runsFor(projectId, skillKey))[0] ??
+    (await repo.createRun(projectId, skillKey, inputs));
+  const version = await repo.addRunVersion(run.id, {
+    contentJson: content,
+    previewMd: preview,
+    modelUsed: model,
+  });
   const steps = await repo.listSteps(projectId);
   const step = steps.find((s) => s.skillKey === skillKey);
-  if (step && step.status === "notstarted") await repo.setStep(projectId, skillKey, { status: "inprogress" });
+  if (step && step.status === "notstarted")
+    await repo.setStep(projectId, skillKey, { status: "inprogress" });
   await repo.addActivity("skill", `${skill.name} generated — ${project.companyName}`, projectId);
   logEvent("skill.run", { skillKey, projectId, model, version: version.versionNo });
   revalidatePath(`/projects/${projectId}/skills/${skillKey}`);
@@ -127,7 +142,11 @@ export async function reviseAction(runId: string, instruction: string): Promise<
   });
   const { content, model } = await generateForSkill(ctx, firm);
   const preview = toPreviewMarkdown(content);
-  const version = await repo.addRunVersion(runId, { contentJson: content, previewMd: preview, modelUsed: model });
+  const version = await repo.addRunVersion(runId, {
+    contentJson: content,
+    previewMd: preview,
+    modelUsed: model,
+  });
   revalidatePath(`/projects/${run.projectId}/skills/${run.skillKey}`);
   return { runId, versionNo: version.versionNo, previewMd: preview };
 }
@@ -175,7 +194,11 @@ export async function markStepCompleteAction(runId: string, versionNo: number): 
     linkedDocumentId: saved.documentId,
     completedAt: new Date().toISOString(),
   });
-  await repo.addActivity("step", `${skill.name} completed — ${project?.companyName ?? ""}`, run.projectId);
+  await repo.addActivity(
+    "step",
+    `${skill.name} completed — ${project?.companyName ?? ""}`,
+    run.projectId,
+  );
   revalidatePath(`/projects/${run.projectId}`);
   revalidatePath(`/projects/${run.projectId}/skills/${run.skillKey}`);
 }
@@ -244,7 +267,9 @@ export async function updateFirmAction(formData: FormData): Promise<void> {
 }
 
 export async function updateAiInstructionsAction(formData: FormData): Promise<void> {
-  await getRepo().updateFirm({ aiInstructions: (str(formData, "aiInstructions") ?? "").slice(0, 2000) });
+  await getRepo().updateFirm({
+    aiInstructions: (str(formData, "aiInstructions") ?? "").slice(0, 2000),
+  });
   revalidatePath("/settings");
 }
 
@@ -261,7 +286,14 @@ export async function updateProfileAction(formData: FormData): Promise<void> {
 }
 
 export async function updateDefaultsAction(formData: FormData): Promise<void> {
-  const keys = ["success_fee", "retainer", "exclusivity", "deal_size_range", "default_type", "default_status"];
+  const keys = [
+    "success_fee",
+    "retainer",
+    "exclusivity",
+    "deal_size_range",
+    "default_type",
+    "default_status",
+  ];
   const patch: Record<string, string> = {};
   for (const k of keys) {
     const v = str(formData, k);
@@ -293,14 +325,20 @@ export async function verifyKeyAction(_formData?: FormData): Promise<void> {
   if (!ok) throw new Error("Key verification failed");
 }
 
-async function storeUpload(formData: FormData): Promise<{ id: string; name: string; projectId?: string }> {
+async function storeUpload(
+  formData: FormData,
+): Promise<{ id: string; name: string; projectId?: string }> {
   const repo = getRepo();
   const file = formData.get("file");
   if (!(file instanceof File) || file.size === 0) throw new Error("No file provided");
   const projectId = str(formData, "projectId");
   const buf = Buffer.from(await file.arrayBuffer());
   const ext = (file.name.split(".").pop() ?? "pdf").toLowerCase();
-  const fmt = (["docx", "xlsx", "pptx", "pdf"].includes(ext) ? ext : "pdf") as "docx" | "xlsx" | "pptx" | "pdf";
+  const fmt = (["docx", "xlsx", "pptx", "pdf"].includes(ext) ? ext : "pdf") as
+    | "docx"
+    | "xlsx"
+    | "pptx"
+    | "pdf";
   const firm = await repo.getFirm();
   const doc = await repo.addDocument({
     firmId: firm.id,

@@ -2,7 +2,10 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const GROUPS: { label: string; items: { href: string; label: string; match: (p: string) => boolean }[] }[] = [
+const GROUPS: {
+  label: string;
+  items: { href: string; label: string; match: (p: string) => boolean }[];
+}[] = [
   {
     label: "Work",
     items: [
@@ -18,7 +21,10 @@ const GROUPS: { label: string; items: { href: string; label: string; match: (p: 
       { href: "/how-to", label: "How-to videos", match: (p) => p.startsWith("/how-to") },
     ],
   },
-  { label: "Account", items: [{ href: "/settings", label: "Settings", match: (p) => p.startsWith("/settings") }] },
+  {
+    label: "Account",
+    items: [{ href: "/settings", label: "Settings", match: (p) => p.startsWith("/settings") }],
+  },
 ];
 
 export function Sidebar() {

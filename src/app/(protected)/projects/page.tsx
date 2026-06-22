@@ -31,7 +31,8 @@ export default async function ProjectsPage({
   if (type !== "all") list = list.filter((p) => p.type === type);
   if (q) {
     list = list.filter(
-      (p) => p.companyName.toLowerCase().includes(q) || (p.contactName ?? "").toLowerCase().includes(q),
+      (p) =>
+        p.companyName.toLowerCase().includes(q) || (p.contactName ?? "").toLowerCase().includes(q),
     );
   }
   list = [...list].sort((a, b) => {
@@ -79,10 +80,14 @@ export default async function ProjectsPage({
                     <Link href={`/projects/${p.id}`} style={{ fontWeight: 600 }}>
                       {p.companyName}
                     </Link>
-                    <div style={{ fontSize: 11, color: "var(--text-secondary)" }}>{p.contactName}</div>
+                    <div style={{ fontSize: 11, color: "var(--text-secondary)" }}>
+                      {p.contactName}
+                    </div>
                   </td>
                   <td>
-                    <span className={`badge badge-${p.type}`}>{p.type === "sell" ? "Sell-side" : "Buy-side"}</span>
+                    <span className={`badge badge-${p.type}`}>
+                      {p.type === "sell" ? "Sell-side" : "Buy-side"}
+                    </span>
                   </td>
                   <td>
                     <span className={`badge badge-${p.status}`}>{STATUS_LABEL[p.status]}</span>
@@ -93,13 +98,23 @@ export default async function ProjectsPage({
                       <div className="progress-bar" style={{ flex: 1 }}>
                         <div className="progress-fill" style={{ width: `${prog.pct}%` }} />
                       </div>
-                      <span style={{ fontSize: 11, color: "var(--text-secondary)", whiteSpace: "nowrap" }}>
+                      <span
+                        style={{
+                          fontSize: 11,
+                          color: "var(--text-secondary)",
+                          whiteSpace: "nowrap",
+                        }}
+                      >
                         {prog.completed} of {prog.total}
                       </span>
                     </div>
                   </td>
-                  <td style={{ fontSize: 12, color: "var(--text-secondary)" }}>{nextStepLabel(steps)}</td>
-                  <td style={{ fontSize: 12, color: "var(--text-tertiary)" }}>{relativeTime(p.updatedAt, now)}</td>
+                  <td style={{ fontSize: 12, color: "var(--text-secondary)" }}>
+                    {nextStepLabel(steps)}
+                  </td>
+                  <td style={{ fontSize: 12, color: "var(--text-tertiary)" }}>
+                    {relativeTime(p.updatedAt, now)}
+                  </td>
                   <td>
                     <Link href={`/projects/${p.id}`} className="btn-navy">
                       Open

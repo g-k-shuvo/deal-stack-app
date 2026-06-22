@@ -49,13 +49,23 @@ describe("InMemoryRepo", () => {
     expect((await repo.getDocument(doc.id))?.filename).toBe("CIM_final.docx");
     await repo.deleteDocument(doc.id);
     expect(await repo.getDocument(doc.id)).toBeUndefined();
-    expect((await repo.listSteps("p-midwest")).find((s) => s.skillKey === "sell.cim")?.linkedDocumentId).toBeUndefined();
+    expect(
+      (await repo.listSteps("p-midwest")).find((s) => s.skillKey === "sell.cim")?.linkedDocumentId,
+    ).toBeUndefined();
   });
 
   it("creates runs and appends auto-incrementing versions", async () => {
     const run = await repo.createRun("p-midwest", "sell.cim", { yearFounded: "1998" });
-    const v1 = await repo.addRunVersion(run.id, { contentJson: { title: "CIM", sections: [] }, previewMd: "# CIM", modelUsed: "m" });
-    const v2 = await repo.addRunVersion(run.id, { contentJson: { title: "CIM2", sections: [] }, previewMd: "# CIM2", modelUsed: "m" });
+    const v1 = await repo.addRunVersion(run.id, {
+      contentJson: { title: "CIM", sections: [] },
+      previewMd: "# CIM",
+      modelUsed: "m",
+    });
+    const v2 = await repo.addRunVersion(run.id, {
+      contentJson: { title: "CIM2", sections: [] },
+      previewMd: "# CIM2",
+      modelUsed: "m",
+    });
     expect(v1.versionNo).toBe(1);
     expect(v2.versionNo).toBe(2);
     expect((await repo.getRun(run.id))?.versions).toHaveLength(2);
@@ -74,10 +84,14 @@ describe("InMemoryRepo", () => {
     expect((await repo.updateUser({ firstName: "Richard" })).firstName).toBe("Richard");
     expect((await repo.updateDefaults({ success_fee: "6%" })).success_fee).toBe("6%");
     await repo.setNotification("storage_warnings", false);
-    expect((await repo.getNotifications()).find((n) => n.key === "storage_warnings")?.enabled).toBe(false);
+    expect((await repo.getNotifications()).find((n) => n.key === "storage_warnings")?.enabled).toBe(
+      false,
+    );
     await repo.addStyleExample("sell.cim", "doc-1");
     await repo.addStyleExample("sell.cim", "doc-2");
-    expect((await repo.listStyleExamples()).filter((s) => s.skillKey === "sell.cim")).toHaveLength(1);
+    expect((await repo.listStyleExamples()).filter((s) => s.skillKey === "sell.cim")).toHaveLength(
+      1,
+    );
     expect((await repo.listStyleExamples())[0]?.documentId).toBe("doc-2");
   });
 

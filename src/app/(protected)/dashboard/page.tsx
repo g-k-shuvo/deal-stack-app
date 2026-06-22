@@ -30,8 +30,8 @@ export default async function DashboardPage() {
       <div className="page-header">
         <div className="page-title">Dashboard</div>
         <div className="page-sub">
-          Welcome back, {user.firstName}. You have {kpis.stepsPending} step{kpis.stepsPending === 1 ? "" : "s"} pending
-          across active projects.
+          Welcome back, {user.firstName}. You have {kpis.stepsPending} step
+          {kpis.stepsPending === 1 ? "" : "s"} pending across active projects.
         </div>
       </div>
 
@@ -76,7 +76,9 @@ export default async function DashboardPage() {
                       {p.contactTitle ? ` · ${p.contactTitle}` : ""}
                     </div>
                   </div>
-                  <span className={`badge badge-${p.type}`}>{p.type === "sell" ? "Sell-side" : "Buy-side"}</span>
+                  <span className={`badge badge-${p.type}`}>
+                    {p.type === "sell" ? "Sell-side" : "Buy-side"}
+                  </span>
                 </div>
                 <div className="proj-meta">
                   <span className={`badge badge-${p.status}`}>Active</span>

@@ -45,7 +45,9 @@ describe("CIM vertical (mocked Claude)", () => {
       skill,
       firm,
       project,
-      priorOutputs: [{ skillKey: "sell.valuation", skillName: "Business valuation", preview: "Range $4M" }],
+      priorOutputs: [
+        { skillKey: "sell.valuation", skillName: "Business valuation", preview: "Range $4M" },
+      ],
       inputs: { yearFounded: "1998" },
     });
     const prompt = buildPrompt(ctx);
@@ -56,7 +58,12 @@ describe("CIM vertical (mocked Claude)", () => {
     const { content } = await generate({ skill, prompt, apiKey: "k", client });
     expect(validateContent(skill.outputSchema, content).ok).toBe(true);
 
-    const out = await rendererFor(skill).render({ content, skill, company: project.companyName, version: 2 });
+    const out = await rendererFor(skill).render({
+      content,
+      skill,
+      company: project.companyName,
+      version: 2,
+    });
     expect(out.filename).toBe("CIM_generator_v2_Midwest_HVAC_Services.docx");
     expect(out.buffer[0]).toBe(0x50); // PK zip magic
   });

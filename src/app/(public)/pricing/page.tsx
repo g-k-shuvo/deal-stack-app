@@ -64,7 +64,11 @@ const plans = [
 const comparisonRows = [
   { section: "Deal Management" },
   { feature: "Active deals", values: ["10", "Unlimited", "Unlimited"] },
-  { feature: "Pipeline views (Kanban, list)", values: ["✓", "✓", "✓"], highlight: [false, true, false] },
+  {
+    feature: "Pipeline views (Kanban, list)",
+    values: ["✓", "✓", "✓"],
+    highlight: [false, true, false],
+  },
   { feature: "AI deal scoring", values: ["—", "✓", "✓"], highlight: [false, true, false] },
   { feature: "Custom pipeline stages", values: ["—", "—", "✓"] },
   { section: "AI Capabilities" },
@@ -135,8 +139,8 @@ export default function PricingPage() {
           <div className="ds-page-label">Simple Pricing</div>
           <h1>Pricing built for deal professionals</h1>
           <p>
-            No per-seat fees that punish team growth. No hidden charges. Pay for
-            what you use and scale as your practice grows.
+            No per-seat fees that punish team growth. No hidden charges. Pay for what you use and
+            scale as your practice grows.
           </p>
           <div className="billing-toggle">
             <button
@@ -149,8 +153,7 @@ export default function PricingPage() {
               className={`toggle-option${billing === "annual" ? " active" : ""}`}
               onClick={() => setBilling("annual")}
             >
-              Annual{" "}
-              <span className="save-badge">Save 20%</span>
+              Annual <span className="save-badge">Save 20%</span>
             </button>
           </div>
         </div>
@@ -160,38 +163,24 @@ export default function PricingPage() {
       <div className="pricing-section">
         <div className="pricing-grid">
           {plans.map((plan) => (
-            <div
-              className={`plan-card${plan.featured ? " featured" : ""}`}
-              key={plan.name}
-            >
-              {plan.featured && (
-                <div className="plan-badge">Most Popular</div>
-              )}
+            <div className={`plan-card${plan.featured ? " featured" : ""}`} key={plan.name}>
+              {plan.featured && <div className="plan-badge">Most Popular</div>}
               <div className="plan-name">{plan.name}</div>
               <div className="plan-price">
-                <div
-                  className={`plan-price-num${plan.featured ? " gradient" : ""}`}
-                >
+                <div className={`plan-price-num${plan.featured ? " gradient" : ""}`}>
                   ${billing === "monthly" ? plan.price.monthly : plan.price.annual}
                 </div>
                 <div className="plan-price-period">/mo</div>
               </div>
               <p className="plan-desc">{plan.desc}</p>
-              <Link
-                href="/contact"
-                className={`plan-cta ${plan.ctaVariant}`}
-              >
+              <Link href="/contact" className={`plan-cta ${plan.ctaVariant}`}>
                 Get Early Access
               </Link>
               <hr className="plan-divider" />
               <div className="plan-features">
                 {plan.included.map((f) => (
                   <div className="plan-feature" key={f}>
-                    <div
-                      className={`plan-feature-check${plan.featured ? " green" : ""}`}
-                    >
-                      ✓
-                    </div>
+                    <div className={`plan-feature-check${plan.featured ? " green" : ""}`}>✓</div>
                     {f}
                   </div>
                 ))}
@@ -213,9 +202,9 @@ export default function PricingPage() {
           <div>
             <h2>Need something custom?</h2>
             <p>
-              Large advisory firms and M&A boutiques with specialized needs —
-              custom AI training, compliance requirements, or white-label
-              deployments — talk to our team about a bespoke arrangement.
+              Large advisory firms and M&A boutiques with specialized needs — custom AI training,
+              compliance requirements, or white-label deployments — talk to our team about a bespoke
+              arrangement.
             </p>
             <div className="enterprise-features">
               {[
@@ -265,19 +254,10 @@ export default function PricingPage() {
                 <tr key={i}>
                   <td>{row.feature}</td>
                   {row.values.map((v, j) => (
-                    <td
-                      key={j}
-                      className={j === 1 ? "compare-highlight" : ""}
-                    >
+                    <td key={j} className={j === 1 ? "compare-highlight" : ""}>
                       <span
                         className={
-                          v === "✓"
-                            ? j === 1
-                              ? "check green"
-                              : "check"
-                            : v === "—"
-                            ? "cross"
-                            : ""
+                          v === "✓" ? (j === 1 ? "check green" : "check") : v === "—" ? "cross" : ""
                         }
                       >
                         {v}
@@ -312,8 +292,8 @@ export default function PricingPage() {
         <div className="cta-band-inner">
           <h2>Start your free trial today</h2>
           <p>
-            No credit card required. 14-day free trial on all plans. Early
-            access pricing locked in for life.
+            No credit card required. 14-day free trial on all plans. Early access pricing locked in
+            for life.
           </p>
           <Link href="/contact" className="ds-btn-primary ds-btn-lg">
             Get Early Access →

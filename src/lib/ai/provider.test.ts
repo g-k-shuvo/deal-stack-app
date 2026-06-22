@@ -7,7 +7,13 @@ import type { Firm } from "@/lib/data/model";
 
 const firmCtx: FirmContext = { name: "Jackim Woods & Co." };
 const project: ProjectContext = { companyName: "Midwest HVAC", type: "sell", industry: "HVAC" };
-const firmNoKey: Firm = { id: "f", name: "JWC", defaults: {}, apiKeyVerified: false, storageLimitBytes: 0 };
+const firmNoKey: Firm = {
+  id: "f",
+  name: "JWC",
+  defaults: {},
+  apiKeyVerified: false,
+  storageLimitBytes: 0,
+};
 
 function ctxFor(key: string) {
   return assembleContext({ skill: requireSkill(key), firm: firmCtx, project });

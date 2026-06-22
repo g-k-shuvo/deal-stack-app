@@ -10,8 +10,8 @@ export default function Footer() {
             DealStack
           </Link>
           <p>
-            AI-powered deal tools built exclusively for business brokers and
-            M&amp;A advisors. Close more deals, faster.
+            AI-powered deal tools built exclusively for business brokers and M&amp;A advisors. Close
+            more deals, faster.
           </p>
           <div className="footer-newsletter">
             <label>Stay in the loop</label>

@@ -14,18 +14,12 @@ export default function Navbar() {
       </Link>
       <ul className="public-nav-links">
         <li>
-          <Link
-            href="/features"
-            className={pathname === "/features" ? "active" : ""}
-          >
+          <Link href="/features" className={pathname === "/features" ? "active" : ""}>
             Features
           </Link>
         </li>
         <li>
-          <Link
-            href="/pricing"
-            className={pathname === "/pricing" ? "active" : ""}
-          >
+          <Link href="/pricing" className={pathname === "/pricing" ? "active" : ""}>
             Pricing
           </Link>
         </li>

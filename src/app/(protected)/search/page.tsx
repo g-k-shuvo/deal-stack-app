@@ -20,14 +20,20 @@ export default async function SearchPage({
           (p.industry ?? "").toLowerCase().includes(q),
       )
     : [];
-  const docs = q ? (await repo.listDocuments()).filter((d) => d.filename.toLowerCase().includes(q)) : [];
-  const names: Record<string, string> = Object.fromEntries(allProjects.map((p) => [p.id, p.companyName]));
+  const docs = q
+    ? (await repo.listDocuments()).filter((d) => d.filename.toLowerCase().includes(q))
+    : [];
+  const names: Record<string, string> = Object.fromEntries(
+    allProjects.map((p) => [p.id, p.companyName]),
+  );
 
   return (
     <>
       <div className="page-header">
         <div className="page-title">Search</div>
-        <div className="page-sub">{q ? `Results for “${raw}”` : "Type a query in the top bar."}</div>
+        <div className="page-sub">
+          {q ? `Results for “${raw}”` : "Type a query in the top bar."}
+        </div>
       </div>
       {q && (
         <>

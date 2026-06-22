@@ -17,9 +17,8 @@ export default function FeaturesPage() {
           <div className="ds-page-label">Platform Features</div>
           <h1>Every Tool an M&A Advisor Actually Needs</h1>
           <p>
-            DealStack replaces the patchwork of spreadsheets, generic CRMs, and
-            expensive consultants with a single AI-powered platform built for
-            deal professionals.
+            DealStack replaces the patchwork of spreadsheets, generic CRMs, and expensive
+            consultants with a single AI-powered platform built for deal professionals.
           </p>
           <div className="btn-row">
             <Link href="/contact" className="ds-btn-primary">
@@ -37,13 +36,10 @@ export default function FeaturesPage() {
         <div className="feature-section">
           <div className="feature-text">
             <div className="ds-section-label">Deal Pipeline</div>
-            <h2 className="ds-section-title">
-              Your entire deal flow, visualized and managed
-            </h2>
+            <h2 className="ds-section-title">Your entire deal flow, visualized and managed</h2>
             <p className="ds-section-sub">
-              A pipeline purpose-built for M&A — not a generic sales CRM. Track
-              every deal from first conversation to wire transfer with
-              deal-specific fields and AI-powered insights.
+              A pipeline purpose-built for M&A — not a generic sales CRM. Track every deal from
+              first conversation to wire transfer with deal-specific fields and AI-powered insights.
             </p>
             <div className="feature-list">
               {[
@@ -84,14 +80,8 @@ export default function FeaturesPage() {
                   <div
                     key={label}
                     style={{
-                      background:
-                        i === 1
-                          ? "rgba(37,99,235,0.15)"
-                          : "rgba(255,255,255,0.05)",
-                      border:
-                        i === 1
-                          ? "1px solid rgba(37,99,235,0.3)"
-                          : undefined,
+                      background: i === 1 ? "rgba(37,99,235,0.15)" : "rgba(255,255,255,0.05)",
+                      border: i === 1 ? "1px solid rgba(37,99,235,0.3)" : undefined,
                       borderRadius: 5,
                       padding: "5px 10px",
                       fontSize: "0.7rem",
@@ -177,13 +167,11 @@ export default function FeaturesPage() {
         <div className="feature-section feature-reverse">
           <div className="feature-text">
             <div className="ds-section-label">Due Diligence AI</div>
-            <h2 className="ds-section-title">
-              Review hundreds of documents in minutes, not weeks
-            </h2>
+            <h2 className="ds-section-title">Review hundreds of documents in minutes, not weeks</h2>
             <p className="ds-section-sub">
-              Upload any combination of financials, contracts, HR records, and
-              operational documents. Our AI reads everything, cross-references
-              key data, and produces a structured risk report.
+              Upload any combination of financials, contracts, HR records, and operational
+              documents. Our AI reads everything, cross-references key data, and produces a
+              structured risk report.
             </p>
             <div className="feature-list">
               {[
@@ -366,13 +354,10 @@ export default function FeaturesPage() {
         <div className="feature-section">
           <div className="feature-text">
             <div className="ds-section-label">Document Drafting</div>
-            <h2 className="ds-section-title">
-              Professional M&A documents in minutes
-            </h2>
+            <h2 className="ds-section-title">Professional M&A documents in minutes</h2>
             <p className="ds-section-sub">
-              Generate CIMs, teasers, NDAs, LOIs, and due diligence checklists
-              with AI that understands M&A document conventions — then edit to
-              your standards.
+              Generate CIMs, teasers, NDAs, LOIs, and due diligence checklists with AI that
+              understands M&A document conventions — then edit to your standards.
             </p>
             <div className="feature-list">
               {[
@@ -418,9 +403,7 @@ export default function FeaturesPage() {
                   <div
                     key={label}
                     style={{
-                      background: color
-                        ? `rgba(${color},0.12)`
-                        : "rgba(255,255,255,0.04)",
+                      background: color ? `rgba(${color},0.12)` : "rgba(255,255,255,0.04)",
                       border: color
                         ? `1px solid rgba(${color},0.25)`
                         : "1px solid rgba(255,255,255,0.08)",
@@ -499,18 +482,90 @@ export default function FeaturesPage() {
         </div>
         <div className="features-full-grid">
           {[
-            { icon: "🎯", title: "Prospect Identification", desc: "AI scans databases and news for acquisition targets matching your client's criteria.", badge: "new", badgeLabel: "New" },
-            { icon: "📊", title: "Financial Modeling", desc: "EBITDA valuation, DCF analysis, and scenario modeling from uploaded financials.", badge: "", badgeLabel: "Core" },
-            { icon: "🔒", title: "Virtual Data Room", desc: "Encrypted document sharing with granular permissions, NDA gating, and audit trails.", badge: "", badgeLabel: "Core" },
-            { icon: "🤝", title: "Buyer-Seller Matching", desc: "AI-ranked buyer lists filtered by acquisition criteria, deal size, and industry focus.", badge: "new", badgeLabel: "New" },
-            { icon: "📑", title: "Document Analysis", desc: "Upload any documents and ask questions in plain English — cited, accurate answers instantly.", badge: "", badgeLabel: "Core" },
-            { icon: "✍️", title: "Term Sheet Generator", desc: "Draft initial term sheets from deal data and market comps in minutes.", badge: "", badgeLabel: "Core" },
-            { icon: "📈", title: "Client Reporting", desc: "Branded progress reports delivered automatically to sellers throughout the deal process.", badge: "", badgeLabel: "Core" },
-            { icon: "📬", title: "Buyer Outreach Automation", desc: "Personalized outreach sequences to qualified buyers, tracked and managed in one place.", badge: "soon", badgeLabel: "Coming soon" },
-            { icon: "🗂️", title: "Due Diligence Checklists", desc: "Industry-specific DD checklists generated automatically for each deal type.", badge: "", badgeLabel: "Core" },
-            { icon: "💬", title: "Deal Communication Hub", desc: "Centralize all deal-related emails, messages, and notes in a single deal workspace.", badge: "soon", badgeLabel: "Coming soon" },
-            { icon: "🏦", title: "SBA Financing Analysis", desc: "Automatically assess SBA 7(a) eligibility and financing structure for each deal.", badge: "new", badgeLabel: "New" },
-            { icon: "⚡", title: "E-Signature Integration", desc: "Send NDAs, LOIs, and closing documents for signature directly from DealStack.", badge: "soon", badgeLabel: "Coming soon" },
+            {
+              icon: "🎯",
+              title: "Prospect Identification",
+              desc: "AI scans databases and news for acquisition targets matching your client's criteria.",
+              badge: "new",
+              badgeLabel: "New",
+            },
+            {
+              icon: "📊",
+              title: "Financial Modeling",
+              desc: "EBITDA valuation, DCF analysis, and scenario modeling from uploaded financials.",
+              badge: "",
+              badgeLabel: "Core",
+            },
+            {
+              icon: "🔒",
+              title: "Virtual Data Room",
+              desc: "Encrypted document sharing with granular permissions, NDA gating, and audit trails.",
+              badge: "",
+              badgeLabel: "Core",
+            },
+            {
+              icon: "🤝",
+              title: "Buyer-Seller Matching",
+              desc: "AI-ranked buyer lists filtered by acquisition criteria, deal size, and industry focus.",
+              badge: "new",
+              badgeLabel: "New",
+            },
+            {
+              icon: "📑",
+              title: "Document Analysis",
+              desc: "Upload any documents and ask questions in plain English — cited, accurate answers instantly.",
+              badge: "",
+              badgeLabel: "Core",
+            },
+            {
+              icon: "✍️",
+              title: "Term Sheet Generator",
+              desc: "Draft initial term sheets from deal data and market comps in minutes.",
+              badge: "",
+              badgeLabel: "Core",
+            },
+            {
+              icon: "📈",
+              title: "Client Reporting",
+              desc: "Branded progress reports delivered automatically to sellers throughout the deal process.",
+              badge: "",
+              badgeLabel: "Core",
+            },
+            {
+              icon: "📬",
+              title: "Buyer Outreach Automation",
+              desc: "Personalized outreach sequences to qualified buyers, tracked and managed in one place.",
+              badge: "soon",
+              badgeLabel: "Coming soon",
+            },
+            {
+              icon: "🗂️",
+              title: "Due Diligence Checklists",
+              desc: "Industry-specific DD checklists generated automatically for each deal type.",
+              badge: "",
+              badgeLabel: "Core",
+            },
+            {
+              icon: "💬",
+              title: "Deal Communication Hub",
+              desc: "Centralize all deal-related emails, messages, and notes in a single deal workspace.",
+              badge: "soon",
+              badgeLabel: "Coming soon",
+            },
+            {
+              icon: "🏦",
+              title: "SBA Financing Analysis",
+              desc: "Automatically assess SBA 7(a) eligibility and financing structure for each deal.",
+              badge: "new",
+              badgeLabel: "New",
+            },
+            {
+              icon: "⚡",
+              title: "E-Signature Integration",
+              desc: "Send NDAs, LOIs, and closing documents for signature directly from DealStack.",
+              badge: "soon",
+              badgeLabel: "Coming soon",
+            },
           ].map((feat) => (
             <div className="feat-card" key={feat.title}>
               <span className="feat-icon">{feat.icon}</span>
@@ -528,12 +583,10 @@ export default function FeaturesPage() {
       <section className="ds-section">
         <div style={{ maxWidth: 640, marginBottom: 56 }}>
           <div className="ds-section-label">Process</div>
-          <h2 className="ds-section-title">
-            How DealStack fits into your workflow
-          </h2>
+          <h2 className="ds-section-title">How DealStack fits into your workflow</h2>
           <p className="ds-section-sub">
-            DealStack is designed to feel like a natural extension of your
-            existing practice — not a replacement for how you work.
+            DealStack is designed to feel like a natural extension of your existing practice — not a
+            replacement for how you work.
           </p>
         </div>
         <div className="steps-timeline">
@@ -585,22 +638,44 @@ export default function FeaturesPage() {
       <section className="ds-section ds-section-alt" id="security">
         <div style={{ maxWidth: 640, marginBottom: 48 }}>
           <div className="ds-section-label">Security &amp; Compliance</div>
-          <h2 className="ds-section-title">
-            Enterprise-grade security for sensitive deal data
-          </h2>
+          <h2 className="ds-section-title">Enterprise-grade security for sensitive deal data</h2>
           <p className="ds-section-sub">
-            M&A deals involve some of the most confidential business data in
-            existence. DealStack is built with that responsibility in mind.
+            M&A deals involve some of the most confidential business data in existence. DealStack is
+            built with that responsibility in mind.
           </p>
         </div>
         <div className="security-grid">
           {[
-            { icon: "🔐", title: "256-bit AES Encryption", desc: "All data encrypted at rest and in transit using bank-grade encryption standards." },
-            { icon: "👤", title: "Granular Access Controls", desc: "Control exactly who sees what — down to the individual document or data room folder." },
-            { icon: "📋", title: "Full Audit Trail", desc: "Every document view, download, and access event is logged with timestamp and user identity." },
-            { icon: "🛡️", title: "SOC 2 Type II", desc: "Annual third-party security audits with SOC 2 compliance certification (in progress)." },
-            { icon: "🌐", title: "U.S. Data Residency", desc: "All data stored on U.S.-based servers. No offshore processing of confidential deal data." },
-            { icon: "🔑", title: "Two-Factor Authentication", desc: "Mandatory 2FA for all users, with SSO support for enterprise plans." },
+            {
+              icon: "🔐",
+              title: "256-bit AES Encryption",
+              desc: "All data encrypted at rest and in transit using bank-grade encryption standards.",
+            },
+            {
+              icon: "👤",
+              title: "Granular Access Controls",
+              desc: "Control exactly who sees what — down to the individual document or data room folder.",
+            },
+            {
+              icon: "📋",
+              title: "Full Audit Trail",
+              desc: "Every document view, download, and access event is logged with timestamp and user identity.",
+            },
+            {
+              icon: "🛡️",
+              title: "SOC 2 Type II",
+              desc: "Annual third-party security audits with SOC 2 compliance certification (in progress).",
+            },
+            {
+              icon: "🌐",
+              title: "U.S. Data Residency",
+              desc: "All data stored on U.S.-based servers. No offshore processing of confidential deal data.",
+            },
+            {
+              icon: "🔑",
+              title: "Two-Factor Authentication",
+              desc: "Mandatory 2FA for all users, with SSO support for enterprise plans.",
+            },
           ].map((card) => (
             <div className="security-card" key={card.title}>
               <span className="icon">{card.icon}</span>
@@ -612,12 +687,15 @@ export default function FeaturesPage() {
       </section>
 
       {/* CTA */}
-      <section className="ds-cta-band" style={{ background: "#f0f6ff", borderTop: "1px solid #bfdbfe" }}>
+      <section
+        className="ds-cta-band"
+        style={{ background: "#f0f6ff", borderTop: "1px solid #bfdbfe" }}
+      >
         <div className="cta-band-inner">
           <h2>See DealStack in action</h2>
           <p>
-            Join hundreds of business brokers and M&A advisors already on the
-            waitlist. Early access is limited.
+            Join hundreds of business brokers and M&A advisors already on the waitlist. Early access
+            is limited.
           </p>
           <div className="btn-row">
             <Link href="/contact" className="ds-btn-primary">

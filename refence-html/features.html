@@ -1,573 +1,1554 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Features — DealStack</title>
-<meta name="description" content="Explore all of DealStack's AI-powered features for business brokers and M&A advisors.">
-<style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
-    --bg: #ffffff;
-    --bg-card: #ffffff;
-    --bg-card2: #f8faff;
-    --bg-alt: #f4f6fb;
-    --border: #e5e7eb;
-    --border-hover: #bfdbfe;
-    --text: #111827;
-    --text-muted: #6b7280;
-    --text-dim: #9ca3af;
-    --accent: #2563eb;
-    --accent2: #3b82f6;
-    --accent-light: #eff6ff;
-    --accent-border: #bfdbfe;
-    --gold: #d97706;
-    --green: #059669;
-    --gradient: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
-    --radius: 10px;
-    --radius-lg: 16px;
-    --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
-    --shadow-md: 0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
-    --shadow-lg: 0 8px 24px rgba(0,0,0,0.1), 0 2px 6px rgba(0,0,0,0.05);
-  }
-  html { scroll-behavior: smooth; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; overflow-x: hidden; }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Features — DealStack</title>
+    <meta
+      name="description"
+      content="Explore all of DealStack's AI-powered features for business brokers and M&A advisors."
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      :root {
+        --bg: #ffffff;
+        --bg-card: #ffffff;
+        --bg-card2: #f8faff;
+        --bg-alt: #f4f6fb;
+        --border: #e5e7eb;
+        --border-hover: #bfdbfe;
+        --text: #111827;
+        --text-muted: #6b7280;
+        --text-dim: #9ca3af;
+        --accent: #2563eb;
+        --accent2: #3b82f6;
+        --accent-light: #eff6ff;
+        --accent-border: #bfdbfe;
+        --gold: #d97706;
+        --green: #059669;
+        --gradient: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+        --radius: 10px;
+        --radius-lg: 16px;
+        --shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
+        --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04);
+        --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.1), 0 2px 6px rgba(0, 0, 0, 0.05);
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.6;
+        overflow-x: hidden;
+      }
 
-  nav { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 6%; height: 64px; background: rgba(255,255,255,0.96); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
-  .nav-logo { font-size: 1.3rem; font-weight: 800; color: var(--text); text-decoration: none; letter-spacing: -0.04em; display: flex; align-items: center; gap: 8px; }
-  .nav-logo-icon { width: 30px; height: 30px; border-radius: 8px; background: var(--gradient); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 800; color: white; }
-  .nav-links { display: flex; align-items: center; gap: 28px; list-style: none; }
-  .nav-links a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.15s; }
-  .nav-links a:hover, .nav-links a.active { color: var(--text); }
-  .nav-cta { background: var(--accent); color: white; padding: 9px 20px; border-radius: 8px; text-decoration: none; font-size: 0.875rem; font-weight: 600; transition: background 0.15s; }
-  .nav-cta:hover { background: #1d4ed8; }
+      nav {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 6%;
+        height: 64px;
+        background: rgba(255, 255, 255, 0.96);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border);
+      }
+      .nav-logo {
+        font-size: 1.3rem;
+        font-weight: 800;
+        color: var(--text);
+        text-decoration: none;
+        letter-spacing: -0.04em;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .nav-logo-icon {
+        width: 30px;
+        height: 30px;
+        border-radius: 8px;
+        background: var(--gradient);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        font-weight: 800;
+        color: white;
+      }
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 28px;
+        list-style: none;
+      }
+      .nav-links a {
+        color: var(--text-muted);
+        text-decoration: none;
+        font-size: 0.9rem;
+        font-weight: 500;
+        transition: color 0.15s;
+      }
+      .nav-links a:hover,
+      .nav-links a.active {
+        color: var(--text);
+      }
+      .nav-cta {
+        background: var(--accent);
+        color: white;
+        padding: 9px 20px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-size: 0.875rem;
+        font-weight: 600;
+        transition: background 0.15s;
+      }
+      .nav-cta:hover {
+        background: #1d4ed8;
+      }
 
-  .page-hero { padding: 100px 6% 70px; position: relative; overflow: hidden; }
-  .page-hero-bg { position: absolute; inset: 0; background: linear-gradient(180deg, #f0f6ff 0%, #ffffff 100%); }
-  .page-hero::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--gradient); }
-  .page-hero-content { position: relative; max-width: 700px; margin: 0 auto; text-align: center; }
-  .page-label { display: inline-block; color: var(--accent); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 14px; }
+      .page-hero {
+        padding: 100px 6% 70px;
+        position: relative;
+        overflow: hidden;
+      }
+      .page-hero-bg {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, #f0f6ff 0%, #ffffff 100%);
+      }
+      .page-hero::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: var(--gradient);
+      }
+      .page-hero-content {
+        position: relative;
+        max-width: 700px;
+        margin: 0 auto;
+        text-align: center;
+      }
+      .page-label {
+        display: inline-block;
+        color: var(--accent);
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        margin-bottom: 14px;
+      }
 
-  .section-label { display: inline-block; color: var(--accent); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px; }
-  .section-title { font-size: clamp(1.7rem, 3vw, 2.5rem); font-weight: 800; letter-spacing: -0.04em; line-height: 1.15; margin-bottom: 12px; color: var(--text); }
-  .section-sub { font-size: 1rem; color: var(--text-muted); max-width: 500px; line-height: 1.7; }
-  section { padding: 88px 6%; }
+      .section-label {
+        display: inline-block;
+        color: var(--accent);
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        margin-bottom: 10px;
+      }
+      .section-title {
+        font-size: clamp(1.7rem, 3vw, 2.5rem);
+        font-weight: 800;
+        letter-spacing: -0.04em;
+        line-height: 1.15;
+        margin-bottom: 12px;
+        color: var(--text);
+      }
+      .section-sub {
+        font-size: 1rem;
+        color: var(--text-muted);
+        max-width: 500px;
+        line-height: 1.7;
+      }
+      section {
+        padding: 88px 6%;
+      }
 
-  .btn-primary { background: var(--accent); color: white; padding: 13px 28px; border-radius: 9px; text-decoration: none; font-weight: 600; font-size: 0.95rem; transition: background 0.15s, transform 0.15s; display: inline-flex; align-items: center; gap: 7px; }
-  .btn-primary:hover { background: #1d4ed8; transform: translateY(-1px); }
-  .btn-outline { background: white; color: var(--text); padding: 13px 28px; border-radius: 9px; text-decoration: none; font-weight: 500; font-size: 0.95rem; border: 1px solid var(--border); transition: border-color 0.15s, background 0.15s; box-shadow: var(--shadow); }
-  .btn-outline:hover { border-color: var(--accent-border); background: var(--accent-light); }
-  .btn-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+      .btn-primary {
+        background: var(--accent);
+        color: white;
+        padding: 13px 28px;
+        border-radius: 9px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.95rem;
+        transition:
+          background 0.15s,
+          transform 0.15s;
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+      }
+      .btn-primary:hover {
+        background: #1d4ed8;
+        transform: translateY(-1px);
+      }
+      .btn-outline {
+        background: white;
+        color: var(--text);
+        padding: 13px 28px;
+        border-radius: 9px;
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 0.95rem;
+        border: 1px solid var(--border);
+        transition:
+          border-color 0.15s,
+          background 0.15s;
+        box-shadow: var(--shadow);
+      }
+      .btn-outline:hover {
+        border-color: var(--accent-border);
+        background: var(--accent-light);
+      }
+      .btn-row {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
 
-  footer { background: #111827; color: rgba(255,255,255,0.65); padding: 60px 6% 32px; }
-  .footer-logo { font-size: 1.2rem; font-weight: 800; color: white; text-decoration: none; letter-spacing: -0.04em; display: inline-flex; align-items: center; gap: 8px; margin-bottom: 12px; }
-  .footer-logo-icon { width: 28px; height: 28px; border-radius: 7px; background: var(--gradient); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800; color: white; }
-  .footer-grid { display: grid; grid-template-columns: 1.8fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 48px; }
-  .footer-brand p { font-size: 0.85rem; line-height: 1.7; max-width: 240px; }
-  .footer-col h4 { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.4); margin-bottom: 16px; }
-  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 9px; }
-  .footer-col ul a { color: rgba(255,255,255,0.58); text-decoration: none; font-size: 0.875rem; transition: color 0.15s; }
-  .footer-col ul a:hover { color: white; }
-  .footer-bottom { display: flex; align-items: center; justify-content: space-between; padding-top: 28px; border-top: 1px solid rgba(255,255,255,0.1); flex-wrap: wrap; gap: 12px; }
-  .footer-bottom p { font-size: 0.78rem; color: rgba(255,255,255,0.32); }
-  .footer-social { display: flex; gap: 10px; }
-  .footer-social a { width: 32px; height: 32px; border-radius: 7px; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.45); text-decoration: none; font-size: 0.78rem; transition: background 0.2s, color 0.2s; }
-  .footer-social a:hover { background: rgba(255,255,255,0.14); color: white; }
+      footer {
+        background: #111827;
+        color: rgba(255, 255, 255, 0.65);
+        padding: 60px 6% 32px;
+      }
+      .footer-logo {
+        font-size: 1.2rem;
+        font-weight: 800;
+        color: white;
+        text-decoration: none;
+        letter-spacing: -0.04em;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 12px;
+      }
+      .footer-logo-icon {
+        width: 28px;
+        height: 28px;
+        border-radius: 7px;
+        background: var(--gradient);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 13px;
+        font-weight: 800;
+        color: white;
+      }
+      .footer-grid {
+        display: grid;
+        grid-template-columns: 1.8fr 1fr 1fr 1fr;
+        gap: 48px;
+        margin-bottom: 48px;
+      }
+      .footer-brand p {
+        font-size: 0.85rem;
+        line-height: 1.7;
+        max-width: 240px;
+      }
+      .footer-col h4 {
+        font-size: 0.72rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: rgba(255, 255, 255, 0.4);
+        margin-bottom: 16px;
+      }
+      .footer-col ul {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 9px;
+      }
+      .footer-col ul a {
+        color: rgba(255, 255, 255, 0.58);
+        text-decoration: none;
+        font-size: 0.875rem;
+        transition: color 0.15s;
+      }
+      .footer-col ul a:hover {
+        color: white;
+      }
+      .footer-bottom {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-top: 28px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+      .footer-bottom p {
+        font-size: 0.78rem;
+        color: rgba(255, 255, 255, 0.32);
+      }
+      .footer-social {
+        display: flex;
+        gap: 10px;
+      }
+      .footer-social a {
+        width: 32px;
+        height: 32px;
+        border-radius: 7px;
+        background: rgba(255, 255, 255, 0.07);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: rgba(255, 255, 255, 0.45);
+        text-decoration: none;
+        font-size: 0.78rem;
+        transition:
+          background 0.2s,
+          color 0.2s;
+      }
+      .footer-social a:hover {
+        background: rgba(255, 255, 255, 0.14);
+        color: white;
+      }
 
-  @media (max-width: 768px) { .nav-links { display: none; } .footer-grid { grid-template-columns: 1fr 1fr; } }
-  @media (max-width: 480px) { .footer-grid { grid-template-columns: 1fr; } }
+      @media (max-width: 768px) {
+        .nav-links {
+          display: none;
+        }
+        .footer-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+      @media (max-width: 480px) {
+        .footer-grid {
+          grid-template-columns: 1fr;
+        }
+      }
 
-  .feature-section { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
-  .feature-section.reverse { direction: rtl; }
-  .feature-section.reverse > * { direction: ltr; }
-  .feature-visual { background: #f0f6ff; border: 1px solid var(--border); border-radius: var(--radius-lg); min-height: 300px; overflow: hidden; position: relative; box-shadow: var(--shadow-md); }
-  .feature-visual-inner { position: absolute; inset: 18px; border-radius: 10px; background: rgba(255,255,255,0.85); border: 1px solid rgba(0,0,0,0.07); padding: 16px; display: flex; flex-direction: column; gap: 7px; }
-  .feature-list { display: flex; flex-direction: column; gap: 14px; margin-top: 24px; }
-  .feature-item { display: flex; gap: 12px; align-items: flex-start; }
-  .feature-check { width: 20px; height: 20px; border-radius: 50%; background: var(--accent-light); border: 1px solid var(--accent-border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; font-size: 0.6rem; color: var(--accent); }
-  .feature-item-text { font-size: 0.875rem; color: var(--text-muted); line-height: 1.65; }
-  .feature-item-title { font-weight: 700; color: var(--text); margin-bottom: 2px; }
+      .feature-section {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 64px;
+        align-items: center;
+      }
+      .feature-section.reverse {
+        direction: rtl;
+      }
+      .feature-section.reverse > * {
+        direction: ltr;
+      }
+      .feature-visual {
+        background: #f0f6ff;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        min-height: 300px;
+        overflow: hidden;
+        position: relative;
+        box-shadow: var(--shadow-md);
+      }
+      .feature-visual-inner {
+        position: absolute;
+        inset: 18px;
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.85);
+        border: 1px solid rgba(0, 0, 0, 0.07);
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+      }
+      .feature-list {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        margin-top: 24px;
+      }
+      .feature-item {
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+      }
+      .feature-check {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: var(--accent-light);
+        border: 1px solid var(--accent-border);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        margin-top: 2px;
+        font-size: 0.6rem;
+        color: var(--accent);
+      }
+      .feature-item-text {
+        font-size: 0.875rem;
+        color: var(--text-muted);
+        line-height: 1.65;
+      }
+      .feature-item-title {
+        font-weight: 700;
+        color: var(--text);
+        margin-bottom: 2px;
+      }
 
-  .all-features { background: var(--bg-alt); }
-  .features-full-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 16px; }
-  .feat-card { background: white; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px 22px; box-shadow: var(--shadow); transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s; }
-  .feat-card:hover { border-color: var(--accent-border); box-shadow: var(--shadow-md); transform: translateY(-2px); }
-  .feat-icon { font-size: 1.4rem; margin-bottom: 12px; display: block; }
-  .feat-card h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 7px; letter-spacing: -0.02em; color: var(--text); }
-  .feat-card p { font-size: 0.82rem; color: var(--text-muted); line-height: 1.65; }
-  .feat-badge { display: inline-block; margin-top: 10px; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; padding: 3px 9px; border-radius: 100px; background: var(--accent-light); color: var(--accent); border: 1px solid var(--accent-border); }
-  .feat-badge.new { background: #ecfdf5; color: #059669; border-color: #a7f3d0; }
-  .feat-badge.soon { background: #fffbeb; color: #d97706; border-color: #fde68a; }
+      .all-features {
+        background: var(--bg-alt);
+      }
+      .features-full-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+        gap: 16px;
+      }
+      .feat-card {
+        background: white;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: 24px 22px;
+        box-shadow: var(--shadow);
+        transition:
+          border-color 0.2s,
+          box-shadow 0.2s,
+          transform 0.2s;
+      }
+      .feat-card:hover {
+        border-color: var(--accent-border);
+        box-shadow: var(--shadow-md);
+        transform: translateY(-2px);
+      }
+      .feat-icon {
+        font-size: 1.4rem;
+        margin-bottom: 12px;
+        display: block;
+      }
+      .feat-card h4 {
+        font-size: 0.95rem;
+        font-weight: 700;
+        margin-bottom: 7px;
+        letter-spacing: -0.02em;
+        color: var(--text);
+      }
+      .feat-card p {
+        font-size: 0.82rem;
+        color: var(--text-muted);
+        line-height: 1.65;
+      }
+      .feat-badge {
+        display: inline-block;
+        margin-top: 10px;
+        font-size: 0.68rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        padding: 3px 9px;
+        border-radius: 100px;
+        background: var(--accent-light);
+        color: var(--accent);
+        border: 1px solid var(--accent-border);
+      }
+      .feat-badge.new {
+        background: #ecfdf5;
+        color: #059669;
+        border-color: #a7f3d0;
+      }
+      .feat-badge.soon {
+        background: #fffbeb;
+        color: #d97706;
+        border-color: #fde68a;
+      }
 
-  .steps-timeline { position: relative; display: flex; flex-direction: column; max-width: 760px; }
-  .steps-timeline::before { content: ''; position: absolute; left: 23px; top: 46px; bottom: 46px; width: 1px; background: var(--border); }
-  .timeline-step { display: grid; grid-template-columns: 48px 1fr; gap: 28px; padding: 32px 0; border-bottom: 1px solid var(--border); position: relative; }
-  .timeline-step:last-child { border-bottom: none; }
-  .step-circle { width: 46px; height: 46px; border-radius: 50%; background: var(--gradient); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1rem; color: white; flex-shrink: 0; position: relative; z-index: 1; }
-  .step-body h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 8px; letter-spacing: -0.02em; color: var(--text); padding-top: 10px; }
-  .step-body p { font-size: 0.875rem; color: var(--text-muted); line-height: 1.7; }
-  .step-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
-  .step-chip { font-size: 0.7rem; font-weight: 600; padding: 3px 9px; border-radius: 100px; border: 1px solid var(--border); color: var(--text-muted); background: var(--bg-alt); }
+      .steps-timeline {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        max-width: 760px;
+      }
+      .steps-timeline::before {
+        content: "";
+        position: absolute;
+        left: 23px;
+        top: 46px;
+        bottom: 46px;
+        width: 1px;
+        background: var(--border);
+      }
+      .timeline-step {
+        display: grid;
+        grid-template-columns: 48px 1fr;
+        gap: 28px;
+        padding: 32px 0;
+        border-bottom: 1px solid var(--border);
+        position: relative;
+      }
+      .timeline-step:last-child {
+        border-bottom: none;
+      }
+      .step-circle {
+        width: 46px;
+        height: 46px;
+        border-radius: 50%;
+        background: var(--gradient);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+        font-size: 1rem;
+        color: white;
+        flex-shrink: 0;
+        position: relative;
+        z-index: 1;
+      }
+      .step-body h3 {
+        font-size: 1.05rem;
+        font-weight: 700;
+        margin-bottom: 8px;
+        letter-spacing: -0.02em;
+        color: var(--text);
+        padding-top: 10px;
+      }
+      .step-body p {
+        font-size: 0.875rem;
+        color: var(--text-muted);
+        line-height: 1.7;
+      }
+      .step-chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 12px;
+      }
+      .step-chip {
+        font-size: 0.7rem;
+        font-weight: 600;
+        padding: 3px 9px;
+        border-radius: 100px;
+        border: 1px solid var(--border);
+        color: var(--text-muted);
+        background: var(--bg-alt);
+      }
 
-  .security-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 16px; }
-  .security-card { background: white; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 26px 22px; box-shadow: var(--shadow); }
-  .security-card .icon { font-size: 1.6rem; margin-bottom: 12px; display: block; }
-  .security-card h4 { font-size: 0.925rem; font-weight: 700; margin-bottom: 7px; color: var(--text); }
-  .security-card p { font-size: 0.82rem; color: var(--text-muted); line-height: 1.65; }
+      .security-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+        gap: 16px;
+      }
+      .security-card {
+        background: white;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: 26px 22px;
+        box-shadow: var(--shadow);
+      }
+      .security-card .icon {
+        font-size: 1.6rem;
+        margin-bottom: 12px;
+        display: block;
+      }
+      .security-card h4 {
+        font-size: 0.925rem;
+        font-weight: 700;
+        margin-bottom: 7px;
+        color: var(--text);
+      }
+      .security-card p {
+        font-size: 0.82rem;
+        color: var(--text-muted);
+        line-height: 1.65;
+      }
 
-  .cta-band { padding: 88px 6%; text-align: center; background: #f0f6ff; border-top: 1px solid var(--accent-border); }
-  .cta-band-inner { max-width: 560px; margin: 0 auto; }
-  .cta-band h2 { font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight: 800; letter-spacing: -0.04em; margin-bottom: 12px; color: var(--text); }
-  .cta-band p { color: var(--text-muted); margin-bottom: 28px; }
+      .cta-band {
+        padding: 88px 6%;
+        text-align: center;
+        background: #f0f6ff;
+        border-top: 1px solid var(--accent-border);
+      }
+      .cta-band-inner {
+        max-width: 560px;
+        margin: 0 auto;
+      }
+      .cta-band h2 {
+        font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+        font-weight: 800;
+        letter-spacing: -0.04em;
+        margin-bottom: 12px;
+        color: var(--text);
+      }
+      .cta-band p {
+        color: var(--text-muted);
+        margin-bottom: 28px;
+      }
 
-  @media (max-width: 768px) { .feature-section { grid-template-columns: 1fr; } .feature-section.reverse { direction: ltr; } }
-</style>
-
-</head>
-<body>
-
-<!-- NAV -->
-<nav>
-  <a href="index.html" class="nav-logo">
-    <span class="nav-logo-icon">D</span>
-    DealStack
-  </a>
-  <ul class="nav-links">
-    <li><a href="features.html" class="active">Features</a></li>
-    <li><a href="pricing.html">Pricing</a></li>
-    <li><a href="index.html#how-it-works">How It Works</a></li>
-    <li><a href="contact.html">Contact</a></li>
-  </ul>
-  <a href="contact.html" class="nav-cta">Get Early Access</a>
-</nav>
-
-<!-- PAGE HERO -->
-<div class="page-hero">
-  <div class="page-hero-bg"></div>
-  <div class="page-hero-content">
-    <div class="page-label">Platform Features</div>
-    <h1>Every Tool an M&A Advisor Actually Needs</h1>
-    <p>DealStack replaces the patchwork of spreadsheets, generic CRMs, and expensive consultants with a single AI-powered platform built for deal professionals.</p>
-    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
-      <a href="contact.html" class="btn-primary">Get Early Access →</a>
-      <a href="pricing.html" class="btn-outline">View Pricing</a>
-    </div>
-  </div>
-</div>
-
-<!-- FEATURE 1: PIPELINE -->
-<section id="pipeline" style="background:var(--bg)">
-  <div class="feature-section">
-    <div class="feature-text">
-      <div class="section-label">Deal Pipeline</div>
-      <h2 class="section-title">Your entire deal flow, visualized and managed</h2>
-      <p class="section-sub">A pipeline purpose-built for M&A — not a generic sales CRM. Track every deal from first conversation to wire transfer with deal-specific fields and AI-powered insights.</p>
-      <div class="feature-list">
-        <div class="feature-item">
-          <div class="feature-check">✓</div>
-          <div class="feature-item-text"><div class="feature-item-title">Kanban & list views</div>Visualize your entire pipeline at a glance, with drag-and-drop stage management.</div>
-        </div>
-        <div class="feature-item">
-          <div class="feature-check">✓</div>
-          <div class="feature-item-text"><div class="feature-item-title">AI deal scoring</div>Our AI evaluates each deal's close probability and surfaces the ones that need your attention.</div>
-        </div>
-        <div class="feature-item">
-          <div class="feature-check">✓</div>
-          <div class="feature-item-text"><div class="feature-item-title">Custom M&A stages</div>Pre-configured for standard M&A lifecycle stages with full customization available.</div>
-        </div>
-        <div class="feature-item">
-          <div class="feature-check">✓</div>
-          <div class="feature-item-text"><div class="feature-item-title">Task & deadline tracking</div>Never miss a critical deadline with automated reminders tied to each deal's timeline.</div>
-        </div>
-      </div>
-    </div>
-    <div class="feature-visual" style="background:linear-gradient(135deg,#eff6ff,#dbeafe)">
-      <div class="fv-glow" style="background:var(--accent)"></div>
-      <div class="feature-visual-inner">
-        <!-- Fake pipeline UI -->
-        <div style="display:flex;gap:5px;margin-bottom:10px">
-          <div style="background:rgba(255,255,255,0.05);border-radius:5px;padding:5px 10px;font-size:0.7rem;color:var(--text-muted)">All Deals</div>
-          <div style="background:rgba(37,99,235,0.15);border:1px solid rgba(37,99,235,0.3);border-radius:5px;padding:5px 10px;font-size:0.7rem;color:#93c5fd">Active</div>
-          <div style="background:rgba(255,255,255,0.04);border-radius:5px;padding:5px 10px;font-size:0.7rem;color:var(--text-muted)">Closed</div>
-        </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;flex:1">
-          <div style="background:rgba(255,255,255,0.03);border-radius:6px;padding:8px;">
-            <div style="font-size:0.65rem;font-weight:700;color:var(--text-dim);text-transform:uppercase;margin-bottom:6px">Prospecting</div>
-            <div style="background:rgba(37,99,235,0.1);border:1px solid rgba(37,99,235,0.15);border-radius:5px;padding:7px;margin-bottom:5px">
-              <div style="height:5px;background:rgba(255,255,255,0.1);border-radius:2px;width:70%;margin-bottom:4px"></div>
-              <div style="height:4px;background:rgba(255,255,255,0.06);border-radius:2px;width:50%"></div>
-            </div>
-            <div style="background:rgba(37,99,235,0.06);border:1px solid rgba(37,99,235,0.1);border-radius:5px;padding:7px">
-              <div style="height:5px;background:rgba(255,255,255,0.1);border-radius:2px;width:55%;margin-bottom:4px"></div>
-              <div style="height:4px;background:rgba(255,255,255,0.06);border-radius:2px;width:40%"></div>
-            </div>
-          </div>
-          <div style="background:rgba(255,255,255,0.03);border-radius:6px;padding:8px;">
-            <div style="font-size:0.65rem;font-weight:700;color:var(--text-dim);text-transform:uppercase;margin-bottom:6px">Due Diligence</div>
-            <div style="background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.15);border-radius:5px;padding:7px;margin-bottom:5px">
-              <div style="height:5px;background:rgba(255,255,255,0.1);border-radius:2px;width:65%;margin-bottom:4px"></div>
-              <div style="height:4px;background:rgba(255,255,255,0.06);border-radius:2px;width:45%"></div>
-            </div>
-          </div>
-          <div style="background:rgba(255,255,255,0.03);border-radius:6px;padding:8px;">
-            <div style="font-size:0.65rem;font-weight:700;color:var(--text-dim);text-transform:uppercase;margin-bottom:6px">Closing</div>
-            <div style="background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.15);border-radius:5px;padding:7px">
-              <div style="height:5px;background:rgba(255,255,255,0.1);border-radius:2px;width:80%;margin-bottom:4px"></div>
-              <div style="height:4px;background:rgba(16,185,129,0.2);border-radius:2px;width:60%"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- FEATURE 2: DUE DILIGENCE -->
-<section id="due-diligence" style="background:#080c18">
-  <div class="feature-section reverse">
-    <div class="feature-text">
-      <div class="section-label">Due Diligence AI</div>
-      <h2 class="section-title">Review hundreds of documents in minutes, not weeks</h2>
-      <p class="section-sub">Upload any combination of financials, contracts, HR records, and operational documents. Our AI reads everything, cross-references key data, and produces a structured risk report.</p>
-      <div class="feature-list">
-        <div class="feature-item">
-          <div class="feature-check">✓</div>
-          <div class="feature-item-text"><div class="feature-item-title">Automated risk flagging</div>Instantly surfaces red flags, inconsistencies, and items requiring human review.</div>
-        </div>
-        <div class="feature-item">
-          <div class="feature-check">✓</div>
-          <div class="feature-item-text"><div class="feature-item-title">Financial data extraction</div>Pulls revenue, EBITDA, debt, and key ratios directly from uploaded financials.</div>
-        </div>
-        <div class="feature-item">
-          <div class="feature-check">✓</div>
-          <div class="feature-item-text"><div class="feature-item-title">Contract analysis</div>Reviews customer contracts, leases, and supplier agreements for concentration risk and change-of-control clauses.</div>
-        </div>
-        <div class="feature-item">
-          <div class="feature-check">✓</div>
-          <div class="feature-item-text"><div class="feature-item-title">Q&A over your documents</div>Ask any question about the target's documents in plain English and get an instant, cited answer.</div>
-        </div>
-      </div>
-    </div>
-    <div class="feature-visual" style="background:linear-gradient(135deg,#f5f3ff,#ede9fe)">
-      <div class="fv-glow" style="background:var(--accent2)"></div>
-      <div class="feature-visual-inner">
-        <div style="background:rgba(255,255,255,0.04);border-radius:6px;padding:8px 10px;margin-bottom:8px;display:flex;align-items:center;gap:8px">
-          <div style="width:6px;height:6px;border-radius:50%;background:rgba(16,185,129,0.8)"></div>
-          <div style="height:5px;background:rgba(255,255,255,0.1);border-radius:2px;width:55%"></div>
-          <div style="margin-left:auto;height:5px;background:rgba(16,185,129,0.3);border-radius:2px;width:20%"></div>
-        </div>
-        <div style="background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.2);border-radius:6px;padding:8px 10px;margin-bottom:8px">
-          <div style="font-size:0.68rem;color:rgba(245,158,11,0.9);font-weight:600;margin-bottom:4px">⚠ Risk flagged</div>
-          <div style="height:4px;background:rgba(255,255,255,0.08);border-radius:2px;width:80%;margin-bottom:3px"></div>
-          <div style="height:4px;background:rgba(255,255,255,0.06);border-radius:2px;width:65%"></div>
-        </div>
-        <div style="background:rgba(37,99,235,0.08);border:1px solid rgba(37,99,235,0.15);border-radius:6px;padding:8px 10px;margin-bottom:8px">
-          <div style="font-size:0.68rem;color:rgba(160,160,255,0.9);font-weight:600;margin-bottom:4px">💬 AI Analysis</div>
-          <div style="height:4px;background:rgba(255,255,255,0.08);border-radius:2px;width:90%;margin-bottom:3px"></div>
-          <div style="height:4px;background:rgba(255,255,255,0.08);border-radius:2px;width:75%;margin-bottom:3px"></div>
-          <div style="height:4px;background:rgba(255,255,255,0.06);border-radius:2px;width:55%"></div>
-        </div>
-        <div style="background:rgba(255,255,255,0.03);border-radius:6px;padding:8px 10px;display:flex;align-items:center;gap:6px">
-          <div style="height:5px;background:rgba(255,255,255,0.08);border-radius:2px;flex:1"></div>
-          <div style="background:var(--gradient);border-radius:5px;padding:4px 10px;font-size:0.65rem;font-weight:700;color:white">Ask AI</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- FEATURE 3: DOCUMENTS -->
-<section id="documents" style="background:var(--bg)">
-  <div class="feature-section">
-    <div class="feature-text">
-      <div class="section-label">Document Drafting</div>
-      <h2 class="section-title">Professional M&A documents in minutes</h2>
-      <p class="section-sub">Generate CIMs, teasers, NDAs, LOIs, and due diligence checklists with AI that understands M&A document conventions — then edit to your standards.</p>
-      <div class="feature-list">
-        <div class="feature-item">
-          <div class="feature-check">✓</div>
-          <div class="feature-item-text"><div class="feature-item-title">CIM generator</div>Produce a full Confidential Information Memorandum from your deal data and uploaded financials.</div>
-        </div>
-        <div class="feature-item">
-          <div class="feature-check">✓</div>
-          <div class="feature-item-text"><div class="feature-item-title">Teaser & blind profiles</div>One-page teasers for early-stage buyer outreach, anonymized to protect seller confidentiality.</div>
-        </div>
-        <div class="feature-item">
-          <div class="feature-check">✓</div>
-          <div class="feature-item-text"><div class="feature-item-title">LOI & NDA drafting</div>AI-drafted letters of intent and NDAs based on deal structure and your firm's preferred language.</div>
-        </div>
-        <div class="feature-item">
-          <div class="feature-check">✓</div>
-          <div class="feature-item-text"><div class="feature-item-title">Branded output</div>All documents output in your firm's branding — letterhead, colors, and signature blocks included.</div>
-        </div>
-      </div>
-    </div>
-    <div class="feature-visual" style="background:linear-gradient(135deg,#fffbeb,#fef3c7)">
-      <div class="fv-glow" style="background:var(--gold)"></div>
-      <div class="feature-visual-inner">
-        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px">
-          <div style="background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.25);border-radius:100px;padding:3px 10px;font-size:0.65rem;color:rgba(245,158,11,0.9);font-weight:600">CIM</div>
-          <div style="background:rgba(37,99,235,0.1);border:1px solid rgba(37,99,235,0.2);border-radius:100px;padding:3px 10px;font-size:0.65rem;color:#93c5fd;font-weight:600">Teaser</div>
-          <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:100px;padding:3px 10px;font-size:0.65rem;color:var(--text-muted);font-weight:600">LOI</div>
-          <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:100px;padding:3px 10px;font-size:0.65rem;color:var(--text-muted);font-weight:600">NDA</div>
-        </div>
-        <div style="flex:1;display:flex;flex-direction:column;gap:5px">
-          <div style="height:8px;background:rgba(255,255,255,0.12);border-radius:3px;width:50%"></div>
-          <div style="height:5px;background:rgba(255,255,255,0.06);border-radius:2px;width:90%"></div>
-          <div style="height:5px;background:rgba(255,255,255,0.06);border-radius:2px;width:80%"></div>
-          <div style="height:5px;background:rgba(255,255,255,0.06);border-radius:2px;width:70%"></div>
-          <div style="height:1px;background:rgba(255,255,255,0.05);margin:4px 0"></div>
-          <div style="height:6px;background:rgba(255,255,255,0.08);border-radius:2px;width:40%"></div>
-          <div style="height:5px;background:rgba(255,255,255,0.05);border-radius:2px;width:85%"></div>
-          <div style="height:5px;background:rgba(255,255,255,0.05);border-radius:2px;width:75%"></div>
-          <div style="height:5px;background:rgba(255,255,255,0.05);border-radius:2px;width:60%"></div>
-        </div>
-        <div style="background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.2);border-radius:6px;padding:7px 10px;display:flex;align-items:center;justify-content:space-between;margin-top:8px">
-          <span style="font-size:0.7rem;color:rgba(245,158,11,0.9);font-weight:600">Ready to export</span>
-          <div style="background:rgba(245,158,11,0.3);border-radius:4px;padding:3px 8px;font-size:0.65rem;color:rgba(245,158,11,0.95);font-weight:700">Download</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ALL FEATURES GRID -->
-<section class="all-features">
-  <div style="margin-bottom:56px">
-    <div class="section-label">Complete Feature List</div>
-    <h2 class="section-title">Everything included in DealStack</h2>
-  </div>
-  <div class="features-full-grid">
-    <div class="feat-card">
-      <span class="feat-icon">🎯</span>
-      <h4>Prospect Identification</h4>
-      <p>AI scans databases and news for acquisition targets matching your client's criteria.</p>
-      <span class="feat-badge new">New</span>
-    </div>
-    <div class="feat-card">
-      <span class="feat-icon">📊</span>
-      <h4>Financial Modeling</h4>
-      <p>EBITDA valuation, DCF analysis, and scenario modeling from uploaded financials.</p>
-      <span class="feat-badge">Core</span>
-    </div>
-    <div class="feat-card">
-      <span class="feat-icon">🔒</span>
-      <h4>Virtual Data Room</h4>
-      <p>Encrypted document sharing with granular permissions, NDA gating, and audit trails.</p>
-      <span class="feat-badge">Core</span>
-    </div>
-    <div class="feat-card">
-      <span class="feat-icon">🤝</span>
-      <h4>Buyer-Seller Matching</h4>
-      <p>AI-ranked buyer lists filtered by acquisition criteria, deal size, and industry focus.</p>
-      <span class="feat-badge new">New</span>
-    </div>
-    <div class="feat-card">
-      <span class="feat-icon">📑</span>
-      <h4>Document Analysis</h4>
-      <p>Upload any documents and ask questions in plain English — cited, accurate answers instantly.</p>
-      <span class="feat-badge">Core</span>
-    </div>
-    <div class="feat-card">
-      <span class="feat-icon">✍️</span>
-      <h4>Term Sheet Generator</h4>
-      <p>Draft initial term sheets from deal data and market comps in minutes.</p>
-      <span class="feat-badge">Core</span>
-    </div>
-    <div class="feat-card">
-      <span class="feat-icon">📈</span>
-      <h4>Client Reporting</h4>
-      <p>Branded progress reports delivered automatically to sellers throughout the deal process.</p>
-      <span class="feat-badge">Core</span>
-    </div>
-    <div class="feat-card">
-      <span class="feat-icon">📬</span>
-      <h4>Buyer Outreach Automation</h4>
-      <p>Personalized outreach sequences to qualified buyers, tracked and managed in one place.</p>
-      <span class="feat-badge soon">Coming soon</span>
-    </div>
-    <div class="feat-card">
-      <span class="feat-icon">🗂️</span>
-      <h4>Due Diligence Checklists</h4>
-      <p>Industry-specific DD checklists generated automatically for each deal type.</p>
-      <span class="feat-badge">Core</span>
-    </div>
-    <div class="feat-card">
-      <span class="feat-icon">💬</span>
-      <h4>Deal Communication Hub</h4>
-      <p>Centralize all deal-related emails, messages, and notes in a single deal workspace.</p>
-      <span class="feat-badge soon">Coming soon</span>
-    </div>
-    <div class="feat-card">
-      <span class="feat-icon">🏦</span>
-      <h4>SBA Financing Analysis</h4>
-      <p>Automatically assess SBA 7(a) eligibility and financing structure for each deal.</p>
-      <span class="feat-badge new">New</span>
-    </div>
-    <div class="feat-card">
-      <span class="feat-icon">⚡</span>
-      <h4>E-Signature Integration</h4>
-      <p>Send NDAs, LOIs, and closing documents for signature directly from DealStack.</p>
-      <span class="feat-badge soon">Coming soon</span>
-    </div>
-  </div>
-</section>
-
-<!-- HOW IT WORKS -->
-<section class="how-it-works">
-  <div style="max-width:640px;margin-bottom:56px">
-    <div class="section-label">Process</div>
-    <h2 class="section-title">How DealStack fits into your workflow</h2>
-    <p class="section-sub">DealStack is designed to feel like a natural extension of your existing practice — not a replacement for how you work.</p>
-  </div>
-  <div class="steps-timeline">
-    <div class="timeline-step">
-      <div class="step-circle">1</div>
-      <div class="step-body">
-        <h3>Onboard a new listing</h3>
-        <p>Upload the seller's financials, tax returns, and key documents. DealStack extracts key metrics, flags risks, and pre-populates your deal profile automatically.</p>
-        <div class="step-chips">
-          <span class="step-chip">OCR extraction</span>
-          <span class="step-chip">Auto data entry</span>
-          <span class="step-chip">Risk summary</span>
-        </div>
-      </div>
-    </div>
-    <div class="timeline-step">
-      <div class="step-circle">2</div>
-      <div class="step-body">
-        <h3>Generate your marketing materials</h3>
-        <p>With one click, produce a branded teaser and full CIM. Customize any section, then publish your secure data room and teaser to your buyer universe.</p>
-        <div class="step-chips">
-          <span class="step-chip">CIM in hours</span>
-          <span class="step-chip">Teaser & blind profile</span>
-          <span class="step-chip">Branded PDFs</span>
-        </div>
-      </div>
-    </div>
-    <div class="timeline-step">
-      <div class="step-circle">3</div>
-      <div class="step-body">
-        <h3>Identify and engage buyers</h3>
-        <p>DealStack surfaces the best-fit buyers from its database and your own contacts, ranked by acquisition criteria. Track NDA signings, data room access, and buyer interest automatically.</p>
-        <div class="step-chips">
-          <span class="step-chip">AI buyer matching</span>
-          <span class="step-chip">NDA tracking</span>
-          <span class="step-chip">Data room analytics</span>
-        </div>
-      </div>
-    </div>
-    <div class="timeline-step">
-      <div class="step-circle">4</div>
-      <div class="step-body">
-        <h3>Negotiate and close</h3>
-        <p>Draft LOIs, manage buyer Q&A through the data room, and track deal milestones through to closing. Keep clients updated with automated progress reports.</p>
-        <div class="step-chips">
-          <span class="step-chip">LOI drafting</span>
-          <span class="step-chip">Milestone tracking</span>
-          <span class="step-chip">Client reports</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- SECURITY -->
-<section class="security">
-  <div style="max-width:640px;margin-bottom:48px">
-    <div class="section-label">Security & Compliance</div>
-    <h2 class="section-title">Enterprise-grade security for sensitive deal data</h2>
-    <p class="section-sub">M&A deals involve some of the most confidential business data in existence. DealStack is built with that responsibility in mind.</p>
-  </div>
-  <div class="security-grid">
-    <div class="security-card">
-      <span class="icon">🔐</span>
-      <h4>256-bit AES Encryption</h4>
-      <p>All data encrypted at rest and in transit using bank-grade encryption standards.</p>
-    </div>
-    <div class="security-card">
-      <span class="icon">👤</span>
-      <h4>Granular Access Controls</h4>
-      <p>Control exactly who sees what — down to the individual document or data room folder.</p>
-    </div>
-    <div class="security-card">
-      <span class="icon">📋</span>
-      <h4>Full Audit Trail</h4>
-      <p>Every document view, download, and access event is logged with timestamp and user identity.</p>
-    </div>
-    <div class="security-card">
-      <span class="icon">🛡️</span>
-      <h4>SOC 2 Type II</h4>
-      <p>Annual third-party security audits with SOC 2 compliance certification (in progress).</p>
-    </div>
-    <div class="security-card">
-      <span class="icon">🌐</span>
-      <h4>U.S. Data Residency</h4>
-      <p>All data stored on U.S.-based servers. No offshore processing of confidential deal data.</p>
-    </div>
-    <div class="security-card">
-      <span class="icon">🔑</span>
-      <h4>Two-Factor Authentication</h4>
-      <p>Mandatory 2FA for all users, with SSO support for enterprise plans.</p>
-    </div>
-  </div>
-</section>
-
-<!-- CTA -->
-<section class="cta-band">
-  <div class="cta-band-inner">
-    <h2>See DealStack in action</h2>
-    <p>Join hundreds of business brokers and M&A advisors already on the waitlist. Early access is limited.</p>
-    <div class="btn-row">
-      <a href="contact.html" class="btn-primary">Get Early Access →</a>
-      <a href="pricing.html" class="btn-outline">View Pricing</a>
-    </div>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <div class="footer-grid">
-    <div class="footer-brand">
-      <a href="index.html" class="nav-logo" style="display:inline-flex">
+      @media (max-width: 768px) {
+        .feature-section {
+          grid-template-columns: 1fr;
+        }
+        .feature-section.reverse {
+          direction: ltr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- NAV -->
+    <nav>
+      <a href="index.html" class="nav-logo">
         <span class="nav-logo-icon">D</span>
         DealStack
       </a>
-      <p>AI-powered deal tools built exclusively for business brokers and M&A advisors.</p>
-    </div>
-    <div class="footer-col">
-      <h4>Product</h4>
-      <ul>
-        <li><a href="features.html">Features</a></li>
+      <ul class="nav-links">
+        <li><a href="features.html" class="active">Features</a></li>
         <li><a href="pricing.html">Pricing</a></li>
-        <li><a href="contact.html">Get Early Access</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Solutions</h4>
-      <ul>
-        <li><a href="#pipeline">Deal Pipeline</a></li>
-        <li><a href="#due-diligence">Due Diligence AI</a></li>
-        <li><a href="#documents">Document Drafting</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Company</h4>
-      <ul>
-        <li><a href="#">About</a></li>
-        <li><a href="#">Blog</a></li>
+        <li><a href="index.html#how-it-works">How It Works</a></li>
         <li><a href="contact.html">Contact</a></li>
-        <li><a href="#">Privacy</a></li>
       </ul>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <p>© 2025 DealStack. All rights reserved.</p>
-    <div class="footer-social">
-      <a href="#">in</a><a href="#">𝕏</a><a href="#">f</a>
-    </div>
-  </div>
-</footer>
+      <a href="contact.html" class="nav-cta">Get Early Access</a>
+    </nav>
 
-</body>
+    <!-- PAGE HERO -->
+    <div class="page-hero">
+      <div class="page-hero-bg"></div>
+      <div class="page-hero-content">
+        <div class="page-label">Platform Features</div>
+        <h1>Every Tool an M&A Advisor Actually Needs</h1>
+        <p>
+          DealStack replaces the patchwork of spreadsheets, generic CRMs, and expensive consultants
+          with a single AI-powered platform built for deal professionals.
+        </p>
+        <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap">
+          <a href="contact.html" class="btn-primary">Get Early Access →</a>
+          <a href="pricing.html" class="btn-outline">View Pricing</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- FEATURE 1: PIPELINE -->
+    <section id="pipeline" style="background: var(--bg)">
+      <div class="feature-section">
+        <div class="feature-text">
+          <div class="section-label">Deal Pipeline</div>
+          <h2 class="section-title">Your entire deal flow, visualized and managed</h2>
+          <p class="section-sub">
+            A pipeline purpose-built for M&A — not a generic sales CRM. Track every deal from first
+            conversation to wire transfer with deal-specific fields and AI-powered insights.
+          </p>
+          <div class="feature-list">
+            <div class="feature-item">
+              <div class="feature-check">✓</div>
+              <div class="feature-item-text">
+                <div class="feature-item-title">Kanban & list views</div>
+                Visualize your entire pipeline at a glance, with drag-and-drop stage management.
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-check">✓</div>
+              <div class="feature-item-text">
+                <div class="feature-item-title">AI deal scoring</div>
+                Our AI evaluates each deal's close probability and surfaces the ones that need your
+                attention.
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-check">✓</div>
+              <div class="feature-item-text">
+                <div class="feature-item-title">Custom M&A stages</div>
+                Pre-configured for standard M&A lifecycle stages with full customization available.
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-check">✓</div>
+              <div class="feature-item-text">
+                <div class="feature-item-title">Task & deadline tracking</div>
+                Never miss a critical deadline with automated reminders tied to each deal's
+                timeline.
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="feature-visual" style="background: linear-gradient(135deg, #eff6ff, #dbeafe)">
+          <div class="fv-glow" style="background: var(--accent)"></div>
+          <div class="feature-visual-inner">
+            <!-- Fake pipeline UI -->
+            <div style="display: flex; gap: 5px; margin-bottom: 10px">
+              <div
+                style="
+                  background: rgba(255, 255, 255, 0.05);
+                  border-radius: 5px;
+                  padding: 5px 10px;
+                  font-size: 0.7rem;
+                  color: var(--text-muted);
+                "
+              >
+                All Deals
+              </div>
+              <div
+                style="
+                  background: rgba(37, 99, 235, 0.15);
+                  border: 1px solid rgba(37, 99, 235, 0.3);
+                  border-radius: 5px;
+                  padding: 5px 10px;
+                  font-size: 0.7rem;
+                  color: #93c5fd;
+                "
+              >
+                Active
+              </div>
+              <div
+                style="
+                  background: rgba(255, 255, 255, 0.04);
+                  border-radius: 5px;
+                  padding: 5px 10px;
+                  font-size: 0.7rem;
+                  color: var(--text-muted);
+                "
+              >
+                Closed
+              </div>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; flex: 1">
+              <div style="background: rgba(255, 255, 255, 0.03); border-radius: 6px; padding: 8px">
+                <div
+                  style="
+                    font-size: 0.65rem;
+                    font-weight: 700;
+                    color: var(--text-dim);
+                    text-transform: uppercase;
+                    margin-bottom: 6px;
+                  "
+                >
+                  Prospecting
+                </div>
+                <div
+                  style="
+                    background: rgba(37, 99, 235, 0.1);
+                    border: 1px solid rgba(37, 99, 235, 0.15);
+                    border-radius: 5px;
+                    padding: 7px;
+                    margin-bottom: 5px;
+                  "
+                >
+                  <div
+                    style="
+                      height: 5px;
+                      background: rgba(255, 255, 255, 0.1);
+                      border-radius: 2px;
+                      width: 70%;
+                      margin-bottom: 4px;
+                    "
+                  ></div>
+                  <div
+                    style="
+                      height: 4px;
+                      background: rgba(255, 255, 255, 0.06);
+                      border-radius: 2px;
+                      width: 50%;
+                    "
+                  ></div>
+                </div>
+                <div
+                  style="
+                    background: rgba(37, 99, 235, 0.06);
+                    border: 1px solid rgba(37, 99, 235, 0.1);
+                    border-radius: 5px;
+                    padding: 7px;
+                  "
+                >
+                  <div
+                    style="
+                      height: 5px;
+                      background: rgba(255, 255, 255, 0.1);
+                      border-radius: 2px;
+                      width: 55%;
+                      margin-bottom: 4px;
+                    "
+                  ></div>
+                  <div
+                    style="
+                      height: 4px;
+                      background: rgba(255, 255, 255, 0.06);
+                      border-radius: 2px;
+                      width: 40%;
+                    "
+                  ></div>
+                </div>
+              </div>
+              <div style="background: rgba(255, 255, 255, 0.03); border-radius: 6px; padding: 8px">
+                <div
+                  style="
+                    font-size: 0.65rem;
+                    font-weight: 700;
+                    color: var(--text-dim);
+                    text-transform: uppercase;
+                    margin-bottom: 6px;
+                  "
+                >
+                  Due Diligence
+                </div>
+                <div
+                  style="
+                    background: rgba(59, 130, 246, 0.1);
+                    border: 1px solid rgba(59, 130, 246, 0.15);
+                    border-radius: 5px;
+                    padding: 7px;
+                    margin-bottom: 5px;
+                  "
+                >
+                  <div
+                    style="
+                      height: 5px;
+                      background: rgba(255, 255, 255, 0.1);
+                      border-radius: 2px;
+                      width: 65%;
+                      margin-bottom: 4px;
+                    "
+                  ></div>
+                  <div
+                    style="
+                      height: 4px;
+                      background: rgba(255, 255, 255, 0.06);
+                      border-radius: 2px;
+                      width: 45%;
+                    "
+                  ></div>
+                </div>
+              </div>
+              <div style="background: rgba(255, 255, 255, 0.03); border-radius: 6px; padding: 8px">
+                <div
+                  style="
+                    font-size: 0.65rem;
+                    font-weight: 700;
+                    color: var(--text-dim);
+                    text-transform: uppercase;
+                    margin-bottom: 6px;
+                  "
+                >
+                  Closing
+                </div>
+                <div
+                  style="
+                    background: rgba(16, 185, 129, 0.1);
+                    border: 1px solid rgba(16, 185, 129, 0.15);
+                    border-radius: 5px;
+                    padding: 7px;
+                  "
+                >
+                  <div
+                    style="
+                      height: 5px;
+                      background: rgba(255, 255, 255, 0.1);
+                      border-radius: 2px;
+                      width: 80%;
+                      margin-bottom: 4px;
+                    "
+                  ></div>
+                  <div
+                    style="
+                      height: 4px;
+                      background: rgba(16, 185, 129, 0.2);
+                      border-radius: 2px;
+                      width: 60%;
+                    "
+                  ></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURE 2: DUE DILIGENCE -->
+    <section id="due-diligence" style="background: #080c18">
+      <div class="feature-section reverse">
+        <div class="feature-text">
+          <div class="section-label">Due Diligence AI</div>
+          <h2 class="section-title">Review hundreds of documents in minutes, not weeks</h2>
+          <p class="section-sub">
+            Upload any combination of financials, contracts, HR records, and operational documents.
+            Our AI reads everything, cross-references key data, and produces a structured risk
+            report.
+          </p>
+          <div class="feature-list">
+            <div class="feature-item">
+              <div class="feature-check">✓</div>
+              <div class="feature-item-text">
+                <div class="feature-item-title">Automated risk flagging</div>
+                Instantly surfaces red flags, inconsistencies, and items requiring human review.
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-check">✓</div>
+              <div class="feature-item-text">
+                <div class="feature-item-title">Financial data extraction</div>
+                Pulls revenue, EBITDA, debt, and key ratios directly from uploaded financials.
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-check">✓</div>
+              <div class="feature-item-text">
+                <div class="feature-item-title">Contract analysis</div>
+                Reviews customer contracts, leases, and supplier agreements for concentration risk
+                and change-of-control clauses.
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-check">✓</div>
+              <div class="feature-item-text">
+                <div class="feature-item-title">Q&A over your documents</div>
+                Ask any question about the target's documents in plain English and get an instant,
+                cited answer.
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="feature-visual" style="background: linear-gradient(135deg, #f5f3ff, #ede9fe)">
+          <div class="fv-glow" style="background: var(--accent2)"></div>
+          <div class="feature-visual-inner">
+            <div
+              style="
+                background: rgba(255, 255, 255, 0.04);
+                border-radius: 6px;
+                padding: 8px 10px;
+                margin-bottom: 8px;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+              "
+            >
+              <div
+                style="
+                  width: 6px;
+                  height: 6px;
+                  border-radius: 50%;
+                  background: rgba(16, 185, 129, 0.8);
+                "
+              ></div>
+              <div
+                style="
+                  height: 5px;
+                  background: rgba(255, 255, 255, 0.1);
+                  border-radius: 2px;
+                  width: 55%;
+                "
+              ></div>
+              <div
+                style="
+                  margin-left: auto;
+                  height: 5px;
+                  background: rgba(16, 185, 129, 0.3);
+                  border-radius: 2px;
+                  width: 20%;
+                "
+              ></div>
+            </div>
+            <div
+              style="
+                background: rgba(245, 158, 11, 0.08);
+                border: 1px solid rgba(245, 158, 11, 0.2);
+                border-radius: 6px;
+                padding: 8px 10px;
+                margin-bottom: 8px;
+              "
+            >
+              <div
+                style="
+                  font-size: 0.68rem;
+                  color: rgba(245, 158, 11, 0.9);
+                  font-weight: 600;
+                  margin-bottom: 4px;
+                "
+              >
+                ⚠ Risk flagged
+              </div>
+              <div
+                style="
+                  height: 4px;
+                  background: rgba(255, 255, 255, 0.08);
+                  border-radius: 2px;
+                  width: 80%;
+                  margin-bottom: 3px;
+                "
+              ></div>
+              <div
+                style="
+                  height: 4px;
+                  background: rgba(255, 255, 255, 0.06);
+                  border-radius: 2px;
+                  width: 65%;
+                "
+              ></div>
+            </div>
+            <div
+              style="
+                background: rgba(37, 99, 235, 0.08);
+                border: 1px solid rgba(37, 99, 235, 0.15);
+                border-radius: 6px;
+                padding: 8px 10px;
+                margin-bottom: 8px;
+              "
+            >
+              <div
+                style="
+                  font-size: 0.68rem;
+                  color: rgba(160, 160, 255, 0.9);
+                  font-weight: 600;
+                  margin-bottom: 4px;
+                "
+              >
+                💬 AI Analysis
+              </div>
+              <div
+                style="
+                  height: 4px;
+                  background: rgba(255, 255, 255, 0.08);
+                  border-radius: 2px;
+                  width: 90%;
+                  margin-bottom: 3px;
+                "
+              ></div>
+              <div
+                style="
+                  height: 4px;
+                  background: rgba(255, 255, 255, 0.08);
+                  border-radius: 2px;
+                  width: 75%;
+                  margin-bottom: 3px;
+                "
+              ></div>
+              <div
+                style="
+                  height: 4px;
+                  background: rgba(255, 255, 255, 0.06);
+                  border-radius: 2px;
+                  width: 55%;
+                "
+              ></div>
+            </div>
+            <div
+              style="
+                background: rgba(255, 255, 255, 0.03);
+                border-radius: 6px;
+                padding: 8px 10px;
+                display: flex;
+                align-items: center;
+                gap: 6px;
+              "
+            >
+              <div
+                style="
+                  height: 5px;
+                  background: rgba(255, 255, 255, 0.08);
+                  border-radius: 2px;
+                  flex: 1;
+                "
+              ></div>
+              <div
+                style="
+                  background: var(--gradient);
+                  border-radius: 5px;
+                  padding: 4px 10px;
+                  font-size: 0.65rem;
+                  font-weight: 700;
+                  color: white;
+                "
+              >
+                Ask AI
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURE 3: DOCUMENTS -->
+    <section id="documents" style="background: var(--bg)">
+      <div class="feature-section">
+        <div class="feature-text">
+          <div class="section-label">Document Drafting</div>
+          <h2 class="section-title">Professional M&A documents in minutes</h2>
+          <p class="section-sub">
+            Generate CIMs, teasers, NDAs, LOIs, and due diligence checklists with AI that
+            understands M&A document conventions — then edit to your standards.
+          </p>
+          <div class="feature-list">
+            <div class="feature-item">
+              <div class="feature-check">✓</div>
+              <div class="feature-item-text">
+                <div class="feature-item-title">CIM generator</div>
+                Produce a full Confidential Information Memorandum from your deal data and uploaded
+                financials.
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-check">✓</div>
+              <div class="feature-item-text">
+                <div class="feature-item-title">Teaser & blind profiles</div>
+                One-page teasers for early-stage buyer outreach, anonymized to protect seller
+                confidentiality.
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-check">✓</div>
+              <div class="feature-item-text">
+                <div class="feature-item-title">LOI & NDA drafting</div>
+                AI-drafted letters of intent and NDAs based on deal structure and your firm's
+                preferred language.
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-check">✓</div>
+              <div class="feature-item-text">
+                <div class="feature-item-title">Branded output</div>
+                All documents output in your firm's branding — letterhead, colors, and signature
+                blocks included.
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="feature-visual" style="background: linear-gradient(135deg, #fffbeb, #fef3c7)">
+          <div class="fv-glow" style="background: var(--gold)"></div>
+          <div class="feature-visual-inner">
+            <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px">
+              <div
+                style="
+                  background: rgba(245, 158, 11, 0.12);
+                  border: 1px solid rgba(245, 158, 11, 0.25);
+                  border-radius: 100px;
+                  padding: 3px 10px;
+                  font-size: 0.65rem;
+                  color: rgba(245, 158, 11, 0.9);
+                  font-weight: 600;
+                "
+              >
+                CIM
+              </div>
+              <div
+                style="
+                  background: rgba(37, 99, 235, 0.1);
+                  border: 1px solid rgba(37, 99, 235, 0.2);
+                  border-radius: 100px;
+                  padding: 3px 10px;
+                  font-size: 0.65rem;
+                  color: #93c5fd;
+                  font-weight: 600;
+                "
+              >
+                Teaser
+              </div>
+              <div
+                style="
+                  background: rgba(255, 255, 255, 0.04);
+                  border: 1px solid rgba(255, 255, 255, 0.08);
+                  border-radius: 100px;
+                  padding: 3px 10px;
+                  font-size: 0.65rem;
+                  color: var(--text-muted);
+                  font-weight: 600;
+                "
+              >
+                LOI
+              </div>
+              <div
+                style="
+                  background: rgba(255, 255, 255, 0.04);
+                  border: 1px solid rgba(255, 255, 255, 0.08);
+                  border-radius: 100px;
+                  padding: 3px 10px;
+                  font-size: 0.65rem;
+                  color: var(--text-muted);
+                  font-weight: 600;
+                "
+              >
+                NDA
+              </div>
+            </div>
+            <div style="flex: 1; display: flex; flex-direction: column; gap: 5px">
+              <div
+                style="
+                  height: 8px;
+                  background: rgba(255, 255, 255, 0.12);
+                  border-radius: 3px;
+                  width: 50%;
+                "
+              ></div>
+              <div
+                style="
+                  height: 5px;
+                  background: rgba(255, 255, 255, 0.06);
+                  border-radius: 2px;
+                  width: 90%;
+                "
+              ></div>
+              <div
+                style="
+                  height: 5px;
+                  background: rgba(255, 255, 255, 0.06);
+                  border-radius: 2px;
+                  width: 80%;
+                "
+              ></div>
+              <div
+                style="
+                  height: 5px;
+                  background: rgba(255, 255, 255, 0.06);
+                  border-radius: 2px;
+                  width: 70%;
+                "
+              ></div>
+              <div style="height: 1px; background: rgba(255, 255, 255, 0.05); margin: 4px 0"></div>
+              <div
+                style="
+                  height: 6px;
+                  background: rgba(255, 255, 255, 0.08);
+                  border-radius: 2px;
+                  width: 40%;
+                "
+              ></div>
+              <div
+                style="
+                  height: 5px;
+                  background: rgba(255, 255, 255, 0.05);
+                  border-radius: 2px;
+                  width: 85%;
+                "
+              ></div>
+              <div
+                style="
+                  height: 5px;
+                  background: rgba(255, 255, 255, 0.05);
+                  border-radius: 2px;
+                  width: 75%;
+                "
+              ></div>
+              <div
+                style="
+                  height: 5px;
+                  background: rgba(255, 255, 255, 0.05);
+                  border-radius: 2px;
+                  width: 60%;
+                "
+              ></div>
+            </div>
+            <div
+              style="
+                background: rgba(245, 158, 11, 0.1);
+                border: 1px solid rgba(245, 158, 11, 0.2);
+                border-radius: 6px;
+                padding: 7px 10px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-top: 8px;
+              "
+            >
+              <span style="font-size: 0.7rem; color: rgba(245, 158, 11, 0.9); font-weight: 600"
+                >Ready to export</span
+              >
+              <div
+                style="
+                  background: rgba(245, 158, 11, 0.3);
+                  border-radius: 4px;
+                  padding: 3px 8px;
+                  font-size: 0.65rem;
+                  color: rgba(245, 158, 11, 0.95);
+                  font-weight: 700;
+                "
+              >
+                Download
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ALL FEATURES GRID -->
+    <section class="all-features">
+      <div style="margin-bottom: 56px">
+        <div class="section-label">Complete Feature List</div>
+        <h2 class="section-title">Everything included in DealStack</h2>
+      </div>
+      <div class="features-full-grid">
+        <div class="feat-card">
+          <span class="feat-icon">🎯</span>
+          <h4>Prospect Identification</h4>
+          <p>
+            AI scans databases and news for acquisition targets matching your client's criteria.
+          </p>
+          <span class="feat-badge new">New</span>
+        </div>
+        <div class="feat-card">
+          <span class="feat-icon">📊</span>
+          <h4>Financial Modeling</h4>
+          <p>EBITDA valuation, DCF analysis, and scenario modeling from uploaded financials.</p>
+          <span class="feat-badge">Core</span>
+        </div>
+        <div class="feat-card">
+          <span class="feat-icon">🔒</span>
+          <h4>Virtual Data Room</h4>
+          <p>Encrypted document sharing with granular permissions, NDA gating, and audit trails.</p>
+          <span class="feat-badge">Core</span>
+        </div>
+        <div class="feat-card">
+          <span class="feat-icon">🤝</span>
+          <h4>Buyer-Seller Matching</h4>
+          <p>
+            AI-ranked buyer lists filtered by acquisition criteria, deal size, and industry focus.
+          </p>
+          <span class="feat-badge new">New</span>
+        </div>
+        <div class="feat-card">
+          <span class="feat-icon">📑</span>
+          <h4>Document Analysis</h4>
+          <p>
+            Upload any documents and ask questions in plain English — cited, accurate answers
+            instantly.
+          </p>
+          <span class="feat-badge">Core</span>
+        </div>
+        <div class="feat-card">
+          <span class="feat-icon">✍️</span>
+          <h4>Term Sheet Generator</h4>
+          <p>Draft initial term sheets from deal data and market comps in minutes.</p>
+          <span class="feat-badge">Core</span>
+        </div>
+        <div class="feat-card">
+          <span class="feat-icon">📈</span>
+          <h4>Client Reporting</h4>
+          <p>
+            Branded progress reports delivered automatically to sellers throughout the deal process.
+          </p>
+          <span class="feat-badge">Core</span>
+        </div>
+        <div class="feat-card">
+          <span class="feat-icon">📬</span>
+          <h4>Buyer Outreach Automation</h4>
+          <p>
+            Personalized outreach sequences to qualified buyers, tracked and managed in one place.
+          </p>
+          <span class="feat-badge soon">Coming soon</span>
+        </div>
+        <div class="feat-card">
+          <span class="feat-icon">🗂️</span>
+          <h4>Due Diligence Checklists</h4>
+          <p>Industry-specific DD checklists generated automatically for each deal type.</p>
+          <span class="feat-badge">Core</span>
+        </div>
+        <div class="feat-card">
+          <span class="feat-icon">💬</span>
+          <h4>Deal Communication Hub</h4>
+          <p>Centralize all deal-related emails, messages, and notes in a single deal workspace.</p>
+          <span class="feat-badge soon">Coming soon</span>
+        </div>
+        <div class="feat-card">
+          <span class="feat-icon">🏦</span>
+          <h4>SBA Financing Analysis</h4>
+          <p>Automatically assess SBA 7(a) eligibility and financing structure for each deal.</p>
+          <span class="feat-badge new">New</span>
+        </div>
+        <div class="feat-card">
+          <span class="feat-icon">⚡</span>
+          <h4>E-Signature Integration</h4>
+          <p>Send NDAs, LOIs, and closing documents for signature directly from DealStack.</p>
+          <span class="feat-badge soon">Coming soon</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="how-it-works">
+      <div style="max-width: 640px; margin-bottom: 56px">
+        <div class="section-label">Process</div>
+        <h2 class="section-title">How DealStack fits into your workflow</h2>
+        <p class="section-sub">
+          DealStack is designed to feel like a natural extension of your existing practice — not a
+          replacement for how you work.
+        </p>
+      </div>
+      <div class="steps-timeline">
+        <div class="timeline-step">
+          <div class="step-circle">1</div>
+          <div class="step-body">
+            <h3>Onboard a new listing</h3>
+            <p>
+              Upload the seller's financials, tax returns, and key documents. DealStack extracts key
+              metrics, flags risks, and pre-populates your deal profile automatically.
+            </p>
+            <div class="step-chips">
+              <span class="step-chip">OCR extraction</span>
+              <span class="step-chip">Auto data entry</span>
+              <span class="step-chip">Risk summary</span>
+            </div>
+          </div>
+        </div>
+        <div class="timeline-step">
+          <div class="step-circle">2</div>
+          <div class="step-body">
+            <h3>Generate your marketing materials</h3>
+            <p>
+              With one click, produce a branded teaser and full CIM. Customize any section, then
+              publish your secure data room and teaser to your buyer universe.
+            </p>
+            <div class="step-chips">
+              <span class="step-chip">CIM in hours</span>
+              <span class="step-chip">Teaser & blind profile</span>
+              <span class="step-chip">Branded PDFs</span>
+            </div>
+          </div>
+        </div>
+        <div class="timeline-step">
+          <div class="step-circle">3</div>
+          <div class="step-body">
+            <h3>Identify and engage buyers</h3>
+            <p>
+              DealStack surfaces the best-fit buyers from its database and your own contacts, ranked
+              by acquisition criteria. Track NDA signings, data room access, and buyer interest
+              automatically.
+            </p>
+            <div class="step-chips">
+              <span class="step-chip">AI buyer matching</span>
+              <span class="step-chip">NDA tracking</span>
+              <span class="step-chip">Data room analytics</span>
+            </div>
+          </div>
+        </div>
+        <div class="timeline-step">
+          <div class="step-circle">4</div>
+          <div class="step-body">
+            <h3>Negotiate and close</h3>
+            <p>
+              Draft LOIs, manage buyer Q&A through the data room, and track deal milestones through
+              to closing. Keep clients updated with automated progress reports.
+            </p>
+            <div class="step-chips">
+              <span class="step-chip">LOI drafting</span>
+              <span class="step-chip">Milestone tracking</span>
+              <span class="step-chip">Client reports</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECURITY -->
+    <section class="security">
+      <div style="max-width: 640px; margin-bottom: 48px">
+        <div class="section-label">Security & Compliance</div>
+        <h2 class="section-title">Enterprise-grade security for sensitive deal data</h2>
+        <p class="section-sub">
+          M&A deals involve some of the most confidential business data in existence. DealStack is
+          built with that responsibility in mind.
+        </p>
+      </div>
+      <div class="security-grid">
+        <div class="security-card">
+          <span class="icon">🔐</span>
+          <h4>256-bit AES Encryption</h4>
+          <p>All data encrypted at rest and in transit using bank-grade encryption standards.</p>
+        </div>
+        <div class="security-card">
+          <span class="icon">👤</span>
+          <h4>Granular Access Controls</h4>
+          <p>
+            Control exactly who sees what — down to the individual document or data room folder.
+          </p>
+        </div>
+        <div class="security-card">
+          <span class="icon">📋</span>
+          <h4>Full Audit Trail</h4>
+          <p>
+            Every document view, download, and access event is logged with timestamp and user
+            identity.
+          </p>
+        </div>
+        <div class="security-card">
+          <span class="icon">🛡️</span>
+          <h4>SOC 2 Type II</h4>
+          <p>
+            Annual third-party security audits with SOC 2 compliance certification (in progress).
+          </p>
+        </div>
+        <div class="security-card">
+          <span class="icon">🌐</span>
+          <h4>U.S. Data Residency</h4>
+          <p>
+            All data stored on U.S.-based servers. No offshore processing of confidential deal data.
+          </p>
+        </div>
+        <div class="security-card">
+          <span class="icon">🔑</span>
+          <h4>Two-Factor Authentication</h4>
+          <p>Mandatory 2FA for all users, with SSO support for enterprise plans.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-band">
+      <div class="cta-band-inner">
+        <h2>See DealStack in action</h2>
+        <p>
+          Join hundreds of business brokers and M&A advisors already on the waitlist. Early access
+          is limited.
+        </p>
+        <div class="btn-row">
+          <a href="contact.html" class="btn-primary">Get Early Access →</a>
+          <a href="pricing.html" class="btn-outline">View Pricing</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="nav-logo" style="display: inline-flex">
+            <span class="nav-logo-icon">D</span>
+            DealStack
+          </a>
+          <p>AI-powered deal tools built exclusively for business brokers and M&A advisors.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Product</h4>
+          <ul>
+            <li><a href="features.html">Features</a></li>
+            <li><a href="pricing.html">Pricing</a></li>
+            <li><a href="contact.html">Get Early Access</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Solutions</h4>
+          <ul>
+            <li><a href="#pipeline">Deal Pipeline</a></li>
+            <li><a href="#due-diligence">Due Diligence AI</a></li>
+            <li><a href="#documents">Document Drafting</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="#">Privacy</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 DealStack. All rights reserved.</p>
+        <div class="footer-social"><a href="#">in</a><a href="#">𝕏</a><a href="#">f</a></div>
+      </div>
+    </footer>
+  </body>
 </html>

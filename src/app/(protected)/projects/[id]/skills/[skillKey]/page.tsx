@@ -19,7 +19,11 @@ function resolveAuto(path: string, project: Project, firm: Firm): string | undef
   return map[path];
 }
 
-export default async function ExecPage({ params }: { params: Promise<{ id: string; skillKey: string }> }) {
+export default async function ExecPage({
+  params,
+}: {
+  params: Promise<{ id: string; skillKey: string }>;
+}) {
   const { id, skillKey } = await params;
   const repo = getRepo();
   const project = await repo.getProject(id);
@@ -31,7 +35,8 @@ export default async function ExecPage({ params }: { params: Promise<{ id: strin
 
   const initialInputs: Record<string, string> = {};
   for (const f of skill.inputs) {
-    initialInputs[f.name] = (f.autoFrom ? resolveAuto(f.autoFrom, project, firm) : undefined) ?? f.defaultValue ?? "";
+    initialInputs[f.name] =
+      (f.autoFrom ? resolveAuto(f.autoFrom, project, firm) : undefined) ?? f.defaultValue ?? "";
   }
 
   const steps = await repo.listSteps(id);
@@ -53,7 +58,12 @@ export default async function ExecPage({ params }: { params: Promise<{ id: strin
   const latest = run?.versions.at(-1);
   const initial =
     run && latest
-      ? { runId: run.id, versionNo: latest.versionNo, previewMd: latest.previewMd, versions: run.versions.map((v) => v.versionNo) }
+      ? {
+          runId: run.id,
+          versionNo: latest.versionNo,
+          previewMd: latest.previewMd,
+          versions: run.versions.map((v) => v.versionNo),
+        }
       : null;
 
   const idx = trackSkills.findIndex((s) => s.key === skillKey);

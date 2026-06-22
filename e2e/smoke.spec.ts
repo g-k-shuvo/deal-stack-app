@@ -23,7 +23,9 @@ test("run the CIM skill end to end (generate → save)", async ({ page }) => {
   const genBtn = page.getByRole("button", { name: /Generate CIM generator/ });
   await expect(genBtn).toBeVisible();
   await genBtn.click();
-  await expect(page.getByText("CONFIDENTIAL INFORMATION MEMORANDUM")).toBeVisible({ timeout: 15000 });
+  await expect(page.getByText("CONFIDENTIAL INFORMATION MEMORANDUM")).toBeVisible({
+    timeout: 15000,
+  });
   await expect(page.getByText(/Output · Version 1/)).toBeVisible();
   await page.getByRole("button", { name: "Save to library" }).click();
   await expect(page.getByText(/Saved:/)).toBeVisible();
@@ -40,10 +42,7 @@ test("revision adds a version", async ({ page }) => {
 
 test("buy-side skill routes through the project picker", async ({ page }) => {
   await page.goto("/skills?side=buy");
-  await page
-    .getByRole("link", { name: "Run skill" })
-    .first()
-    .click();
+  await page.getByRole("link", { name: "Run skill" }).first().click();
   await expect(page.getByText(/Choose which buy-side project/)).toBeVisible();
   await page.getByText("Apex Distribution Partners").click();
   await expect(page.getByText(/Step \d of \d/)).toBeVisible();

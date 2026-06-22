@@ -22,9 +22,8 @@ export default function HomePage() {
           <span>Business Brokers</span> &amp; M&amp;A Advisors
         </h1>
         <p className="hero-sub">
-          Streamline your entire deal pipeline — from prospect identification to
-          closing — with purpose-built AI that understands the language of
-          M&amp;A.
+          Streamline your entire deal pipeline — from prospect identification to closing — with
+          purpose-built AI that understands the language of M&amp;A.
         </p>
         <div className="hero-btns">
           <Link href="/contact" className="ds-btn-primary">
@@ -70,12 +69,10 @@ export default function HomePage() {
       <section className="ds-section" id="features">
         <div className="ds-section-header">
           <div className="ds-section-label">AI-Powered Capabilities</div>
-          <h2 className="ds-section-title">
-            Curated AI Solutions for Your M&amp;A Practice
-          </h2>
+          <h2 className="ds-section-title">Curated AI Solutions for Your M&amp;A Practice</h2>
           <p className="ds-section-sub">
-            Built specifically for business brokers and M&amp;A advisors — not
-            generic software retrofitted for your industry.
+            Built specifically for business brokers and M&amp;A advisors — not generic software
+            retrofitted for your industry.
           </p>
         </div>
         <div className="solutions-grid">
@@ -119,8 +116,8 @@ export default function HomePage() {
           <div className="ds-section-label">Platform Capabilities</div>
           <h2 className="ds-section-title">Build a Smarter M&amp;A Practice</h2>
           <p className="ds-section-sub">
-            Every tool in DealStack is designed around the real workflows of
-            successful business brokers.
+            Every tool in DealStack is designed around the real workflows of successful business
+            brokers.
           </p>
         </div>
         <div className="cap-grid">
@@ -184,8 +181,7 @@ export default function HomePage() {
           <div className="ds-section-label">Product Preview</div>
           <h2 className="ds-section-title">See DealStack in Action</h2>
           <p className="ds-section-sub">
-            A glimpse of what your M&amp;A practice looks like running on
-            DealStack.
+            A glimpse of what your M&amp;A practice looks like running on DealStack.
           </p>
         </div>
         <div className="screenshots-scroll">
@@ -196,14 +192,8 @@ export default function HomePage() {
                 <div className="fake-header" />
                 <div className="fake-stat-row" style={{ marginTop: 4 }}>
                   <div className="fake-stat" />
-                  <div
-                    className="fake-stat"
-                    style={{ background: "rgba(124,58,237,0.07)" }}
-                  />
-                  <div
-                    className="fake-stat"
-                    style={{ background: "rgba(5,150,105,0.07)" }}
-                  />
+                  <div className="fake-stat" style={{ background: "rgba(124,58,237,0.07)" }} />
+                  <div className="fake-stat" style={{ background: "rgba(5,150,105,0.07)" }} />
                 </div>
                 <div className="fake-table" style={{ marginTop: 5 }}>
                   {[
@@ -214,14 +204,8 @@ export default function HomePage() {
                   ].map((r, i) => (
                     <div className="fake-table-row" key={i}>
                       <div className={`fake-dot${r.dot ? " " + r.dot : ""}`} />
-                      <div
-                        className="fake-line"
-                        style={{ width: r.w1 }}
-                      />
-                      <div
-                        className="fake-line"
-                        style={{ width: r.w2, marginLeft: "auto" }}
-                      />
+                      <div className="fake-line" style={{ width: r.w1 }} />
+                      <div className="fake-line" style={{ width: r.w2, marginLeft: "auto" }} />
                     </div>
                   ))}
                 </div>
@@ -254,21 +238,19 @@ export default function HomePage() {
                       gap: 4,
                     }}
                   >
-                    {[
-                      "rgba(37,99,235,0.1)",
-                      "rgba(0,0,0,0.04)",
-                      "rgba(0,0,0,0.04)",
-                    ].map((bg, i) => (
-                      <div
-                        key={i}
-                        style={{
-                          background: bg,
-                          border: `1px solid ${i === 0 ? "rgba(37,99,235,0.18)" : "rgba(0,0,0,0.06)"}`,
-                          borderRadius: 4,
-                          height: 20,
-                        }}
-                      />
-                    ))}
+                    {["rgba(37,99,235,0.1)", "rgba(0,0,0,0.04)", "rgba(0,0,0,0.04)"].map(
+                      (bg, i) => (
+                        <div
+                          key={i}
+                          style={{
+                            background: bg,
+                            border: `1px solid ${i === 0 ? "rgba(37,99,235,0.18)" : "rgba(0,0,0,0.06)"}`,
+                            borderRadius: 4,
+                            height: 20,
+                          }}
+                        />
+                      ),
+                    )}
                   </div>
                   <div
                     style={{
@@ -344,15 +326,9 @@ export default function HomePage() {
                   }}
                 />
                 <div className="fake-stat-row">
-                  <div
-                    className="fake-stat"
-                    style={{ background: "rgba(5,150,105,0.07)" }}
-                  />
+                  <div className="fake-stat" style={{ background: "rgba(5,150,105,0.07)" }} />
                   <div className="fake-stat" />
-                  <div
-                    className="fake-stat"
-                    style={{ background: "rgba(124,58,237,0.07)" }}
-                  />
+                  <div className="fake-stat" style={{ background: "rgba(124,58,237,0.07)" }} />
                 </div>
               </div>
             </div>
@@ -368,10 +344,7 @@ export default function HomePage() {
               <div className="fake-ui">
                 <div className="fake-header" style={{ width: "48%" }} />
                 <div className="fake-table" style={{ marginTop: 6 }}>
-                  <div
-                    className="fake-table-row"
-                    style={{ height: 22, padding: "0 8px" }}
-                  >
+                  <div className="fake-table-row" style={{ height: 22, padding: "0 8px" }}>
                     <div className="fake-line" style={{ width: "65%" }} />
                   </div>
                   <div
@@ -392,10 +365,7 @@ export default function HomePage() {
                       }}
                     />
                   </div>
-                  <div
-                    className="fake-table-row"
-                    style={{ height: 22, padding: "0 8px" }}
-                  >
+                  <div className="fake-table-row" style={{ height: 22, padding: "0 8px" }}>
                     <div className="fake-line" style={{ width: "58%" }} />
                   </div>
                 </div>
@@ -437,9 +407,27 @@ export default function HomePage() {
                 />
                 <div className="fake-table">
                   {[
-                    { dot: "", bg: "rgba(37,99,235,0.07)", border: "rgba(37,99,235,0.13)", line: "48%", tag: "rgba(5,150,105,0.25)" },
-                    { dot: "purple", bg: "transparent", border: "transparent", line: "40%", tag: "rgba(37,99,235,0.15)" },
-                    { dot: "gold", bg: "transparent", border: "transparent", line: "52%", tag: "rgba(217,119,6,0.2)" },
+                    {
+                      dot: "",
+                      bg: "rgba(37,99,235,0.07)",
+                      border: "rgba(37,99,235,0.13)",
+                      line: "48%",
+                      tag: "rgba(5,150,105,0.25)",
+                    },
+                    {
+                      dot: "purple",
+                      bg: "transparent",
+                      border: "transparent",
+                      line: "40%",
+                      tag: "rgba(37,99,235,0.15)",
+                    },
+                    {
+                      dot: "gold",
+                      bg: "transparent",
+                      border: "transparent",
+                      line: "52%",
+                      tag: "rgba(217,119,6,0.2)",
+                    },
                   ].map((r, i) => (
                     <div
                       className="fake-table-row"
@@ -488,10 +476,30 @@ export default function HomePage() {
                   }}
                 >
                   {[
-                    { bg: "rgba(37,99,235,0.07)", border: "rgba(37,99,235,0.13)", bar: "fake-bar", bw: "60%" },
-                    { bg: "rgba(124,58,237,0.07)", border: "rgba(124,58,237,0.13)", bar: "fake-bar alt", bw: "52%" },
-                    { bg: "rgba(5,150,105,0.07)", border: "rgba(5,150,105,0.13)", bar: "fake-bar green", bw: "65%" },
-                    { bg: "rgba(217,119,6,0.07)", border: "rgba(217,119,6,0.13)", bar: "fake-bar gold", bw: "58%" },
+                    {
+                      bg: "rgba(37,99,235,0.07)",
+                      border: "rgba(37,99,235,0.13)",
+                      bar: "fake-bar",
+                      bw: "60%",
+                    },
+                    {
+                      bg: "rgba(124,58,237,0.07)",
+                      border: "rgba(124,58,237,0.13)",
+                      bar: "fake-bar alt",
+                      bw: "52%",
+                    },
+                    {
+                      bg: "rgba(5,150,105,0.07)",
+                      border: "rgba(5,150,105,0.13)",
+                      bar: "fake-bar green",
+                      bw: "65%",
+                    },
+                    {
+                      bg: "rgba(217,119,6,0.07)",
+                      border: "rgba(217,119,6,0.13)",
+                      bar: "fake-bar gold",
+                      bw: "58%",
+                    },
                   ].map((c, i) => (
                     <div
                       key={i}
@@ -503,14 +511,8 @@ export default function HomePage() {
                         padding: "5px 7px",
                       }}
                     >
-                      <div
-                        className="fake-line"
-                        style={{ width: "48%", marginBottom: 4 }}
-                      />
-                      <div
-                        className={c.bar}
-                        style={{ width: c.bw, height: 5 }}
-                      />
+                      <div className="fake-line" style={{ width: "48%", marginBottom: 4 }} />
+                      <div className={c.bar} style={{ width: c.bw, height: 5 }} />
                     </div>
                   ))}
                 </div>
@@ -536,12 +538,10 @@ export default function HomePage() {
       <section className="ds-section" id="how-it-works">
         <div className="ds-section-header">
           <div className="ds-section-label">How It Works</div>
-          <h2 className="ds-section-title">
-            Up and running in days, not months
-          </h2>
+          <h2 className="ds-section-title">Up and running in days, not months</h2>
           <p className="ds-section-sub">
-            No lengthy implementation. DealStack is designed to fit into your
-            existing workflow immediately.
+            No lengthy implementation. DealStack is designed to fit into your existing workflow
+            immediately.
           </p>
         </div>
         <div className="steps-grid">
@@ -582,8 +582,7 @@ export default function HomePage() {
           <div className="ds-section-label">Testimonials</div>
           <h2 className="ds-section-title">Advisors love DealStack</h2>
           <p className="ds-section-sub">
-            Hear from business brokers and M&amp;A advisors already on the
-            waitlist.
+            Hear from business brokers and M&amp;A advisors already on the waitlist.
           </p>
         </div>
         <div className="testi-grid">
@@ -647,8 +646,8 @@ export default function HomePage() {
         <div className="cta-band-inner">
           <h2>Ready to transform your M&amp;A practice?</h2>
           <p>
-            Join hundreds of business brokers and advisors already on the
-            DealStack waitlist. Early access is limited.
+            Join hundreds of business brokers and advisors already on the DealStack waitlist. Early
+            access is limited.
           </p>
           <Link href="/contact" className="ds-btn-primary ds-btn-lg">
             Get Early Access →

@@ -26,7 +26,9 @@ describe("validateContent", () => {
   });
 
   it("validates tabular data content", () => {
-    expect(validateContent(dataSchema, { title: "T", columns: ["A"], rows: [["1"]] }).ok).toBe(true);
+    expect(validateContent(dataSchema, { title: "T", columns: ["A"], rows: [["1"]] }).ok).toBe(
+      true,
+    );
     expect(validateContent(dataSchema, { title: "T", columns: [] }).ok).toBe(false);
   });
 });

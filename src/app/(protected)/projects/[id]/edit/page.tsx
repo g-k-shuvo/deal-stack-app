@@ -75,7 +75,11 @@ export default async function EditProjectPage({ params }: { params: Promise<{ id
           </div>
           <div>
             <label className="field-label">Contact title</label>
-            <input name="contactTitle" className="field-input" defaultValue={p.contactTitle ?? ""} />
+            <input
+              name="contactTitle"
+              className="field-input"
+              defaultValue={p.contactTitle ?? ""}
+            />
           </div>
         </div>
         <div className="field-row">

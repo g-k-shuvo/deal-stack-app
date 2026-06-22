@@ -35,12 +35,18 @@ export default async function RunPickerPage({ params }: { params: Promise<{ skil
                     {p.contactName} · {p.status} · {prog.completed}/{prog.total} steps
                   </div>
                 </div>
-                <span className={`badge badge-${p.type}`}>{p.type === "sell" ? "Sell-side" : "Buy-side"}</span>
+                <span className={`badge badge-${p.type}`}>
+                  {p.type === "sell" ? "Sell-side" : "Buy-side"}
+                </span>
               </div>
             </Link>
           );
         })}
-        <Link href="/projects/new" className="proj-card" style={{ textAlign: "center", color: "#185fa5" }}>
+        <Link
+          href="/projects/new"
+          className="proj-card"
+          style={{ textAlign: "center", color: "#185fa5" }}
+        >
           + Create a new {sideLabel} project
         </Link>
       </div>

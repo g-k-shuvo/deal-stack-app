@@ -36,9 +36,15 @@ export default async function ProjectPage({ params }: { params: Promise<{ id: st
       <div className="proj-header-card">
         <div className="proj-header-top">
           <h2>{project.companyName}</h2>
-          <span className={`badge badge-${project.type}`}>{project.type === "sell" ? "Sell-side" : "Buy-side"}</span>
+          <span className={`badge badge-${project.type}`}>
+            {project.type === "sell" ? "Sell-side" : "Buy-side"}
+          </span>
           <span className={`badge badge-${project.status}`}>{project.status}</span>
-          <Link href={`/projects/${id}/edit`} className="link" style={{ marginLeft: "auto", fontSize: 12 }}>
+          <Link
+            href={`/projects/${id}/edit`}
+            className="link"
+            style={{ marginLeft: "auto", fontSize: 12 }}
+          >
             Edit project
           </Link>
         </div>
@@ -60,16 +66,26 @@ export default async function ProjectPage({ params }: { params: Promise<{ id: st
 
       <div className="dash-two-col">
         <div>
-          <div className="col-header">Workflow — {project.type === "sell" ? "sell-side" : "buy-side"} track</div>
+          <div className="col-header">
+            Workflow — {project.type === "sell" ? "sell-side" : "buy-side"} track
+          </div>
           {steps.map((st) => {
             const skill = getSkill(st.skillKey);
             if (!skill) return null;
-            const cls = st.status === "completed" ? "completed" : st.status === "inprogress" ? "inprogress" : "";
-            const numCls = st.status === "completed" ? "done" : st.status === "inprogress" ? "current" : "";
+            const cls =
+              st.status === "completed"
+                ? "completed"
+                : st.status === "inprogress"
+                  ? "inprogress"
+                  : "";
+            const numCls =
+              st.status === "completed" ? "done" : st.status === "inprogress" ? "current" : "";
             return (
               <div key={st.skillKey} className={`step-card ${cls}`}>
                 <div className="step-header">
-                  <div className={`step-num ${numCls}`}>{st.status === "completed" ? "✓" : st.ordinal}</div>
+                  <div className={`step-num ${numCls}`}>
+                    {st.status === "completed" ? "✓" : st.ordinal}
+                  </div>
                   <div className="step-name">
                     Step {st.ordinal} — {skill.name}
                   </div>

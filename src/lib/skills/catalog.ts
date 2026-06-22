@@ -11,14 +11,21 @@ export const CATALOG: Skill[] = [
     track: "sell",
     step: 1,
     name: "Client profile",
-    description: "Research brief on the target company for pre-engagement prep and prospect meetings",
+    description:
+      "Research brief on the target company for pre-engagement prep and prospect meetings",
     phase: "Pre-engagement",
     estMinutes: 8,
     format: "docx",
     archetype: "narrative",
     chainsFrom: [],
     inputs: [
-      { name: "companyName", label: "Company name", type: "text", autoFrom: "project.companyName", required: true },
+      {
+        name: "companyName",
+        label: "Company name",
+        type: "text",
+        autoFrom: "project.companyName",
+        required: true,
+      },
       { name: "website", label: "Website", type: "text", autoFrom: "project.website" },
       { name: "researchFocus", label: "Research focus notes", type: "textarea" },
     ],
@@ -31,7 +38,8 @@ export const CATALOG: Skill[] = [
     track: "sell",
     step: 2,
     name: "Business valuation",
-    description: "Multi-method valuation model with SBA financeability test and comparable transactions",
+    description:
+      "Multi-method valuation model with SBA financeability test and comparable transactions",
     phase: "Pre-engagement",
     estMinutes: 12,
     format: "xlsx",
@@ -41,9 +49,19 @@ export const CATALOG: Skill[] = [
       { name: "revenueTtm", label: "Revenue (TTM)", type: "number" },
       { name: "ebitda", label: "EBITDA", type: "number" },
       { name: "ownerAddbacks", label: "Owner add-backs", type: "number" },
-      { name: "multipleRange", label: "Industry multiple range", type: "text", placeholder: "e.g. 4.0x–6.0x" },
+      {
+        name: "multipleRange",
+        label: "Industry multiple range",
+        type: "text",
+        placeholder: "e.g. 4.0x–6.0x",
+      },
       { name: "comps", label: "Comparable transactions notes", type: "textarea" },
-      { name: "sbaTest", label: "Run SBA financeability test", type: "toggle", defaultValue: "true" },
+      {
+        name: "sbaTest",
+        label: "Run SBA financeability test",
+        type: "toggle",
+        defaultValue: "true",
+      },
     ],
     instruction:
       "Supply valuation inputs and assumptions ONLY (do not compute final figures in prose). Provide EBITDA, add-backs, and a low/high multiple range; list key assumptions. The spreadsheet template computes the valuation range, DCF, and SBA financeability.",
@@ -54,7 +72,8 @@ export const CATALOG: Skill[] = [
     track: "sell",
     step: 3,
     name: "Market assessment",
-    description: "7-slide presentation showing the owner their market opportunity and valuation range",
+    description:
+      "7-slide presentation showing the owner their market opportunity and valuation range",
     phase: "Prospect meeting",
     estMinutes: 10,
     format: "pptx",
@@ -73,16 +92,32 @@ export const CATALOG: Skill[] = [
     track: "sell",
     step: 4,
     name: "Engagement agreement",
-    description: "Sell-side advisory engagement letter with fee schedule, exclusivity, and term provisions",
+    description:
+      "Sell-side advisory engagement letter with fee schedule, exclusivity, and term provisions",
     phase: "Engagement launch",
     estMinutes: 8,
     format: "docx",
     archetype: "narrative",
     chainsFrom: ["sell.client_profile"],
     inputs: [
-      { name: "successFee", label: "Success fee %", type: "text", autoFrom: "firm.defaults.success_fee" },
-      { name: "retainer", label: "Retainer (monthly)", type: "text", autoFrom: "firm.defaults.retainer" },
-      { name: "exclusivity", label: "Exclusivity period", type: "text", autoFrom: "firm.defaults.exclusivity" },
+      {
+        name: "successFee",
+        label: "Success fee %",
+        type: "text",
+        autoFrom: "firm.defaults.success_fee",
+      },
+      {
+        name: "retainer",
+        label: "Retainer (monthly)",
+        type: "text",
+        autoFrom: "firm.defaults.retainer",
+      },
+      {
+        name: "exclusivity",
+        label: "Exclusivity period",
+        type: "text",
+        autoFrom: "firm.defaults.exclusivity",
+      },
       { name: "scope", label: "Scope notes", type: "textarea" },
     ],
     instruction:
@@ -94,7 +129,8 @@ export const CATALOG: Skill[] = [
     track: "sell",
     step: 5,
     name: "Data room checklist",
-    description: "Customized document request list tailored to the client's business type and deal stage",
+    description:
+      "Customized document request list tailored to the client's business type and deal stage",
     phase: "Engagement launch",
     estMinutes: 6,
     format: "xlsx",
@@ -143,7 +179,13 @@ export const CATALOG: Skill[] = [
     archetype: "narrative",
     chainsFrom: ["sell.cim"],
     inputs: [
-      { name: "anonymization", label: "Anonymization level", type: "select", options: ["Standard", "High"], defaultValue: "Standard" },
+      {
+        name: "anonymization",
+        label: "Anonymization level",
+        type: "select",
+        options: ["Standard", "High"],
+        defaultValue: "Standard",
+      },
     ],
     instruction:
       "Produce a one-page anonymized teaser/blind profile from the CIM: a generic business description (no identifying details), investment highlights, financial summary ranges, and a contact line. Never reveal the company name or location.",
@@ -154,14 +196,21 @@ export const CATALOG: Skill[] = [
     track: "sell",
     step: 8,
     name: "Buyer research",
-    description: "Buyer universe with strategic and financial buyer contacts, rationale, and outreach notes",
+    description:
+      "Buyer universe with strategic and financial buyer contacts, rationale, and outreach notes",
     phase: "Concurrent with CIM",
     estMinutes: 14,
     format: "xlsx",
     archetype: "data",
     chainsFrom: ["sell.client_profile", "sell.valuation"],
     inputs: [
-      { name: "buyerTypes", label: "Buyer types", type: "select", options: ["Strategic + Financial", "Strategic", "Financial"], defaultValue: "Strategic + Financial" },
+      {
+        name: "buyerTypes",
+        label: "Buyer types",
+        type: "select",
+        options: ["Strategic + Financial", "Strategic", "Financial"],
+        defaultValue: "Strategic + Financial",
+      },
       { name: "geography", label: "Geography", type: "text" },
       { name: "count", label: "Target count", type: "number", defaultValue: "25" },
     ],
@@ -182,7 +231,13 @@ export const CATALOG: Skill[] = [
     chainsFrom: ["sell.valuation"],
     inputs: [
       { name: "purchasePrice", label: "Purchase price", type: "text" },
-      { name: "structure", label: "Structure", type: "select", options: ["Asset sale", "Stock sale"], defaultValue: "Asset sale" },
+      {
+        name: "structure",
+        label: "Structure",
+        type: "select",
+        options: ["Asset sale", "Stock sale"],
+        defaultValue: "Asset sale",
+      },
       { name: "keyTerms", label: "Key terms / contingencies", type: "textarea" },
     ],
     instruction:
@@ -203,7 +258,13 @@ export const CATALOG: Skill[] = [
     archetype: "narrative",
     chainsFrom: [],
     inputs: [
-      { name: "companyName", label: "Buyer company", type: "text", autoFrom: "project.companyName", required: true },
+      {
+        name: "companyName",
+        label: "Buyer company",
+        type: "text",
+        autoFrom: "project.companyName",
+        required: true,
+      },
       { name: "mandate", label: "Mandate notes", type: "textarea" },
     ],
     instruction:
@@ -236,7 +297,8 @@ export const CATALOG: Skill[] = [
     track: "buy",
     step: 3,
     name: "Buy-side engagement agreement",
-    description: "Engagement letter for buy-side advisory mandate with search criteria and retainer terms",
+    description:
+      "Engagement letter for buy-side advisory mandate with search criteria and retainer terms",
     phase: "Engagement launch",
     estMinutes: 8,
     format: "docx",
@@ -245,8 +307,18 @@ export const CATALOG: Skill[] = [
     chainsFrom: ["buy.proposal"],
     inputs: [
       { name: "searchCriteria", label: "Search criteria", type: "textarea" },
-      { name: "retainer", label: "Retainer terms", type: "text", autoFrom: "firm.defaults.retainer" },
-      { name: "successFee", label: "Success fee", type: "text", autoFrom: "firm.defaults.success_fee" },
+      {
+        name: "retainer",
+        label: "Retainer terms",
+        type: "text",
+        autoFrom: "firm.defaults.retainer",
+      },
+      {
+        name: "successFee",
+        label: "Success fee",
+        type: "text",
+        autoFrom: "firm.defaults.success_fee",
+      },
     ],
     instruction:
       "Draft a buy-side engagement letter: search criteria, scope, retainer + success fee, exclusivity, and term.",
@@ -257,7 +329,8 @@ export const CATALOG: Skill[] = [
     track: "buy",
     step: 4,
     name: "Acquisition target research",
-    description: "Target company list matching buyer acquisition criteria with rationale and contact data",
+    description:
+      "Target company list matching buyer acquisition criteria with rationale and contact data",
     phase: "Search phase",
     estMinutes: 14,
     format: "xlsx",
@@ -276,7 +349,8 @@ export const CATALOG: Skill[] = [
     track: "buy",
     step: 5,
     name: "Target profile",
-    description: "Deep-dive research profile on an individual acquisition target for outreach and screening",
+    description:
+      "Deep-dive research profile on an individual acquisition target for outreach and screening",
     phase: "Outreach / screening",
     estMinutes: 10,
     format: "docx",
@@ -303,7 +377,13 @@ export const CATALOG: Skill[] = [
     chainsFrom: ["buy.target_profile"],
     inputs: [
       { name: "offerPrice", label: "Offer price", type: "text" },
-      { name: "structure", label: "Structure", type: "select", options: ["Asset purchase", "Stock purchase"], defaultValue: "Asset purchase" },
+      {
+        name: "structure",
+        label: "Structure",
+        type: "select",
+        options: ["Asset purchase", "Stock purchase"],
+        defaultValue: "Asset purchase",
+      },
       { name: "terms", label: "Terms", type: "textarea" },
     ],
     instruction:
