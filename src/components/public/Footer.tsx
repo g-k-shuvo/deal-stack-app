@@ -35,7 +35,7 @@ export default function Footer() {
               <Link href="/#how-it-works">How It Works</Link>
             </li>
             <li>
-              <Link href="/contact">Get Early Access</Link>
+              <Link href="/login">Get Early Access</Link>
             </li>
           </ul>
         </div>
@@ -68,7 +68,7 @@ export default function Footer() {
               <Link href="#">Blog</Link>
             </li>
             <li>
-              <Link href="/contact">Contact</Link>
+              <Link href="/login">Contact</Link>
             </li>
             <li>
               <Link href="#">Privacy Policy</Link>

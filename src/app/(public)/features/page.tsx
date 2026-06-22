@@ -21,7 +21,7 @@ export default function FeaturesPage() {
             consultants with a single AI-powered platform built for deal professionals.
           </p>
           <div className="btn-row">
-            <Link href="/contact" className="ds-btn-primary">
+            <Link href="/login" className="ds-btn-primary">
               Get Early Access →
             </Link>
             <Link href="/pricing" className="ds-btn-outline">
@@ -698,7 +698,7 @@ export default function FeaturesPage() {
             is limited.
           </p>
           <div className="btn-row">
-            <Link href="/contact" className="ds-btn-primary">
+            <Link href="/login" className="ds-btn-primary">
               Get Early Access →
             </Link>
             <Link href="/pricing" className="ds-btn-outline">

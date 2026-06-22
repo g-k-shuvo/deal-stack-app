@@ -212,8 +212,8 @@ export default function PricingPage() {
                 {loadingPlan === plan.name.toLowerCase()
                   ? "Redirecting..."
                   : session
-                  ? `Subscribe to ${plan.name}`
-                  : "Get Started"}
+                    ? `Subscribe to ${plan.name}`
+                    : "Get Started"}
               </button>
               <hr className="plan-divider" />
               <div className="plan-features">
@@ -259,7 +259,7 @@ export default function PricingPage() {
               ))}
             </div>
           </div>
-          <Link href="/contact" className="ds-btn-primary">
+          <Link href="/login" className="ds-btn-primary">
             Contact Sales →
           </Link>
         </div>
