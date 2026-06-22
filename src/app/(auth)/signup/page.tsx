@@ -1,12 +1,13 @@
 "use client";
 
-import React, { useState, useTransition } from "react";
+import React, { Suspense, useState, useTransition } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 
-export default function SignupPage() {
+function SignupForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
 
   const [name, setName] = useState("");
@@ -15,6 +16,17 @@ export default function SignupPage() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
+
+  // Read initial plan and billing from query params
+  const initialPlan = (searchParams.get("plan") || "starter").toLowerCase();
+  const initialBilling = (searchParams.get("billing") || "monthly").toLowerCase();
+
+  const [selectedPlan, setSelectedPlan] = useState(
+    initialPlan === "professional" || initialPlan === "firm" ? initialPlan : "starter"
+  );
+  const [billingInterval, setBillingInterval] = useState<"monthly" | "annual">(
+    initialBilling === "annual" ? "annual" : "monthly"
+  );
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,12 +48,28 @@ export default function SignupPage() {
             callbackURL: "/dashboard",
           },
           {
-            onSuccess: () => {
-              setSuccessMsg("Account created successfully! Redirecting...");
-              setTimeout(() => {
-                router.push("/dashboard");
-                router.refresh();
-              }, 800);
+            onSuccess: async () => {
+              setSuccessMsg("Account created successfully! Redirecting to checkout...");
+              try {
+                // Call subscription upgrade to redirect the user to Stripe checkout
+                const upgradeResult = await authClient.subscription.upgrade({
+                  plan: selectedPlan,
+                  annual: billingInterval === "annual",
+                  successUrl: window.location.origin + "/dashboard",
+                  cancelUrl: window.location.origin + "/pricing",
+                });
+                
+                if (upgradeResult?.error) {
+                  setErrorMsg(
+                    upgradeResult.error.message || "Failed to start payment checkout session."
+                  );
+                }
+              } catch (err: any) {
+                console.error("Stripe upgrade error:", err);
+                setErrorMsg(
+                  err.message || "Account created, but checkout redirect failed. Please log in and subscribe."
+                );
+              }
             },
             onError: (context) => {
               setErrorMsg(context.error.message || "Failed to create account.");
@@ -55,7 +83,7 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="auth-card">
+    <div className="auth-card" style={{ maxWidth: "460px" }}>
       <div className="auth-header">
         <div className="auth-logo">
           Deal <span>Command</span> Center
@@ -128,8 +156,51 @@ export default function SignupPage() {
           </div>
         </div>
 
+        {/* PACKAGE SELECTOR */}
+        <div className="plan-selector-container">
+          <label className="auth-label">Select package subscription</label>
+          <div className="billing-toggle-wrapper">
+            <button
+              type="button"
+              className={`billing-toggle-btn${billingInterval === "monthly" ? " active" : ""}`}
+              onClick={() => setBillingInterval("monthly")}
+              disabled={isPending}
+            >
+              Monthly
+            </button>
+            <button
+              type="button"
+              className={`billing-toggle-btn${billingInterval === "annual" ? " active" : ""}`}
+              onClick={() => setBillingInterval("annual")}
+              disabled={isPending}
+            >
+              Annual (-20%)
+            </button>
+          </div>
+          <div className="plan-select-grid">
+            {[
+              { id: "starter", name: "Starter", monthly: "$199", annual: "$159" },
+              { id: "professional", name: "Pro", monthly: "$499", annual: "$399" },
+              { id: "firm", name: "Firm", monthly: "$999", annual: "$799" },
+            ].map((p) => (
+              <button
+                key={p.id}
+                type="button"
+                className={`plan-select-card${selectedPlan === p.id ? " active" : ""}`}
+                onClick={() => setSelectedPlan(p.id)}
+                disabled={isPending}
+              >
+                <div className="plan-select-name">{p.name}</div>
+                <div className="plan-select-price">
+                  {billingInterval === "monthly" ? p.monthly : p.annual}/mo
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+
         <button type="submit" className="auth-button" disabled={isPending}>
-          {isPending ? "Creating account..." : "Create account"}
+          {isPending ? "Creating account..." : "Subscribe & Create account"}
         </button>
       </form>
 
@@ -140,5 +211,27 @@ export default function SignupPage() {
         </Link>
       </div>
     </div>
+  );
+}
+
+export default function SignupPage() {
+  return (
+    <Suspense
+      fallback={
+        <div
+          className="auth-card"
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            minHeight: "300px",
+          }}
+        >
+          Loading signup...
+        </div>
+      }
+    >
+      <SignupForm />
+    </Suspense>
   );
 }
