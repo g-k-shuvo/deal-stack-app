@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pricing — DealStack</title>
+<meta name="description" content="Simple, transparent pricing for business brokers and M&A advisors. Start free, scale as you grow.">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #ffffff;
+    --bg-card: #ffffff;
+    --bg-card2: #f8faff;
+    --bg-alt: #f4f6fb;
+    --border: #e5e7eb;
+    --border-hover: #bfdbfe;
+    --text: #111827;
+    --text-muted: #6b7280;
+    --text-dim: #9ca3af;
+    --accent: #2563eb;
+    --accent2: #3b82f6;
+    --accent-light: #eff6ff;
+    --accent-border: #bfdbfe;
+    --gold: #d97706;
+    --green: #059669;
+    --gradient: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+    --radius: 10px;
+    --radius-lg: 16px;
+    --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
+    --shadow-lg: 0 8px 24px rgba(0,0,0,0.1), 0 2px 6px rgba(0,0,0,0.05);
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; overflow-x: hidden; }
+
+  nav { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 6%; height: 64px; background: rgba(255,255,255,0.96); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+  .nav-logo { font-size: 1.3rem; font-weight: 800; color: var(--text); text-decoration: none; letter-spacing: -0.04em; display: flex; align-items: center; gap: 8px; }
+  .nav-logo-icon { width: 30px; height: 30px; border-radius: 8px; background: var(--gradient); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 800; color: white; }
+  .nav-links { display: flex; align-items: center; gap: 28px; list-style: none; }
+  .nav-links a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.15s; }
+  .nav-links a:hover, .nav-links a.active { color: var(--text); }
+  .nav-cta { background: var(--accent); color: white; padding: 9px 20px; border-radius: 8px; text-decoration: none; font-size: 0.875rem; font-weight: 600; transition: background 0.15s; }
+  .nav-cta:hover { background: #1d4ed8; }
+
+  .page-hero { padding: 100px 6% 70px; position: relative; overflow: hidden; }
+  .page-hero-bg { position: absolute; inset: 0; background: linear-gradient(180deg, #f0f6ff 0%, #ffffff 100%); }
+  .page-hero::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--gradient); }
+  .page-hero-content { position: relative; max-width: 700px; margin: 0 auto; text-align: center; }
+  .page-label { display: inline-block; color: var(--accent); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 14px; }
+
+  .section-label { display: inline-block; color: var(--accent); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px; }
+  .section-title { font-size: clamp(1.7rem, 3vw, 2.5rem); font-weight: 800; letter-spacing: -0.04em; line-height: 1.15; margin-bottom: 12px; color: var(--text); }
+  .section-sub { font-size: 1rem; color: var(--text-muted); max-width: 500px; line-height: 1.7; }
+  section { padding: 88px 6%; }
+
+  .btn-primary { background: var(--accent); color: white; padding: 13px 28px; border-radius: 9px; text-decoration: none; font-weight: 600; font-size: 0.95rem; transition: background 0.15s, transform 0.15s; display: inline-flex; align-items: center; gap: 7px; }
+  .btn-primary:hover { background: #1d4ed8; transform: translateY(-1px); }
+  .btn-outline { background: white; color: var(--text); padding: 13px 28px; border-radius: 9px; text-decoration: none; font-weight: 500; font-size: 0.95rem; border: 1px solid var(--border); transition: border-color 0.15s, background 0.15s; box-shadow: var(--shadow); }
+  .btn-outline:hover { border-color: var(--accent-border); background: var(--accent-light); }
+  .btn-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+  footer { background: #111827; color: rgba(255,255,255,0.65); padding: 60px 6% 32px; }
+  .footer-logo { font-size: 1.2rem; font-weight: 800; color: white; text-decoration: none; letter-spacing: -0.04em; display: inline-flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+  .footer-logo-icon { width: 28px; height: 28px; border-radius: 7px; background: var(--gradient); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800; color: white; }
+  .footer-grid { display: grid; grid-template-columns: 1.8fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 48px; }
+  .footer-brand p { font-size: 0.85rem; line-height: 1.7; max-width: 240px; }
+  .footer-col h4 { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.4); margin-bottom: 16px; }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+  .footer-col ul a { color: rgba(255,255,255,0.58); text-decoration: none; font-size: 0.875rem; transition: color 0.15s; }
+  .footer-col ul a:hover { color: white; }
+  .footer-bottom { display: flex; align-items: center; justify-content: space-between; padding-top: 28px; border-top: 1px solid rgba(255,255,255,0.1); flex-wrap: wrap; gap: 12px; }
+  .footer-bottom p { font-size: 0.78rem; color: rgba(255,255,255,0.32); }
+  .footer-social { display: flex; gap: 10px; }
+  .footer-social a { width: 32px; height: 32px; border-radius: 7px; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.45); text-decoration: none; font-size: 0.78rem; transition: background 0.2s, color 0.2s; }
+  .footer-social a:hover { background: rgba(255,255,255,0.14); color: white; }
+
+  @media (max-width: 768px) { .nav-links { display: none; } .footer-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 480px) { .footer-grid { grid-template-columns: 1fr; } }
+
+  .page-hero h1 { font-size: clamp(2rem, 4.5vw, 3.2rem); font-weight: 800; line-height: 1.1; letter-spacing: -0.04em; margin-bottom: 16px; color: var(--text); }
+  .page-hero p { font-size: 1rem; color: var(--text-muted); max-width: 500px; margin: 0 auto 24px; line-height: 1.7; }
+
+  .billing-toggle { display: inline-flex; align-items: center; background: #f4f6fb; border: 1px solid var(--border); border-radius: 100px; padding: 5px; margin-bottom: 56px; }
+  .toggle-option { padding: 7px 18px; border-radius: 100px; font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: all 0.2s; color: var(--text-muted); }
+  .toggle-option.active { background: var(--accent); color: white; }
+  .save-badge { background: #ecfdf5; color: #059669; border: 1px solid #a7f3d0; border-radius: 100px; padding: 2px 8px; font-size: 0.7rem; font-weight: 700; }
+
+  .pricing-section { padding: 0 6% 88px; }
+  .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 1050px; margin: 0 auto; }
+  .plan-card { background: white; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 32px 28px; position: relative; box-shadow: var(--shadow); transition: box-shadow 0.2s, transform 0.2s; }
+  .plan-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-3px); }
+  .plan-card.featured { border-color: var(--accent-border); background: linear-gradient(160deg, #f0f6ff 0%, #e8f0fe 100%); box-shadow: 0 0 0 2px #bfdbfe, var(--shadow-md); }
+  .plan-badge { position: absolute; top: -11px; left: 50%; transform: translateX(-50%); background: var(--gradient); color: white; font-size: 0.7rem; font-weight: 700; padding: 4px 14px; border-radius: 100px; text-transform: uppercase; letter-spacing: 0.08em; white-space: nowrap; }
+  .plan-name { font-size: 0.78rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px; }
+  .plan-price { display: flex; align-items: flex-end; gap: 3px; margin-bottom: 6px; }
+  .plan-price-num { font-size: 3rem; font-weight: 900; line-height: 1; letter-spacing: -0.05em; color: var(--text); }
+  .plan-price-num.gradient { color: var(--accent); }
+  .plan-price-period { font-size: 0.85rem; color: var(--text-muted); padding-bottom: 5px; }
+  .plan-desc { font-size: 0.875rem; color: var(--text-muted); margin-bottom: 24px; line-height: 1.6; }
+  .plan-cta { display: block; width: 100%; text-align: center; padding: 11px 20px; border-radius: 9px; font-weight: 600; font-size: 0.875rem; text-decoration: none; transition: all 0.15s; margin-bottom: 24px; }
+  .plan-cta.primary { background: var(--accent); color: white; }
+  .plan-cta.primary:hover { background: #1d4ed8; }
+  .plan-cta.outline { background: white; color: var(--text); border: 1px solid var(--border); box-shadow: var(--shadow); }
+  .plan-cta.outline:hover { border-color: var(--accent-border); background: var(--accent-light); }
+  .plan-divider { border: none; border-top: 1px solid var(--border); margin-bottom: 20px; }
+  .plan-features { display: flex; flex-direction: column; gap: 11px; }
+  .plan-feature { display: flex; align-items: flex-start; gap: 9px; font-size: 0.875rem; color: var(--text); }
+  .plan-feature-check { width: 18px; height: 18px; border-radius: 50%; background: var(--accent-light); border: 1px solid var(--accent-border); display: flex; align-items: center; justify-content: center; font-size: 0.58rem; color: var(--accent); flex-shrink: 0; margin-top: 1px; }
+  .plan-feature-check.green { background: #ecfdf5; border-color: #a7f3d0; color: #059669; }
+  .plan-feature-cross { width: 18px; height: 18px; border-radius: 50%; background: #f9fafb; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 0.7rem; color: #d1d5db; flex-shrink: 0; margin-top: 1px; }
+
+  .comparison { padding: 80px 6%; background: var(--bg-alt); }
+  .comparison-header { text-align: center; max-width: 600px; margin: 0 auto 48px; }
+  .compare-table { width: 100%; border-collapse: collapse; max-width: 860px; margin: 0 auto; background: white; border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--border); box-shadow: var(--shadow); }
+  .compare-table th { padding: 14px 18px; text-align: left; font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); border-bottom: 1px solid var(--border); background: #f9fafb; }
+  .compare-table th:not(:first-child) { text-align: center; }
+  .compare-table td { padding: 12px 18px; font-size: 0.875rem; color: var(--text); border-bottom: 1px solid rgba(0,0,0,0.04); }
+  .compare-table td:not(:first-child) { text-align: center; }
+  .compare-table tr:last-child td { border-bottom: none; }
+  .compare-table .section-row td { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-dim); background: #f9fafb; padding: 9px 18px; }
+  .compare-highlight { background: var(--accent-light); }
+  .check { color: var(--accent); font-size: 1rem; }
+  .check.green { color: #059669; }
+  .cross { color: #d1d5db; font-size: 1rem; }
+
+  .faq { padding: 80px 6%; background: white; }
+  .faq-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; max-width: 960px; }
+  .faq-item { background: white; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 26px 24px; box-shadow: var(--shadow); transition: border-color 0.2s; }
+  .faq-item:hover { border-color: var(--accent-border); }
+  .faq-item h4 { font-size: 0.925rem; font-weight: 700; margin-bottom: 9px; letter-spacing: -0.02em; color: var(--text); }
+  .faq-item p { font-size: 0.875rem; color: var(--text-muted); line-height: 1.7; }
+
+  .enterprise { padding: 72px 6%; background: var(--accent-light); border-top: 1px solid var(--accent-border); border-bottom: 1px solid var(--accent-border); }
+  .enterprise-inner { display: flex; align-items: center; justify-content: space-between; gap: 40px; flex-wrap: wrap; max-width: 960px; }
+  .enterprise h2 { font-size: clamp(1.5rem, 3vw, 2.1rem); font-weight: 800; letter-spacing: -0.04em; margin-bottom: 10px; color: var(--text); }
+  .enterprise p { font-size: 0.925rem; color: var(--text-muted); max-width: 440px; line-height: 1.7; }
+  .enterprise-features { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 16px; }
+  .enterprise-feature { background: white; border: 1px solid var(--accent-border); border-radius: 100px; padding: 4px 12px; font-size: 0.77rem; color: var(--accent); font-weight: 500; }
+
+  .cta-band { padding: 88px 6%; text-align: center; background: #f0f6ff; border-top: 1px solid var(--accent-border); }
+  .cta-band-inner { max-width: 520px; margin: 0 auto; }
+  .cta-band h2 { font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight: 800; letter-spacing: -0.04em; margin-bottom: 12px; color: var(--text); }
+  .cta-band p { color: var(--text-muted); margin-bottom: 28px; }
+
+  @media (max-width: 900px) { .pricing-grid { grid-template-columns: 1fr; max-width: 440px; margin: 0 auto; } .faq-grid { grid-template-columns: 1fr; } }
+</style>
+
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">
+    <span class="nav-logo-icon">D</span>
+    DealStack
+  </a>
+  <ul class="nav-links">
+    <li><a href="features.html">Features</a></li>
+    <li><a href="pricing.html" class="active">Pricing</a></li>
+    <li><a href="index.html#how-it-works">How It Works</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <a href="contact.html" class="nav-cta">Get Early Access</a>
+</nav>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="page-hero-bg"></div>
+  <div class="page-hero-content">
+    <div class="page-label">Simple Pricing</div>
+    <h1>Pricing built for deal professionals</h1>
+    <p>No per-seat fees that punish team growth. No hidden charges. Pay for what you use and scale as your practice grows.</p>
+    <div class="billing-toggle">
+      <div class="toggle-option active">Monthly</div>
+      <div class="toggle-option">Annual <span class="save-badge">Save 20%</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- PRICING CARDS -->
+<div class="pricing-section">
+  <div class="pricing-grid">
+
+    <!-- STARTER -->
+    <div class="plan-card">
+      <div class="plan-name">Starter</div>
+      <div class="plan-price">
+        <div class="plan-price-num">$199</div>
+        <div class="plan-price-period">/mo</div>
+      </div>
+      <p class="plan-desc">For solo brokers and advisors managing a handful of active deals at a time.</p>
+      <a href="contact.html" class="plan-cta outline">Get Early Access</a>
+      <hr class="plan-divider">
+      <div class="plan-features">
+        <div class="plan-feature"><div class="plan-feature-check">✓</div>Up to 10 active deals</div>
+        <div class="plan-feature"><div class="plan-feature-check">✓</div>Deal pipeline management</div>
+        <div class="plan-feature"><div class="plan-feature-check">✓</div>AI document analysis (50 docs/mo)</div>
+        <div class="plan-feature"><div class="plan-feature-check">✓</div>CIM & teaser generator</div>
+        <div class="plan-feature"><div class="plan-feature-check">✓</div>Basic financial modeling</div>
+        <div class="plan-feature"><div class="plan-feature-check">✓</div>1 virtual data room</div>
+        <div class="plan-feature"><div class="plan-feature-check">✓</div>Email support</div>
+        <div class="plan-feature"><div class="plan-feature-cross">✕</div><span style="color:var(--text-dim)">Buyer matching AI</span></div>
+        <div class="plan-feature"><div class="plan-feature-cross">✕</div><span style="color:var(--text-dim)">White-label branding</span></div>
+        <div class="plan-feature"><div class="plan-feature-cross">✕</div><span style="color:var(--text-dim)">Team seats</span></div>
+      </div>
+    </div>
+
+    <!-- PROFESSIONAL (FEATURED) -->
+    <div class="plan-card featured">
+      <div class="plan-badge">Most Popular</div>
+      <div class="plan-name">Professional</div>
+      <div class="plan-price">
+        <div class="plan-price-num gradient">$499</div>
+        <div class="plan-price-period">/mo</div>
+      </div>
+      <p class="plan-desc">For growing advisory practices that need AI firepower across their full deal pipeline.</p>
+      <a href="contact.html" class="plan-cta primary">Get Early Access</a>
+      <hr class="plan-divider">
+      <div class="plan-features">
+        <div class="plan-feature"><div class="plan-feature-check green">✓</div>Unlimited active deals</div>
+        <div class="plan-feature"><div class="plan-feature-check green">✓</div>Full pipeline management</div>
+        <div class="plan-feature"><div class="plan-feature-check green">✓</div>AI document analysis (unlimited)</div>
+        <div class="plan-feature"><div class="plan-feature-check green">✓</div>All document generators</div>
+        <div class="plan-feature"><div class="plan-feature-check green">✓</div>Advanced financial modeling</div>
+        <div class="plan-feature"><div class="plan-feature-check green">✓</div>Unlimited data rooms</div>
+        <div class="plan-feature"><div class="plan-feature-check green">✓</div>AI buyer matching</div>
+        <div class="plan-feature"><div class="plan-feature-check green">✓</div>White-label branding</div>
+        <div class="plan-feature"><div class="plan-feature-check green">✓</div>Up to 3 team seats</div>
+        <div class="plan-feature"><div class="plan-feature-check green">✓</div>Priority support</div>
+      </div>
+    </div>
+
+    <!-- FIRM -->
+    <div class="plan-card">
+      <div class="plan-name">Firm</div>
+      <div class="plan-price">
+        <div class="plan-price-num">$999</div>
+        <div class="plan-price-period">/mo</div>
+      </div>
+      <p class="plan-desc">For multi-advisor firms that need team collaboration, advanced analytics, and custom workflows.</p>
+      <a href="contact.html" class="plan-cta outline">Get Early Access</a>
+      <hr class="plan-divider">
+      <div class="plan-features">
+        <div class="plan-feature"><div class="plan-feature-check">✓</div>Everything in Professional</div>
+        <div class="plan-feature"><div class="plan-feature-check">✓</div>Unlimited team seats</div>
+        <div class="plan-feature"><div class="plan-feature-check">✓</div>Team-level pipeline views</div>
+        <div class="plan-feature"><div class="plan-feature-check">✓</div>Custom deal stages & workflows</div>
+        <div class="plan-feature"><div class="plan-feature-check">✓</div>Firm-wide reporting & analytics</div>
+        <div class="plan-feature"><div class="plan-feature-check">✓</div>API access</div>
+        <div class="plan-feature"><div class="plan-feature-check">✓</div>SSO & advanced security</div>
+        <div class="plan-feature"><div class="plan-feature-check">✓</div>Dedicated success manager</div>
+        <div class="plan-feature"><div class="plan-feature-check">✓</div>Custom integrations</div>
+        <div class="plan-feature"><div class="plan-feature-check">✓</div>SLA & uptime guarantee</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ENTERPRISE -->
+<section class="enterprise">
+  <div class="enterprise-inner">
+    <div>
+      <h2>Need something custom?</h2>
+      <p>Large advisory firms and M&A boutiques with specialized needs — custom AI training, compliance requirements, or white-label deployments — talk to our team about a bespoke arrangement.</p>
+      <div class="enterprise-features">
+        <span class="enterprise-feature">Custom AI training</span>
+        <span class="enterprise-feature">White-label deployment</span>
+        <span class="enterprise-feature">Compliance packages</span>
+        <span class="enterprise-feature">Dedicated infrastructure</span>
+        <span class="enterprise-feature">Custom SLA</span>
+      </div>
+    </div>
+    <a href="contact.html" class="btn-primary">Contact Sales →</a>
+  </div>
+</section>
+
+<!-- COMPARISON TABLE -->
+<section class="comparison">
+  <div class="comparison-header">
+    <div class="section-label">Compare Plans</div>
+    <h2 class="section-title">Full feature comparison</h2>
+  </div>
+  <table class="compare-table">
+    <thead>
+      <tr>
+        <th style="width:40%">Feature</th>
+        <th>Starter</th>
+        <th class="compare-highlight">Professional</th>
+        <th>Firm</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="section-row"><td colspan="4">Deal Management</td></tr>
+      <tr><td>Active deals</td><td>10</td><td class="compare-highlight">Unlimited</td><td>Unlimited</td></tr>
+      <tr><td>Pipeline views (Kanban, list)</td><td><span class="check">✓</span></td><td class="compare-highlight"><span class="check green">✓</span></td><td><span class="check">✓</span></td></tr>
+      <tr><td>AI deal scoring</td><td><span class="cross">—</span></td><td class="compare-highlight"><span class="check green">✓</span></td><td><span class="check">✓</span></td></tr>
+      <tr><td>Custom pipeline stages</td><td><span class="cross">—</span></td><td class="compare-highlight"><span class="cross">—</span></td><td><span class="check">✓</span></td></tr>
+      <tr class="section-row"><td colspan="4">AI Capabilities</td></tr>
+      <tr><td>Document analysis</td><td>50/mo</td><td class="compare-highlight">Unlimited</td><td>Unlimited</td></tr>
+      <tr><td>Buyer matching AI</td><td><span class="cross">—</span></td><td class="compare-highlight"><span class="check green">✓</span></td><td><span class="check">✓</span></td></tr>
+      <tr><td>Financial modeling</td><td>Basic</td><td class="compare-highlight">Advanced</td><td>Advanced</td></tr>
+      <tr><td>Prospect identification</td><td><span class="cross">—</span></td><td class="compare-highlight"><span class="check green">✓</span></td><td><span class="check">✓</span></td></tr>
+      <tr class="section-row"><td colspan="4">Document Generation</td></tr>
+      <tr><td>CIM generator</td><td><span class="check">✓</span></td><td class="compare-highlight"><span class="check green">✓</span></td><td><span class="check">✓</span></td></tr>
+      <tr><td>Teaser & blind profile</td><td><span class="check">✓</span></td><td class="compare-highlight"><span class="check green">✓</span></td><td><span class="check">✓</span></td></tr>
+      <tr><td>LOI & NDA drafting</td><td><span class="cross">—</span></td><td class="compare-highlight"><span class="check green">✓</span></td><td><span class="check">✓</span></td></tr>
+      <tr><td>White-label branding</td><td><span class="cross">—</span></td><td class="compare-highlight"><span class="check green">✓</span></td><td><span class="check">✓</span></td></tr>
+      <tr class="section-row"><td colspan="4">Data Room & Security</td></tr>
+      <tr><td>Virtual data rooms</td><td>1</td><td class="compare-highlight">Unlimited</td><td>Unlimited</td></tr>
+      <tr><td>NDA gating</td><td><span class="check">✓</span></td><td class="compare-highlight"><span class="check green">✓</span></td><td><span class="check">✓</span></td></tr>
+      <tr><td>Audit trail</td><td><span class="check">✓</span></td><td class="compare-highlight"><span class="check green">✓</span></td><td><span class="check">✓</span></td></tr>
+      <tr><td>SSO</td><td><span class="cross">—</span></td><td class="compare-highlight"><span class="cross">—</span></td><td><span class="check">✓</span></td></tr>
+      <tr class="section-row"><td colspan="4">Team & Support</td></tr>
+      <tr><td>Team seats</td><td>1</td><td class="compare-highlight">3</td><td>Unlimited</td></tr>
+      <tr><td>Support</td><td>Email</td><td class="compare-highlight">Priority</td><td>Dedicated CSM</td></tr>
+      <tr><td>API access</td><td><span class="cross">—</span></td><td class="compare-highlight"><span class="cross">—</span></td><td><span class="check">✓</span></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- FAQ -->
+<section class="faq">
+  <div style="max-width:640px;margin-bottom:48px">
+    <div class="section-label">FAQ</div>
+    <h2 class="section-title">Common questions</h2>
+  </div>
+  <div class="faq-grid">
+    <div class="faq-item">
+      <h4>Is there a free trial?</h4>
+      <p>Yes — all plans include a 14-day free trial, no credit card required. During early access, trial periods may be extended.</p>
+    </div>
+    <div class="faq-item">
+      <h4>Can I change plans later?</h4>
+      <p>Absolutely. You can upgrade or downgrade at any time. Upgrades take effect immediately; downgrades take effect at your next billing cycle.</p>
+    </div>
+    <div class="faq-item">
+      <h4>What counts as an "active deal"?</h4>
+      <p>Any deal in your pipeline that is not archived or closed. You can archive completed deals at any time to free up slots on the Starter plan.</p>
+    </div>
+    <div class="faq-item">
+      <h4>Is my client data secure?</h4>
+      <p>Yes. All data is encrypted at rest and in transit with 256-bit AES encryption. We never use your deal data to train our models without explicit consent.</p>
+    </div>
+    <div class="faq-item">
+      <h4>Do you offer annual billing?</h4>
+      <p>Yes — pay annually and save 20% on any plan. Annual plans are billed upfront and are non-refundable after 30 days.</p>
+    </div>
+    <div class="faq-item">
+      <h4>What integrations are available?</h4>
+      <p>DealStack integrates with Gmail, Outlook, Dropbox, Google Drive, DocuSign, and major CRMs. The Firm plan includes API access for custom integrations.</p>
+    </div>
+    <div class="faq-item">
+      <h4>Can I use DealStack as a solo advisor?</h4>
+      <p>Absolutely — the Starter and Professional plans are built with solo practitioners in mind. No team required.</p>
+    </div>
+    <div class="faq-item">
+      <h4>What happens to my data if I cancel?</h4>
+      <p>You retain access to export all your data for 30 days after cancellation. After 30 days, your data is permanently deleted from our servers.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-band">
+  <div class="cta-band-inner">
+    <h2>Start your free trial today</h2>
+    <p>No credit card required. 14-day free trial on all plans. Early access pricing locked in for life.</p>
+    <a href="contact.html" class="btn-primary" style="font-size:1rem;padding:15px 36px">Get Early Access →</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="index.html" class="nav-logo" style="display:inline-flex">
+        <span class="nav-logo-icon">D</span>
+        DealStack
+      </a>
+      <p>AI-powered deal tools built exclusively for business brokers and M&A advisors.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Product</h4>
+      <ul>
+        <li><a href="features.html">Features</a></li>
+        <li><a href="pricing.html">Pricing</a></li>
+        <li><a href="contact.html">Get Early Access</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Solutions</h4>
+      <ul>
+        <li><a href="features.html#pipeline">Deal Pipeline</a></li>
+        <li><a href="features.html#due-diligence">Due Diligence AI</a></li>
+        <li><a href="features.html#documents">Document Drafting</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="#">Privacy</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 DealStack. All rights reserved.</p>
+    <div class="footer-social">
+      <a href="#">in</a><a href="#">𝕏</a><a href="#">f</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

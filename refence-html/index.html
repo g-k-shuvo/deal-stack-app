@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DealStack — AI-Powered Deal Tools for Business Brokers & M&A Advisors</title>
+<meta name="description" content="AI-powered deal management software for business brokers and M&A advisors. Streamline your pipeline, automate due diligence, and close more deals.">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #ffffff;
+    --bg-alt: #f8faff;
+    --bg-section: #f4f6fb;
+    --bg-card: #ffffff;
+    --border: #e5e7eb;
+    --border-hover: #bfdbfe;
+    --text: #111827;
+    --text-muted: #6b7280;
+    --text-dim: #9ca3af;
+    --accent: #2563eb;
+    --accent-light: #eff6ff;
+    --accent-border: #bfdbfe;
+    --gradient: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+    --radius: 10px;
+    --radius-lg: 16px;
+    --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
+    --shadow-lg: 0 8px 24px rgba(0,0,0,0.1), 0 2px 6px rgba(0,0,0,0.05);
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; overflow-x: hidden; }
+
+  nav { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 6%; height: 64px; background: rgba(255,255,255,0.96); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+  .nav-logo { font-size: 1.3rem; font-weight: 800; color: var(--text); text-decoration: none; letter-spacing: -0.04em; display: flex; align-items: center; gap: 8px; }
+  .nav-logo-icon { width: 30px; height: 30px; border-radius: 8px; background: var(--gradient); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 800; color: white; }
+  .nav-links { display: flex; align-items: center; gap: 28px; list-style: none; }
+  .nav-links a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.15s; }
+  .nav-links a:hover { color: var(--text); }
+  .nav-cta { background: var(--accent); color: white; padding: 9px 20px; border-radius: 8px; text-decoration: none; font-size: 0.875rem; font-weight: 600; transition: background 0.15s; }
+  .nav-cta:hover { background: #1d4ed8; }
+
+  .hero { padding: 80px 6% 90px; text-align: center; background: var(--bg); position: relative; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--gradient); }
+  .hero-badge { display: inline-flex; align-items: center; gap: 7px; background: var(--accent-light); border: 1px solid var(--accent-border); color: var(--accent); padding: 6px 14px; border-radius: 100px; font-size: 0.78rem; font-weight: 600; margin-bottom: 28px; }
+  .hero-badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+  .hero h1 { font-size: clamp(2.2rem, 5vw, 3.8rem); font-weight: 800; line-height: 1.1; letter-spacing: -0.04em; margin-bottom: 20px; color: var(--text); }
+  .hero h1 span { color: var(--accent); }
+  .hero-sub { font-size: 1.1rem; color: var(--text-muted); max-width: 540px; margin: 0 auto 36px; line-height: 1.7; }
+  .hero-btns { display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 52px; }
+  .btn-primary { background: var(--accent); color: white; padding: 13px 28px; border-radius: 9px; text-decoration: none; font-weight: 600; font-size: 0.95rem; transition: background 0.15s, transform 0.15s; display: inline-flex; align-items: center; gap: 7px; }
+  .btn-primary:hover { background: #1d4ed8; transform: translateY(-1px); }
+  .btn-secondary { background: white; color: var(--text); padding: 13px 28px; border-radius: 9px; text-decoration: none; font-weight: 500; font-size: 0.95rem; border: 1px solid var(--border); transition: border-color 0.15s, background 0.15s; box-shadow: var(--shadow); }
+  .btn-secondary:hover { border-color: var(--accent-border); background: var(--accent-light); }
+  .hero-stats { display: flex; border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; max-width: 680px; margin: 0 auto; background: white; box-shadow: var(--shadow-md); }
+  .hero-stat { flex: 1; text-align: center; padding: 20px 14px; border-right: 1px solid var(--border); }
+  .hero-stat:last-child { border-right: none; }
+  .hero-stat-num { font-size: 1.7rem; font-weight: 800; letter-spacing: -0.04em; color: var(--accent); }
+  .hero-stat-label { font-size: 0.74rem; color: var(--text-muted); margin-top: 2px; }
+
+  .trusted { padding: 36px 6%; background: var(--bg-section); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); text-align: center; }
+  .trusted p { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-dim); margin-bottom: 18px; }
+  .trusted-logos { display: flex; align-items: center; justify-content: center; gap: 40px; flex-wrap: wrap; }
+  .trusted-logo { font-size: 0.82rem; font-weight: 700; color: var(--text-dim); }
+
+  section { padding: 88px 6%; }
+  .section-label { display: inline-block; color: var(--accent); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px; }
+  .section-title { font-size: clamp(1.7rem, 3vw, 2.5rem); font-weight: 800; letter-spacing: -0.04em; line-height: 1.15; margin-bottom: 12px; color: var(--text); }
+  .section-sub { font-size: 1rem; color: var(--text-muted); max-width: 500px; line-height: 1.7; }
+  .section-header { margin-bottom: 52px; }
+
+  .solutions-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 18px; }
+  .solution-card { background: white; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 28px 24px; box-shadow: var(--shadow); transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s; }
+  .solution-card:hover { border-color: var(--accent-border); box-shadow: var(--shadow-md); transform: translateY(-2px); }
+  .solution-icon { width: 42px; height: 42px; border-radius: 10px; background: var(--accent-light); border: 1px solid var(--accent-border); display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 16px; }
+  .solution-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 8px; letter-spacing: -0.02em; color: var(--text); }
+  .solution-card p { font-size: 0.875rem; color: var(--text-muted); line-height: 1.7; }
+  .card-link { display: inline-flex; align-items: center; gap: 5px; color: var(--accent); font-size: 0.82rem; font-weight: 600; text-decoration: none; margin-top: 14px; transition: gap 0.15s; }
+  .card-link:hover { gap: 9px; }
+
+  .capabilities { background: var(--bg-alt); }
+  .cap-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 16px; }
+  .cap-card { background: white; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 26px 24px; box-shadow: var(--shadow); transition: border-color 0.2s, box-shadow 0.2s; position: relative; overflow: hidden; }
+  .cap-card:hover { border-color: var(--accent-border); box-shadow: var(--shadow-md); }
+  .cap-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--gradient); opacity: 0; transition: opacity 0.2s; }
+  .cap-card:hover::before { opacity: 1; }
+  .cap-num { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; color: var(--accent); text-transform: uppercase; margin-bottom: 12px; }
+  .cap-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 9px; letter-spacing: -0.02em; color: var(--text); }
+  .cap-card p { font-size: 0.875rem; color: var(--text-muted); line-height: 1.7; }
+  .cap-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 14px; }
+  .cap-tag { font-size: 0.7rem; font-weight: 600; padding: 3px 9px; border-radius: 100px; background: var(--accent-light); color: var(--accent); border: 1px solid var(--accent-border); }
+
+  .screenshots { background: var(--bg-section); }
+  .screenshots-scroll { display: flex; gap: 16px; overflow-x: auto; padding-bottom: 14px; scroll-snap-type: x mandatory; -ms-overflow-style: none; scrollbar-width: none; }
+  .screenshots-scroll::-webkit-scrollbar { display: none; }
+  .screenshot-card { flex: 0 0 320px; scroll-snap-align: start; background: white; border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow); transition: box-shadow 0.2s, transform 0.2s; }
+  .screenshot-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); }
+  .screenshot-img { width: 100%; aspect-ratio: 16/10; position: relative; overflow: hidden; }
+  .screenshot-img.deal-pipeline { background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); }
+  .screenshot-img.due-diligence { background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%); }
+  .screenshot-img.financial-model { background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%); }
+  .screenshot-img.document-ai { background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%); }
+  .screenshot-img.buyer-search { background: linear-gradient(135deg, #eff6ff 0%, #e0f2fe 100%); }
+  .screenshot-img.valuation { background: linear-gradient(135deg, #fdf4ff 0%, #fae8ff 100%); }
+  .fake-ui { position: absolute; inset: 12px; border-radius: 8px; background: rgba(255,255,255,0.8); border: 1px solid rgba(0,0,0,0.07); padding: 12px; display: flex; flex-direction: column; gap: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.07); }
+  .fake-header { height: 9px; width: 50%; border-radius: 4px; background: rgba(0,0,0,0.14); }
+  .fake-bar { height: 7px; border-radius: 3px; background: rgba(37,99,235,0.4); }
+  .fake-bar.alt { background: rgba(124,58,237,0.3); }
+  .fake-bar.gold { background: rgba(217,119,6,0.4); }
+  .fake-bar.green { background: rgba(5,150,105,0.4); }
+  .fake-stat-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px; }
+  .fake-stat { background: rgba(37,99,235,0.07); border: 1px solid rgba(37,99,235,0.14); border-radius: 5px; height: 30px; }
+  .fake-table { display: flex; flex-direction: column; gap: 4px; flex: 1; }
+  .fake-table-row { display: flex; align-items: center; gap: 6px; background: rgba(0,0,0,0.03); border-radius: 4px; height: 18px; padding: 0 6px; }
+  .fake-dot { width: 5px; height: 5px; border-radius: 50%; background: rgba(37,99,235,0.6); flex-shrink: 0; }
+  .fake-dot.green { background: rgba(5,150,105,0.7); }
+  .fake-dot.gold { background: rgba(217,119,6,0.7); }
+  .fake-dot.purple { background: rgba(124,58,237,0.6); }
+  .fake-line { height: 5px; border-radius: 2px; background: rgba(0,0,0,0.1); }
+  .screenshot-info { padding: 16px 18px; border-top: 1px solid var(--border); }
+  .screenshot-info h4 { font-size: 0.875rem; font-weight: 700; margin-bottom: 3px; color: var(--text); }
+  .screenshot-info p { font-size: 0.76rem; color: var(--text-muted); }
+
+  .how-it-works { background: var(--bg); }
+  .steps-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 18px; }
+  .step-card { background: white; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 28px 22px; box-shadow: var(--shadow); transition: border-color 0.2s, box-shadow 0.2s; }
+  .step-card:hover { border-color: var(--accent-border); box-shadow: var(--shadow-md); }
+  .step-num { font-size: 2.2rem; font-weight: 900; letter-spacing: -0.06em; color: var(--accent); line-height: 1; margin-bottom: 12px; opacity: 0.22; }
+  .step-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 8px; letter-spacing: -0.02em; color: var(--text); }
+  .step-card p { font-size: 0.875rem; color: var(--text-muted); line-height: 1.7; }
+
+  .testimonials { background: var(--bg-alt); }
+  .testi-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+  .testi-card { background: white; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 26px 22px; box-shadow: var(--shadow); transition: box-shadow 0.2s, transform 0.2s; }
+  .testi-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+  .testi-stars { color: #f59e0b; font-size: 0.85rem; margin-bottom: 12px; }
+  .testi-quote { font-size: 0.9rem; line-height: 1.75; color: var(--text); margin-bottom: 18px; font-style: italic; }
+  .testi-author { display: flex; align-items: center; gap: 10px; }
+  .testi-avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--gradient); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.78rem; color: white; flex-shrink: 0; }
+  .testi-name { font-size: 0.875rem; font-weight: 700; color: var(--text); }
+  .testi-role { font-size: 0.74rem; color: var(--text-muted); }
+
+  .stats-section { background: var(--accent); padding: 60px 6%; }
+  .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 36px; max-width: 780px; margin: 0 auto; }
+  .stat-item { text-align: center; }
+  .stat-num { font-size: clamp(2.2rem, 4vw, 3rem); font-weight: 900; letter-spacing: -0.05em; line-height: 1; color: white; }
+  .stat-label { font-size: 0.8rem; color: rgba(255,255,255,0.75); margin-top: 6px; }
+
+  .cta-band { padding: 88px 6%; text-align: center; background: var(--bg-alt); border-top: 1px solid var(--border); }
+  .cta-band-inner { max-width: 560px; margin: 0 auto; }
+  .cta-band h2 { font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight: 800; letter-spacing: -0.04em; margin-bottom: 12px; color: var(--text); }
+  .cta-band p { color: var(--text-muted); margin-bottom: 30px; font-size: 1rem; }
+
+  footer { background: var(--text); color: rgba(255,255,255,0.65); padding: 60px 6% 32px; }
+  .footer-grid { display: grid; grid-template-columns: 1.8fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 48px; }
+  .footer-logo { font-size: 1.2rem; font-weight: 800; color: white; text-decoration: none; letter-spacing: -0.04em; display: inline-flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+  .footer-logo-icon { width: 28px; height: 28px; border-radius: 7px; background: var(--gradient); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800; color: white; }
+  .footer-brand p { font-size: 0.85rem; line-height: 1.7; max-width: 240px; }
+  .footer-newsletter { margin-top: 20px; }
+  .footer-newsletter label { font-size: 0.7rem; font-weight: 600; color: rgba(255,255,255,0.45); text-transform: uppercase; letter-spacing: 0.08em; display: block; margin-bottom: 8px; }
+  .footer-newsletter-form { display: flex; gap: 6px; }
+  .footer-newsletter-form input { flex: 1; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); border-radius: 7px; padding: 9px 12px; color: white; font-size: 0.82rem; outline: none; transition: border-color 0.2s; }
+  .footer-newsletter-form input:focus { border-color: rgba(255,255,255,0.35); }
+  .footer-newsletter-form input::placeholder { color: rgba(255,255,255,0.28); }
+  .footer-newsletter-form button { background: var(--accent); color: white; border: none; border-radius: 7px; padding: 9px 16px; cursor: pointer; font-weight: 600; font-size: 0.82rem; }
+  .footer-col h4 { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.4); margin-bottom: 16px; }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+  .footer-col ul a { color: rgba(255,255,255,0.58); text-decoration: none; font-size: 0.875rem; transition: color 0.15s; }
+  .footer-col ul a:hover { color: white; }
+  .footer-bottom { display: flex; align-items: center; justify-content: space-between; padding-top: 28px; border-top: 1px solid rgba(255,255,255,0.1); flex-wrap: wrap; gap: 12px; }
+  .footer-bottom p { font-size: 0.78rem; color: rgba(255,255,255,0.32); }
+  .footer-social { display: flex; gap: 10px; }
+  .footer-social a { width: 32px; height: 32px; border-radius: 7px; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.45); text-decoration: none; font-size: 0.78rem; transition: background 0.2s, color 0.2s; }
+  .footer-social a:hover { background: rgba(255,255,255,0.14); color: white; }
+
+  @media (max-width: 768px) { .nav-links { display: none; } .footer-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 480px) { .footer-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo"><span class="nav-logo-icon">D</span>DealStack</a>
+  <ul class="nav-links">
+    <li><a href="features.html">Features</a></li>
+    <li><a href="pricing.html">Pricing</a></li>
+    <li><a href="#how-it-works">How It Works</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <a href="contact.html" class="nav-cta">Get Early Access</a>
+</nav>
+
+<section class="hero" id="home">
+  <div class="hero-badge"><span class="hero-badge-dot"></span>Now in Early Access — Join 500+ Advisors</div>
+  <h1>AI-Powered Deal Tools for<br><span>Business Brokers</span> &amp; M&amp;A Advisors</h1>
+  <p class="hero-sub">Streamline your entire deal pipeline — from prospect identification to closing — with purpose-built AI that understands the language of M&amp;A.</p>
+  <div class="hero-btns">
+    <a href="contact.html" class="btn-primary">Get Early Access →</a>
+    <a href="features.html" class="btn-secondary">See All Features</a>
+  </div>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="hero-stat-num">3×</div><div class="hero-stat-label">Faster due diligence</div></div>
+    <div class="hero-stat"><div class="hero-stat-num">500+</div><div class="hero-stat-label">Advisors on waitlist</div></div>
+    <div class="hero-stat"><div class="hero-stat-num">$2B+</div><div class="hero-stat-label">Deals tracked in beta</div></div>
+    <div class="hero-stat"><div class="hero-stat-num">40%</div><div class="hero-stat-label">More deals closed</div></div>
+  </div>
+</section>
+
+<div class="trusted">
+  <p>Trusted by brokers and advisors at</p>
+  <div class="trusted-logos">
+    <span class="trusted-logo">Frontier Business Advisors</span>
+    <span class="trusted-logo">Cascade M&amp;A Group</span>
+    <span class="trusted-logo">Meridian Business Brokers</span>
+    <span class="trusted-logo">Summit Advisory Partners</span>
+    <span class="trusted-logo">Keystone Deal Group</span>
+  </div>
+</div>
+
+<section id="features" style="background:var(--bg)">
+  <div class="section-header">
+    <div class="section-label">AI-Powered Capabilities</div>
+    <h2 class="section-title">Curated AI Solutions for Your M&amp;A Practice</h2>
+    <p class="section-sub">Built specifically for business brokers and M&amp;A advisors — not generic software retrofitted for your industry.</p>
+  </div>
+  <div class="solutions-grid">
+    <div class="solution-card">
+      <div class="solution-icon">🎯</div>
+      <h3>Automated Prospect Identification</h3>
+      <p>Leverage AI to scan industry databases, news sources, and financial reports for acquisition targets that match your client's criteria — pre-qualified and ready to pitch.</p>
+      <a href="features.html" class="card-link">Learn more →</a>
+    </div>
+    <div class="solution-card">
+      <div class="solution-icon">📑</div>
+      <h3>Intelligent Due Diligence Analysis</h3>
+      <p>Upload target company documents and let our AI surface key risks, opportunities, and red flags in minutes — not weeks of manual review.</p>
+      <a href="features.html" class="card-link">Learn more →</a>
+    </div>
+    <div class="solution-card">
+      <div class="solution-icon">📊</div>
+      <h3>AI-Powered Financial Modeling</h3>
+      <p>Generate valuation models, cash flow forecasts, and deal structure scenarios from raw financial data — institutional quality, built in hours.</p>
+      <a href="features.html" class="card-link">Learn more →</a>
+    </div>
+    <div class="solution-card">
+      <div class="solution-icon">⚡</div>
+      <h3>Smart Deal Term Sheet Generator</h3>
+      <p>Draft initial term sheets and LOIs using AI that understands deal structures, market comps, and your client's mandate — first draft in minutes, not days.</p>
+      <a href="features.html" class="card-link">Learn more →</a>
+    </div>
+  </div>
+</section>
+
+<section class="capabilities" id="capabilities">
+  <div class="section-header">
+    <div class="section-label">Platform Capabilities</div>
+    <h2 class="section-title">Build a Smarter M&amp;A Practice</h2>
+    <p class="section-sub">Every tool in DealStack is designed around the real workflows of successful business brokers.</p>
+  </div>
+  <div class="cap-grid">
+    <div class="cap-card"><div class="cap-num">01</div><h3>Deal Pipeline Management</h3><p>Track every deal from first contact to closing with a visual pipeline built for M&amp;A. See stage, probability, projected value, and next actions at a glance.</p><div class="cap-tags"><span class="cap-tag">Kanban view</span><span class="cap-tag">Deal scoring</span><span class="cap-tag">Alerts</span></div></div>
+    <div class="cap-card"><div class="cap-num">02</div><h3>Buyer &amp; Seller Matching</h3><p>AI-powered matching engine that surfaces the most relevant buyers for your listings, ranked by acquisition criteria, financial capacity, and deal history.</p><div class="cap-tags"><span class="cap-tag">AI matching</span><span class="cap-tag">Buyer profiles</span><span class="cap-tag">Outreach</span></div></div>
+    <div class="cap-card"><div class="cap-num">03</div><h3>Secure Data Room</h3><p>Share confidential deal documents through a fully encrypted, access-controlled virtual data room with granular permissions and activity tracking.</p><div class="cap-tags"><span class="cap-tag">256-bit encryption</span><span class="cap-tag">NDA gate</span><span class="cap-tag">Audit trail</span></div></div>
+    <div class="cap-card"><div class="cap-num">04</div><h3>Document Drafting AI</h3><p>Generate CIMs, teasers, NDAs, LOIs, and due diligence checklists with AI that knows M&amp;A document conventions and your firm's preferred style.</p><div class="cap-tags"><span class="cap-tag">CIM generator</span><span class="cap-tag">LOI drafting</span><span class="cap-tag">NDA builder</span></div></div>
+    <div class="cap-card"><div class="cap-num">05</div><h3>Valuation Engine</h3><p>Run enterprise-quality valuations using EBITDA multiples, DCF analysis, and comparable transactions — calibrated to lower middle-market deal sizes.</p><div class="cap-tags"><span class="cap-tag">EBITDA comps</span><span class="cap-tag">DCF model</span><span class="cap-tag">SBA financing</span></div></div>
+    <div class="cap-card"><div class="cap-num">06</div><h3>Client Reporting Dashboard</h3><p>Deliver beautiful, branded progress reports to clients automatically — showing deal activity, buyer interest, market feedback, and timeline projections.</p><div class="cap-tags"><span class="cap-tag">Auto-reports</span><span class="cap-tag">Branded PDFs</span><span class="cap-tag">Real-time data</span></div></div>
+  </div>
+</section>
+
+<section class="screenshots" id="demo">
+  <div class="section-header">
+    <div class="section-label">Product Preview</div>
+    <h2 class="section-title">See DealStack in Action</h2>
+    <p class="section-sub">A glimpse of what your M&amp;A practice looks like running on DealStack.</p>
+  </div>
+  <div class="screenshots-scroll">
+    <div class="screenshot-card">
+      <div class="screenshot-img deal-pipeline"><div class="fake-ui"><div class="fake-header"></div><div class="fake-stat-row" style="margin-top:4px"><div class="fake-stat"></div><div class="fake-stat" style="background:rgba(124,58,237,0.07)"></div><div class="fake-stat" style="background:rgba(5,150,105,0.07)"></div></div><div class="fake-table" style="margin-top:5px"><div class="fake-table-row"><div class="fake-dot"></div><div class="fake-line" style="width:45%"></div><div class="fake-line" style="width:18%;margin-left:auto"></div></div><div class="fake-table-row"><div class="fake-dot green"></div><div class="fake-line" style="width:58%"></div><div class="fake-line" style="width:14%;margin-left:auto"></div></div><div class="fake-table-row"><div class="fake-dot gold"></div><div class="fake-line" style="width:37%"></div><div class="fake-line" style="width:20%;margin-left:auto"></div></div><div class="fake-table-row"><div class="fake-dot purple"></div><div class="fake-line" style="width:50%"></div><div class="fake-line" style="width:16%;margin-left:auto"></div></div></div></div></div>
+      <div class="screenshot-info"><h4>Deal Pipeline</h4><p>Track every deal stage from prospecting to close</p></div>
+    </div>
+    <div class="screenshot-card">
+      <div class="screenshot-img due-diligence"><div class="fake-ui"><div class="fake-header" style="width:65%"></div><div style="display:flex;gap:6px;margin-top:5px;flex:1"><div style="width:36%;display:flex;flex-direction:column;gap:4px"><div style="background:rgba(37,99,235,0.1);border:1px solid rgba(37,99,235,0.18);border-radius:4px;height:20px"></div><div style="background:rgba(0,0,0,0.04);border:1px solid rgba(0,0,0,0.06);border-radius:4px;height:20px"></div><div style="background:rgba(0,0,0,0.04);border:1px solid rgba(0,0,0,0.06);border-radius:4px;height:20px"></div></div><div style="flex:1;display:flex;flex-direction:column;gap:5px"><div class="fake-line" style="width:88%"></div><div class="fake-line" style="width:72%"></div><div style="background:rgba(217,119,6,0.1);border:1px solid rgba(217,119,6,0.18);border-radius:4px;height:18px;margin-top:2px"></div><div class="fake-line" style="width:80%"></div><div style="background:rgba(5,150,105,0.1);border:1px solid rgba(5,150,105,0.18);border-radius:4px;height:18px;margin-top:2px"></div></div></div></div></div>
+      <div class="screenshot-info"><h4>Due Diligence AI</h4><p>Analyze hundreds of documents in minutes</p></div>
+    </div>
+    <div class="screenshot-card">
+      <div class="screenshot-img financial-model"><div class="fake-ui"><div class="fake-header" style="width:55%"></div><div style="display:flex;align-items:flex-end;gap:4px;margin-top:6px;height:52px"><div class="fake-bar green" style="height:34px;width:16%;border-radius:3px 3px 0 0"></div><div class="fake-bar green" style="height:46px;width:16%;border-radius:3px 3px 0 0"></div><div class="fake-bar green" style="height:36px;width:16%;border-radius:3px 3px 0 0"></div><div class="fake-bar green" style="height:52px;width:16%;border-radius:3px 3px 0 0"></div><div class="fake-bar" style="height:40px;width:16%;border-radius:3px 3px 0 0;opacity:0.45"></div><div class="fake-bar alt" style="height:48px;width:16%;border-radius:3px 3px 0 0;opacity:0.45"></div></div><div style="height:1px;background:rgba(0,0,0,0.08);margin:6px 0"></div><div class="fake-stat-row"><div class="fake-stat" style="background:rgba(5,150,105,0.07)"></div><div class="fake-stat"></div><div class="fake-stat" style="background:rgba(124,58,237,0.07)"></div></div></div></div>
+      <div class="screenshot-info"><h4>Financial Modeling</h4><p>Institutional-quality valuations in hours</p></div>
+    </div>
+    <div class="screenshot-card">
+      <div class="screenshot-img document-ai"><div class="fake-ui"><div class="fake-header" style="width:48%"></div><div class="fake-table" style="margin-top:6px"><div class="fake-table-row" style="height:22px;padding:0 8px"><div class="fake-line" style="width:65%"></div></div><div class="fake-table-row" style="height:22px;padding:0 8px;background:rgba(37,99,235,0.07);border:1px solid rgba(37,99,235,0.12);border-radius:4px"><div class="fake-line" style="width:50%;background:rgba(37,99,235,0.22)"></div></div><div class="fake-table-row" style="height:22px;padding:0 8px"><div class="fake-line" style="width:58%"></div></div></div><div style="margin-top:6px;background:rgba(37,99,235,0.06);border:1px solid rgba(37,99,235,0.14);border-radius:5px;padding:7px;display:flex;flex-direction:column;gap:4px"><div class="fake-line" style="width:78%"></div><div class="fake-line" style="width:62%"></div></div></div></div>
+      <div class="screenshot-info"><h4>Document Drafting</h4><p>CIMs, teasers &amp; LOIs generated in minutes</p></div>
+    </div>
+    <div class="screenshot-card">
+      <div class="screenshot-img buyer-search"><div class="fake-ui"><div style="background:rgba(0,0,0,0.05);border:1px solid rgba(0,0,0,0.07);border-radius:5px;height:22px;margin-bottom:7px"></div><div class="fake-table"><div class="fake-table-row" style="height:28px;padding:0 8px;background:rgba(37,99,235,0.07);border:1px solid rgba(37,99,235,0.13);border-radius:4px"><div class="fake-dot"></div><div class="fake-line" style="width:48%"></div><div style="margin-left:auto;width:32px;height:13px;background:rgba(5,150,105,0.25);border-radius:3px"></div></div><div class="fake-table-row" style="height:28px;padding:0 8px"><div class="fake-dot purple"></div><div class="fake-line" style="width:40%"></div><div style="margin-left:auto;width:32px;height:13px;background:rgba(37,99,235,0.15);border-radius:3px"></div></div><div class="fake-table-row" style="height:28px;padding:0 8px"><div class="fake-dot gold"></div><div class="fake-line" style="width:52%"></div><div style="margin-left:auto;width:32px;height:13px;background:rgba(217,119,6,0.2);border-radius:3px"></div></div></div></div></div>
+      <div class="screenshot-info"><h4>Buyer Matching</h4><p>AI surfaces the best-fit buyers for every deal</p></div>
+    </div>
+    <div class="screenshot-card">
+      <div class="screenshot-img valuation"><div class="fake-ui"><div class="fake-header" style="width:52%"></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:6px"><div style="background:rgba(37,99,235,0.07);border:1px solid rgba(37,99,235,0.13);border-radius:5px;height:38px;padding:5px 7px"><div class="fake-line" style="width:48%;margin-bottom:4px"></div><div class="fake-bar" style="width:60%;height:5px"></div></div><div style="background:rgba(124,58,237,0.07);border:1px solid rgba(124,58,237,0.13);border-radius:5px;height:38px;padding:5px 7px"><div class="fake-line" style="width:48%;margin-bottom:4px"></div><div class="fake-bar alt" style="width:52%;height:5px"></div></div><div style="background:rgba(5,150,105,0.07);border:1px solid rgba(5,150,105,0.13);border-radius:5px;height:38px;padding:5px 7px"><div class="fake-line" style="width:48%;margin-bottom:4px"></div><div class="fake-bar green" style="width:65%;height:5px"></div></div><div style="background:rgba(217,119,6,0.07);border:1px solid rgba(217,119,6,0.13);border-radius:5px;height:38px;padding:5px 7px"><div class="fake-line" style="width:48%;margin-bottom:4px"></div><div class="fake-bar gold" style="width:58%;height:5px"></div></div></div><div style="margin-top:6px;background:rgba(0,0,0,0.04);border-radius:4px;height:20px"></div></div></div>
+      <div class="screenshot-info"><h4>Valuation Engine</h4><p>Enterprise-grade valuations for lower middle-market</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="how-it-works" id="how-it-works">
+  <div class="section-header">
+    <div class="section-label">How It Works</div>
+    <h2 class="section-title">Up and running in days, not months</h2>
+    <p class="section-sub">No lengthy implementation. DealStack is designed to fit into your existing workflow immediately.</p>
+  </div>
+  <div class="steps-grid">
+    <div class="step-card"><div class="step-num">1</div><h3>Connect Your Data</h3><p>Import existing deals, contacts, and documents in minutes. DealStack connects with your email, CRM, and cloud storage automatically.</p></div>
+    <div class="step-card"><div class="step-num">2</div><h3>Set Your Criteria</h3><p>Tell DealStack what kinds of deals you focus on — industry, deal size, geography — and the AI configures itself to your practice.</p></div>
+    <div class="step-card"><div class="step-num">3</div><h3>Work Your Pipeline</h3><p>Use the AI-powered pipeline to manage active deals, generate documents, analyze targets, and communicate with clients and buyers.</p></div>
+    <div class="step-card"><div class="step-num">4</div><h3>Close More Deals</h3><p>With AI handling the manual work, you spend more time building relationships and closing. Our users average 40% more deals in year one.</p></div>
+  </div>
+</section>
+
+<section class="testimonials" id="testimonials">
+  <div class="section-header">
+    <div class="section-label">Testimonials</div>
+    <h2 class="section-title">Advisors love DealStack</h2>
+    <p class="section-sub">Hear from business brokers and M&amp;A advisors already on the waitlist.</p>
+  </div>
+  <div class="testi-grid">
+    <div class="testi-card"><div class="testi-stars">★★★★★</div><p class="testi-quote">"The due diligence AI alone is worth it. What used to take my team a week to review, DealStack surfaces in under an hour. It's changed how we evaluate targets."</p><div class="testi-author"><div class="testi-avatar">MR</div><div><div class="testi-name">Michael R.</div><div class="testi-role">Managing Partner, Frontier Business Advisors</div></div></div></div>
+    <div class="testi-card"><div class="testi-stars">★★★★★</div><p class="testi-quote">"I'm a one-person shop competing against big advisory firms. DealStack levels the playing field — I can produce institutional-quality CIMs that used to require a whole team."</p><div class="testi-author"><div class="testi-avatar">SC</div><div><div class="testi-name">Sarah C.</div><div class="testi-role">Principal Broker, Cascade M&amp;A Group</div></div></div></div>
+    <div class="testi-card"><div class="testi-stars">★★★★★</div><p class="testi-quote">"The buyer matching feature is remarkable. It found three strategic acquirers we never would have considered — one ended up being our buyer at a premium valuation."</p><div class="testi-author"><div class="testi-avatar">JL</div><div><div class="testi-name">James L.</div><div class="testi-role">Senior Advisor, Meridian Business Brokers</div></div></div></div>
+  </div>
+</section>
+
+<div class="stats-section">
+  <div class="stats-grid">
+    <div class="stat-item"><div class="stat-num">500+</div><div class="stat-label">Advisors on the waitlist</div></div>
+    <div class="stat-item"><div class="stat-num">$2B+</div><div class="stat-label">Deal value tracked in beta</div></div>
+    <div class="stat-item"><div class="stat-num">3×</div><div class="stat-label">Faster due diligence</div></div>
+    <div class="stat-item"><div class="stat-num">95%</div><div class="stat-label">Satisfaction in beta</div></div>
+  </div>
+</div>
+
+<section class="cta-band">
+  <div class="cta-band-inner">
+    <h2>Ready to transform your M&amp;A practice?</h2>
+    <p>Join hundreds of business brokers and advisors already on the DealStack waitlist. Early access is limited.</p>
+    <a href="contact.html" class="btn-primary" style="font-size:1rem;padding:14px 34px">Get Early Access →</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="index.html" class="footer-logo"><span class="footer-logo-icon">D</span>DealStack</a>
+      <p>AI-powered deal tools built exclusively for business brokers and M&amp;A advisors. Close more deals, faster.</p>
+      <div class="footer-newsletter">
+        <label>Stay in the loop</label>
+        <div class="footer-newsletter-form">
+          <input type="email" placeholder="your@email.com">
+          <button type="button">Subscribe</button>
+        </div>
+      </div>
+    </div>
+    <div class="footer-col"><h4>Product</h4><ul><li><a href="features.html">Features</a></li><li><a href="pricing.html">Pricing</a></li><li><a href="#how-it-works">How It Works</a></li><li><a href="contact.html">Get Early Access</a></li></ul></div>
+    <div class="footer-col"><h4>Solutions</h4><ul><li><a href="features.html#pipeline">Deal Pipeline</a></li><li><a href="features.html#due-diligence">Due Diligence AI</a></li><li><a href="features.html#valuation">Valuation Engine</a></li><li><a href="features.html#documents">Document Drafting</a></li></ul></div>
+    <div class="footer-col"><h4>Company</h4><ul><li><a href="#">About Us</a></li><li><a href="#">Blog</a></li><li><a href="contact.html">Contact</a></li><li><a href="#">Privacy Policy</a></li><li><a href="#">Terms of Service</a></li></ul></div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 DealStack. All rights reserved.</p>
+    <div class="footer-social"><a href="#">in</a><a href="#">𝕏</a><a href="#">f</a></div>
+  </div>
+</footer>
+</body>
+</html>
