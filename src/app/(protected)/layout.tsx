@@ -3,8 +3,8 @@ import { Topbar } from "@/components/Topbar";
 import { Sidebar } from "@/components/Sidebar";
 
 export const metadata: Metadata = {
-  title: "Dashboard - Deal Command Center",
-  description: "AI-assisted deal execution workspace for Jackim Woods & Co.",
+  title: "Dashboard — DealStack",
+  description: "AI-assisted deal execution workspace.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

@@ -4,7 +4,7 @@ import { SearchBox } from "@/components/SearchBox";
 export function Topbar() {
   return (
     <header className="topbar">
-      <Link href="/" className="topbar-logo">
+      <Link href="/dashboard" className="topbar-logo">
         Deal <span>Command</span> Center
       </Link>
       <SearchBox />

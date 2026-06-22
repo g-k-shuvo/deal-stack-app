@@ -6,7 +6,7 @@ const GROUPS: { label: string; items: { href: string; label: string; match: (p: 
   {
     label: "Work",
     items: [
-      { href: "/", label: "Dashboard", match: (p) => p === "/" },
+      { href: "/dashboard", label: "Dashboard", match: (p) => p === "/" },
       { href: "/projects", label: "Project directory", match: (p) => p.startsWith("/projects") },
       { href: "/library", label: "Document library", match: (p) => p.startsWith("/library") },
     ],
